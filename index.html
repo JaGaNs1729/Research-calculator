@@ -1200,3 +1200,34 @@ if(savedT>0){
 }
 </script>
 </body
+/* PRIME NUMBER CALCULATOR (ADD AT END OF SCRIPT) */
+
+function primeCalculator(){
+if(!expr){
+toast('Enter a number first');
+return;
+}
+
+let n;
+try{
+n = Math.floor(mathEval(expr));
+}catch(e){
+toast('Invalid number');
+return;
+}
+
+if(n < 2){
+showRP('Prime Result', n + ' is NOT a prime number');
+return;
+}
+
+for(let i = 2; i <= Math.sqrt(n); i++){
+if(n % i === 0){
+showRP('Prime Result', n + ' is NOT a prime number');
+return;
+}
+}
+
+showRP('Prime Result', n + ' is a PRIME number');
+}
+<button onclick="primeCalculator()">Prime</button>
