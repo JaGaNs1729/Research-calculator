@@ -239,7 +239,43 @@ document.addEventListener("keydown", function(e){
     <button class="k green wide eq" onclick="kp('=')">=</button>
   </div>
 </div>
+<!-- CALCULUS -->
+<div class="keypad" id="kp-calc">
 
+<div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">
+Enter function then press operator
+</div>
+
+<div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+<button class="k fn purple" onclick="kp('diff(')">d/dx</button>
+<button class="k fn purple" onclick="kp('int(')">∫ integral</button>
+<button class="k fn purple" onclick="kp('lim(')">lim</button>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+
+<button class="k blue" onclick="kp('7')">7</button>
+<button class="k blue" onclick="kp('8')">8</button>
+<button class="k blue" onclick="kp('9')">9</button>
+<button class="k dark" onclick="kp('⌫')">⌫</button>
+
+<button class="k blue" onclick="kp('4')">4</button>
+<button class="k blue" onclick="kp('5')">5</button>
+<button class="k blue" onclick="kp('6')">6</button>
+<button class="k dark" onclick="kp('^')">^</button>
+
+<button class="k blue" onclick="kp('1')">1</button>
+<button class="k blue" onclick="kp('2')">2</button>
+<button class="k blue" onclick="kp('3')">3</button>
+<button class="k dark" onclick="kp('x')">x</button>
+
+<button class="k red" onclick="kp('AC')">AC</button>
+<button class="k blue" onclick="kp('0')">0</button>
+<button class="k dark" onclick="kp(')')">)</button>
+<button class="k green eq" onclick="kp('=')">=</button>
+
+</div>
+</div>
 <!-- TRIG -->
 <div class="keypad" id="kp-trig">
   <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap a function → enter number → tap =</div>
