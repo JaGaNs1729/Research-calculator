@@ -135,6 +135,32 @@ function showTab(tab){
 
 }
 
+</script>  
+<script>
+
+document.addEventListener("keydown", function(e){
+
+  let key = e.key;
+
+  if(key >= "0" && key <= "9") kp(key);
+
+  if(key === "+") kp("+");
+  if(key === "-") kp("−");
+  if(key === "*") kp("×");
+  if(key === "/") kp("÷");
+
+  if(key === ".") kp(".");
+  if(key === "(") kp("(");
+  if(key === ")") kp(")");
+
+  if(key === "Enter") kp("=");
+
+  if(key === "Backspace") kp("⌫");
+
+  if(key === "Escape") kp("AC");
+
+});
+
 </script>
 <body>
 
