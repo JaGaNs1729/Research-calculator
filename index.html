@@ -68,6 +68,74 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
 .hist-time{font-size:9px;color:var(--muted);margin-top:2px;}
 </style>
 </head>
+<script>
+
+let expr = "";
+
+const dMain = document.getElementById("dMain");
+const dResult = document.getElementById("dResult");
+
+function kp(v){
+
+  if(v === "AC"){
+    expr="";
+    dMain.innerText="0";
+    dResult.innerText="";
+    return;
+  }
+
+  if(v === "⌫"){
+    expr = expr.slice(0,-1);
+    dMain.innerText = expr || "0";
+    return;
+  }
+
+  if(v === "="){
+
+    try{
+
+      let jsExpr = expr
+        .replace(/×/g,"*")
+        .replace(/÷/g,"/")
+        .replace(/−/g,"-")
+        .replace(/π/g,"Math.PI")
+        .replace(/sqrt\(/g,"Math.sqrt(")
+        .replace(/\^/g,"**");
+
+      let result = eval(jsExpr);
+
+      dResult.innerText = result;
+
+    }catch(e){
+
+      dResult.innerText="Error";
+
+    }
+
+    return;
+  }
+
+  expr += v;
+  dMain.innerText = expr;
+
+}
+
+function showTab(tab){
+
+  document.querySelectorAll(".keypad").forEach(k=>{
+    k.classList.remove("on");
+  });
+
+  document.querySelectorAll(".ktab").forEach(t=>{
+    t.classList.remove("on");
+  });
+
+  document.getElementById("kp-"+tab).classList.add("on");
+  document.getElementById("ktab-"+tab).classList.add("on");
+
+}
+
+</script>
 <body>
 
 <header class="hdr">
