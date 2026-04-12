@@ -145,26 +145,79 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
     <button class="k red wide" onclick="kp('AC')">AC</button>
     <button class="k dark" onclick="kp('⌫')">⌫</button>
     <button class="k dark" onclick="kp('(')">( )</button>
-    <button class="k blue" onclick="kp('7')">7</button>
-    <button class="k blue" onclick="kp('8')">8</button>
-    <button class="k blue" onclick="kp('9')">9</button>
+
+    <button class="k blue" onclick="kp('1')">1</button>
+    <button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button>
     <button class="k orange" onclick="kp('÷')">÷</button>
+
     <button class="k blue" onclick="kp('4')">4</button>
     <button class="k blue" onclick="kp('5')">5</button>
     <button class="k blue" onclick="kp('6')">6</button>
     <button class="k orange" onclick="kp('×')">×</button>
-    <button class="k blue" onclick="kp('1')">1</button>
-    <button class="k blue" onclick="kp('2')">2</button>
-    <button class="k blue" onclick="kp('3')">3</button>
+
+    <button class="k blue" onclick="kp('7')">7</button>
+    <button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button>
     <button class="k orange" onclick="kp('−')">−</button>
+
     <button class="k blue" onclick="kp('0')">0</button>
     <button class="k blue" onclick="kp('.')">.</button>
     <button class="k dark" onclick="kp('+/-')">±</button>
     <button class="k orange" onclick="kp('+')">+</button>
+
     <button class="k dark" onclick="kp('%')">%</button>
     <button class="k dark" onclick="kp('^')">xⁿ</button>
     <button class="k dark" onclick="kp('sqrt(')">√x</button>
     <button class="k green wide eq" onclick="kp('=')">=</button>
+  </div>
+</div>
+
+
+<!-- ── TRIG ── -->
+<div class="keypad" id="kp-trig">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap a function → enter number → tap =</div>
+
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+    <button class="k fn" onclick="kp('sin(')">sin( )</button>
+    <button class="k fn" onclick="kp('cos(')">cos( )</button>
+    <button class="k fn" onclick="kp('tan(')">tan( )</button>
+
+    <button class="k fn" onclick="kp('cot(')">cot( )</button>
+    <button class="k fn" onclick="kp('sec(')">sec( )</button>
+    <button class="k fn" onclick="kp('csc(')">csc( )</button>
+
+    <button class="k fn" onclick="kp('asin(')">asin( )</button>
+    <button class="k fn" onclick="kp('acos(')">acos( )</button>
+    <button class="k fn" onclick="kp('atan(')">atan( )</button>
+
+    <button class="k fn purple" onclick="kp('π/')">π/x</button>
+    <button class="k fn purple" onclick="kp('π')">π</button>
+    <button class="k fn purple" onclick="kp('°')">deg→rad</button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+
+    <button class="k blue" onclick="kp('1')">1</button>
+    <button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button>
+    <button class="k dark" onclick="kp('⌫')">⌫</button>
+
+    <button class="k blue" onclick="kp('4')">4</button>
+    <button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button>
+    <button class="k dark" onclick="kp('.')">.</button>
+
+    <button class="k blue" onclick="kp('7')">7</button>
+    <button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button>
+    <button class="k orange" onclick="kp('/')">÷</button>
+
+    <button class="k red" onclick="kp('AC')">AC</button>
+    <button class="k blue" onclick="kp('0')">0</button>
+    <button class="k dark" onclick="kp(')')">)</button>
+    <button class="k green eq" onclick="kp('=')">=</button>
+
   </div>
 </div>
 
