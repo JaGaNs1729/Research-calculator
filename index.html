@@ -290,7 +290,175 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
     <div class="r-grid" id="hypAllGrid"></div>
   </div>
 </div>
+<div class="ktab" id="ktab-prime" onclick="showTab('prime')">🔑 Prime</div><!-- ── PRIME NUMBER CALCULATOR ── -->
+<div class="keypad" id="kp-prime">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">🔑 Prime Number Calculator<br>Enter a number (BigInt supported). For range use comma/space.</div>
+  <input id="primeInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:12px;color:var(--text);font-family:var(--mono);font-size:14px;outline:none;margin-bottom:8px;" placeholder="e.g. 123456789012345 or 100 200">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:6px;margin-bottom:12px;">
+    <button class="k fn orange" onclick="doPrimeCheck()">Is this PRIME?</button>
+    <button class="k fn orange" onclick="doPrimeFactors()">Prime Factors</button>
+    <button class="k fn orange" onclick="doNextPrime()">Next Prime →</button>
+    <button class="k fn orange" onclick="doPrimesRange()">Primes in Range</button>
+    <button class="k fn orange" onclick="doNthPrime()">Nᵗʰ Prime</button>
+    <button class="k fn purple" onclick="doPrimePi()">π(x) — Count Primes ≤ x</button>
+  </div>
+  <!-- NUMPAD in normal calculator order -->
+  <div style="font-size:10px;color:var(--muted);margin-bottom:4px;">Numpad</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
+    <button class="k blue" onclick="primeKp('7')">7</button>
+    <button class="k blue" onclick="primeKp('8')">8</button>
+    <button class="k blue" onclick="primeKp('9')">9</button>
+    <button class="k dark" onclick="primeKp('⌫')">⌫</button>
+    <button class="k blue" onclick="primeKp('4')">4</button>
+    <button class="k blue" onclick="primeKp('5')">5</button>
+    <button class="k blue" onclick="primeKp('6')">6</button>
+    <button class="k dark" onclick="primeKp('.')">.</button>
+    <button class="k blue" onclick="primeKp('1')">1</button>
+    <button class="k blue" onclick="primeKp('2')">2</button>
+    <button class="k blue" onclick="primeKp('3')">3</button>
+    <button class="k red" onclick="primeKp('AC')">AC</button>
+    <button class="k blue wide" onclick="primeKp('0')">0</button>
+    <button class="k dark" onclick="primeKp('00')">00</button>
+  </div>
+  <div id="primeOut" style="display:none;margin-top:12px;background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:12px;">
+    <div id="primeResultHTML" style="font-family:var(--mono);font-size:13px;line-height:1.5;white-space:pre-wrap;"></div>
+  </div>
+</div>// ═══════════════ PRIME CALCULATOR ═══════════════
+function isPrime(numStr) {
+  let n; try { n = BigInt(numStr); } catch(e) { return false; }
+  if (n < 2n) return false;
+  if (n === 2n || n === 3n) return true;
+  if (n % 2n === 0n || n % 3n === 0n) return false;
+  for (let i = 5n; i * i <= n; i += 6n) {
+    if (n % i === 0n || n % (i + 2n) === 0n) return false;
+  }
+  return true;
+}
+function getPrimeFactors(numStr) {
+  let n; try { n = BigInt(numStr); } catch(e) { return []; }
+  let factors = [];
+  while (n % 2n === 0n) { factors.push('2'); n /= 2n; }
+  for (let i = 3n; i * i <= n; i += 2n) {
+    while (n % i === 0n) { factors.push(i.toString()); n /= i; }
+  }
+  if (n > 1n) factors.push(n.toString());
+  return factors;
+}
+function getNextPrime(numStr) {
+  let n; try { n = BigInt(numStr); } catch(e) { return null; }
+  if (n < 2n) return 2n;
+  let candidate = (n % 2n === 0n) ? n + 1n : n + 2n;
+  while (!isPrime(candidate.toString())) candidate += 2n;
+  return candidate;
+}
+function getPrimesInRange(startStr, endStr) {
+  let a, b; try { a = BigInt(startStr); b = BigInt(endStr); } catch(e) { return []; }
+  if (a > b) [a, b] = [b, a];
+  let primes = [];
+  if (a <= 2n && b >= 2n) primes.push(2n);
+  let start = a > 2n ? (a % 2n === 0n ? a + 1n : a) : 3n;
+  for (let i = start; i <= b; i += 2n) {
+    if (isPrime(i.toString())) primes.push(i);
+  }
+  return primes.map(p => p.toString());
+}
+function getNthPrime(k) {
+  k = parseInt(k);
+  if (isNaN(k) || k < 1) return null;
+  if (k === 1) return '2';
+  if (k > 20000) return null;
+  let limit = k < 100 ? 1000 : Math.floor(k * (Math.log(k) * 1.2 + 10));
+  if (limit > 300000) limit = 300000;
+  const sieve = new Array(limit + 1).fill(true);
+  sieve[0] = sieve[1] = false;
+  for (let i = 2; i * i <= limit; i++) {
+    if (sieve[i]) for (let j = i * i; j <= limit; j += i) sieve[j] = false;
+  }
+  let count = 0;
+  for (let i = 2; i <= limit; i++) {
+    if (sieve[i]) {
+      count++;
+      if (count === k) return i.toString();
+    }
+  }
+  return null;
+}
+function getPrimeCount(xStr) {
+  let x; try { x = BigInt(xStr); } catch(e) { return 0; }
+  if (x < 2n) return 0;
+  if (x > 100000n) return 'Too large (limit 100,000)';
+  const lim = Number(x);
+  const sieve = new Array(lim + 1).fill(true);
+  sieve[0] = sieve[1] = false;
+  for (let i = 2; i * i <= lim; i++) {
+    if (sieve[i]) for (let j = i * i; j <= lim; j += i) sieve[j] = false;
+  }
+  let count = 0;
+  for (let i = 2; i <= lim; i++) if (sieve[i]) count++;
+  return count;
+}
 
+function doPrimeCheck() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter a number'); return; }
+  const isP = isPrime(val);
+  const html = `<div style="text-align:center;padding:20px 10px;"><div style="font-size:22px;margin-bottom:8px;">\( {val}</div><div style="font-size:18px;color: \){isP ? 'var(--acc3)' : 'var(--red)'};font-weight:800;">${isP ? '✅ YES, it is PRIME!' : '❌ NOT a prime number'}</div></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+}
+function doPrimeFactors() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter a number'); return; }
+  const factors = getPrimeFactors(val);
+  const html = `<div>Prime factorization of <b>\( {val}</b>:<br><span style="color:var(--acc2);font-size:15px;"> \){factors.join(' × ')}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+}
+function doNextPrime() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter a number'); return; }
+  const np = getNextPrime(val);
+  const html = `<div style="text-align:center;">Next prime after <b>\( {val}</b> is<br><span style="font-size:24px;color:var(--acc3);font-weight:700;"> \){np.toString()}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+}
+function doPrimesRange() {
+  const input = document.getElementById('primeInput').value.trim();
+  const parts = input.split(/[\s,]+/).filter(Boolean);
+  if (parts.length < 2) { toast('Enter low and high'); return; }
+  const primes = getPrimesInRange(parts[0], parts[1]);
+  let disp = primes.slice(0, 40).join(', ');
+  if (primes.length > 40) disp += ` ... (${primes.length} total)`;
+  const html = `<div>Primes from ${parts[0]} to \( {parts[1]}:<br><span style="font-size:12px;line-height:1.4;"> \){disp}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+}
+function doNthPrime() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter n'); return; }
+  const p = getNthPrime(val);
+  if (!p) { toast('n too large (max 20,000)'); return; }
+  const html = `<div>The <b>\( {val}</b><sup>th</sup> prime is<br><span style="font-size:24px;color:var(--acc3);font-weight:700;"> \){p}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+}
+function doPrimePi() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter x'); return; }
+  const count = getPrimeCount(val);
+  let html = typeof count === 'string' ? `<div style="color:var(--red);">⚠️ \( {count}</div>` : `<div style="text-align:center;">π(<b> \){val}</b>) = primes ≤ \( {val}<br><span style="font-size:28px;color:var(--acc3);font-weight:800;"> \){count}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+}
+
+function primeKp(k){
+  const inp = document.getElementById('primeInput');
+  if (k === 'AC') { inp.value = ''; return; }
+  if (k === '⌫') { inp.value = inp.value.slice(0, -1); return; }
+  if (k === '.') { if (!inp.value.includes('.')) inp.value += '.'; return; }
+  if (k === '00') { inp.value += '00'; return; }
+  inp.value += k;
+}
 <!-- ── LOG / EXP ── -->
 <div class="keypad" id="kp-log">
   <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
