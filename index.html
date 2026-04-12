@@ -136,6 +136,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   <div class="ktab"     id="ktab-const"   onclick="showTab('const')">π Const</div>
   <div class="ktab"     id="ktab-matrix"  onclick="showTab('matrix')">⊞ Matrix</div>
   <div class="ktab"     id="ktab-stats"   onclick="showTab('stats')">📊 Stats</div>
+  <div class="ktab"     id="ktab-prime"   onclick="showTab('prime')">🔑 Prime</div>
   <div class="ktab"     id="ktab-units"   onclick="showTab('units')">⚖ Units</div>
 </div>
 
@@ -462,6 +463,23 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   </div>
 </div>
 
+<!-- ── PRIME NUMBER CALCULATOR ── -->
+<div class="keypad" id="kp-prime">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">🔑 Prime Number Calculator<br>Enter a number (BigInt supported). For range use comma/space.</div>
+  <input id="primeInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:12px;color:var(--text);font-family:var(--mono);font-size:14px;outline:none;margin-bottom:8px;" placeholder="e.g. 123456789012345 or 100 200">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:6px;">
+    <button class="k fn orange" onclick="doPrimeCheck()">Is this PRIME?</button>
+    <button class="k fn orange" onclick="doPrimeFactors()">Prime Factors</button>
+    <button class="k fn orange" onclick="doNextPrime()">Next Prime →</button>
+    <button class="k fn orange" onclick="doPrimesRange()">Primes in Range</button>
+    <button class="k fn orange" onclick="doNthPrime()">Nᵗʰ Prime</button>
+    <button class="k fn purple" onclick="doPrimePi()">π(x) — Count Primes ≤ x</button>
+  </div>
+  <div id="primeOut" style="display:none;margin-top:12px;background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:12px;">
+    <div id="primeResultHTML" style="font-family:var(--mono);font-size:13px;line-height:1.5;white-space:pre-wrap;"></div>
+  </div>
+</div>
+
 <!-- ── UNITS ── -->
 <div class="keypad" id="kp-units">
   <select id="uCat" onchange="buildUnitSels()" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:9px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;margin-bottom:6px;">
@@ -565,13 +583,11 @@ function kp(k){
   if(k==='⌫'){setDisplay(expr.slice(0,-1));return;}
   if(k==='='){calculate();return;}
   if(k==='('){
-    // Smart bracket: if last char is a letter/digit add *( 
     const last=expr.slice(-1);
     setDisplay(expr+(last.match(/[\d\)]/)?'*(':' ('));
     return;
   }
   if(k==='°'){
-    // wrap current expression for deg→rad: multiply by pi/180
     setDisplay(expr+'*3.14159265358979/180');return;
   }
   if(k==='π/'){setDisplay(expr+'3.14159265358979/');return;}
@@ -580,23 +596,18 @@ function kp(k){
     else setDisplay('-'+expr);
     return;
   }
-  // Map display symbols to JS operators
   const map={'÷':'/','×':'*','−':'-'};
   setDisplay(expr+(map[k]||k));
 }
 
 // ═══════════════ MATH ENGINE ═══════════════
-// Safe conversion from display expr to JS-evaluable string
 function toJS(e){
   let s=e.trim();
-  // Constants
   s=s.replace(/\bpi\b/gi,'(3.141592653589793238462643383)');
   s=s.replace(/\bphi\b/gi,'(1.618033988749894848204586834)');
-  // Power ^ → **
   s=s.replace(/\^/g,'**');
-  // loggamma / logb before log
   s=s.replace(/\bloggamma\(([^)]+)\)/g,(_,x)=>`_LG(${x})`);
-  s=s.replace(/\blogb\(([^,]+),([^)]+)\)/g,(_,x,b)=>`(Math.log(${x})/Math.log(${b}))`);
+  s=s.replace(/\blogb\(([^,]+),([^)]+)\)/g,(_,x,b)=>`(Math.log(\( {x})/Math.log( \){b}))`);
   s=s.replace(/\blog2\(/g,'Math.log2(');
   s=s.replace(/\blog10\(/g,'Math.log10(');
   s=s.replace(/\bln\(/g,'Math.log(');
@@ -610,43 +621,34 @@ function toJS(e){
   s=s.replace(/\bround\(/g,'Math.round(');
   s=s.replace(/\bsign\(/g,'Math.sign(');
   s=s.replace(/\bpow\(/g,'Math.pow(');
-  // Inverse trig BEFORE plain trig
   s=s.replace(/\basin\(/g,'Math.asin(');
   s=s.replace(/\bacos\(/g,'Math.acos(');
   s=s.replace(/\batan2\(/g,'Math.atan2(');
   s=s.replace(/\batan\(/g,'Math.atan(');
-  // Hyperbolic BEFORE cot/sec/csc
   s=s.replace(/\bsinh\(/g,'Math.sinh(');
   s=s.replace(/\bcosh\(/g,'Math.cosh(');
   s=s.replace(/\btanh\(/g,'Math.tanh(');
-  // coth/sech/csch with capture group to balance parens
-  s=s.replace(/\bcoth\(([^)]+)\)/g,(_,x)=>`(Math.cosh(${x})/Math.sinh(${x}))`);
+  s=s.replace(/\bcoth\(([^)]+)\)/g,(_,x)=>`(Math.cosh(\( {x})/Math.sinh( \){x}))`);
   s=s.replace(/\bsech\(([^)]+)\)/g,(_,x)=>`(1/Math.cosh(${x}))`);
   s=s.replace(/\bcsch\(([^)]+)\)/g,(_,x)=>`(1/Math.sinh(${x}))`);
-  // cot/sec/csc BEFORE sin/cos/tan
-  s=s.replace(/\bcot\(([^)]+)\)/g,(_,x)=>`(Math.cos(${x})/Math.sin(${x}))`);
+  s=s.replace(/\bcot\(([^)]+)\)/g,(_,x)=>`(Math.cos(\( {x})/Math.sin( \){x}))`);
   s=s.replace(/\bsec\(([^)]+)\)/g,(_,x)=>`(1/Math.cos(${x}))`);
   s=s.replace(/\bcsc\(([^)]+)\)/g,(_,x)=>`(1/Math.sin(${x}))`);
-  // Plain trig
   s=s.replace(/\bsin\(/g,'Math.sin(');
   s=s.replace(/\bcos\(/g,'Math.cos(');
   s=s.replace(/\btan\(/g,'Math.tan(');
-  // Factorials / combinatorics
   s=s.replace(/\bfact\(([^)]+)\)/g,(_,x)=>`_fact(${x})`);
   s=s.replace(/\bgamma\(([^)]+)\)/g,(_,x)=>`_gamma(${x})`);
-  s=s.replace(/\bperm\(([^,]+),([^)]+)\)/g,(_,n,r)=>`_perm(${n},${r})`);
-  s=s.replace(/\bcomb\(([^,]+),([^)]+)\)/g,(_,n,r)=>`_comb(${n},${r})`);
-  s=s.replace(/\bbinom\(([^,]+),([^)]+)\)/g,(_,n,r)=>`_comb(${n},${r})`);
-  // Sigma / product
-  s=s.replace(/\bsigma\(([^,]+),([^,]+),([^)]+)\)/g,(_,ex,fr,to)=>`_sigma('${ex}',${fr},${to})`);
-  s=s.replace(/\bproduct\(([^,]+),([^,]+),([^)]+)\)/g,(_,ex,fr,to)=>`_prod('${ex}',${fr},${to})`);
-  // Standalone e ONLY if not part of a number like 1e10
+  s=s.replace(/\bperm\(([^,]+),([^)]+)\)/g,(_,n,r)=>`_perm(\( {n}, \){r})`);
+  s=s.replace(/\bcomb\(([^,]+),([^)]+)\)/g,(_,n,r)=>`_comb(\( {n}, \){r})`);
+  s=s.replace(/\bbinom\(([^,]+),([^)]+)\)/g,(_,n,r)=>`_comb(\( {n}, \){r})`);
+  s=s.replace(/\bsigma\(([^,]+),([^,]+),([^)]+)\)/g,(_,ex,fr,to)=>`_sigma('\( {ex}', \){fr},${to})`);
+  s=s.replace(/\bproduct\(([^,]+),([^,]+),([^)]+)\)/g,(_,ex,fr,to)=>`_prod('\( {ex}', \){fr},${to})`);
   s=s.replace(/([^0-9])e([^0-9+\-])/g,'$1(2.718281828459045)$2');
   s=s.replace(/^e([^0-9+\-])/,'(2.718281828459045)$1');
   return s;
 }
 
-// Execute JS string safely
 function runJS(js){
   return new Function('_fact','_gamma','_comb','_perm','_LG','_sigma','_prod',
     `"use strict";return(${js});`)
@@ -655,11 +657,9 @@ function runJS(js){
 
 function mathEval(e){return runJS(toJS(e));}
 
-// Substitute variable then evaluate — safe from double-replacement
 function evalAt(expr,varName,val){
-  // Escape special regex chars in varName
   const escaped=varName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const subbed=expr.replace(new RegExp(`(?<![A-Za-z0-9_])${escaped}(?![A-Za-z0-9_])`,'g'),`(${val})`);
+  const subbed=expr.replace(new RegExp(`(?<![A-Za-z0-9_])\( {escaped}(?![A-Za-z0-9_])`,'g'),`( \){val})`);
   return mathEval(subbed);
 }
 
@@ -726,7 +726,7 @@ function showRP(label,val,note='',tags=null,grid=null){
   const rGrid=document.getElementById('rGrid');
   rTags.style.display='none'; rGrid.style.display='none';
   if(tags){rTags.innerHTML=tags.map(t=>`<span class="r-tag">${t}</span>`).join('');rTags.style.display='flex';}
-  if(grid){rGrid.innerHTML=grid.map(([l,v])=>`<div class="r-cell"><div class="lbl">${l}</div><div class="val">${v}</div></div>`).join('');rGrid.style.display='grid';}
+  if(grid){rGrid.innerHTML=grid.map(([l,v])=>`<div class="r-cell"><div class="lbl">\( {l}</div><div class="val"> \){v}</div></div>`).join('');rGrid.style.display='grid';}
   rp.style.display='block';
 }
 function hideResultPanel(){document.getElementById('resultPanel').style.display='none';}
@@ -741,7 +741,7 @@ function calcAllTrig(){
     ['cot(x)',Math.cos(x)/Math.sin(x)],['sec(x)',1/Math.cos(x)],['csc(x)',1/Math.sin(x)],
     ['asin(x)',Math.asin(x)],['acos(x)',Math.acos(x)],['atan(x)',Math.atan(x)],['atan2(x,1)',Math.atan2(x,1)],
   ];
-  document.getElementById('trigAllGrid').innerHTML=fns.map(([l,v])=>`<div class="r-cell"><div class="lbl">${l}</div><div class="val">${fmt(v)}</div></div>`).join('');
+  document.getElementById('trigAllGrid').innerHTML=fns.map(([l,v])=>`<div class="r-cell"><div class="lbl">\( {l}</div><div class="val"> \){fmt(v)}</div></div>`).join('');
   document.getElementById('trigAllOut').style.display='block';
   addHist('allTrig('+fmt(x)+')', fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
 }
@@ -755,7 +755,7 @@ function calcAllHyp(){
     ['coth(x)',x===0?Infinity:Math.cosh(x)/Math.sinh(x)],
     ['sech(x)',1/Math.cosh(x)],['csch(x)',x===0?Infinity:1/Math.sinh(x)],
   ];
-  document.getElementById('hypAllGrid').innerHTML=fns.map(([l,v])=>`<div class="r-cell"><div class="lbl">${l}</div><div class="val">${fmt(v)}</div></div>`).join('');
+  document.getElementById('hypAllGrid').innerHTML=fns.map(([l,v])=>`<div class="r-cell"><div class="lbl">\( {l}</div><div class="val"> \){fmt(v)}</div></div>`).join('');
   document.getElementById('hypAllOut').style.display='block';
   addHist('allHyp('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
 }
@@ -770,7 +770,7 @@ function calcAllLog(){
     ['x²',x*x],['x³',x*x*x],['1/x',1/x],['|x|',Math.abs(x)],
     ['x!',_fact(Math.round(x))],['Γ(x)',_gamma(x)],
   ];
-  document.getElementById('logAllGrid').innerHTML=fns.map(([l,v])=>`<div class="r-cell"><div class="lbl">${l}</div><div class="val">${fmt(v)}</div></div>`).join('');
+  document.getElementById('logAllGrid').innerHTML=fns.map(([l,v])=>`<div class="r-cell"><div class="lbl">\( {l}</div><div class="val"> \){fmt(v)}</div></div>`).join('');
   document.getElementById('logAllOut').style.display='block';
   addHist('allLog('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
 }
@@ -787,14 +787,13 @@ function calcBinomExpand(){
     if(bp>0)t+=bp===1?'b':'b^'+bp;
     return (t||'1');
   });
-  const lines=Array.from({length:n+1},(_,k)=>`  k=${k}: C(${n},${k})=${_comb(n,k)}  →  ${terms[k]}`);
+  const lines=Array.from({length:n+1},(_,k)=>`  k=\( {k}: C( \){n},\( {k})= \){_comb(n,k)}  →  ${terms[k]}`);
   document.getElementById('binomExpandVal').textContent=
-    `(a+b)^${n} =\n${terms.join(' + ')}\n\nTerms:\n${lines.join('\n')}`;
+    `(a+b)^\( {n} =\n \){terms.join(' + ')}\n\nTerms:\n${lines.join('\n')}`;
   document.getElementById('binomExpandOut').style.display='block';
 }
 
 // ═══════════════ CALCULUS ═══════════════
-// Numerical derivative — substitutes value into expression
 function numDeriv(expr,x,order){
   const h=1e-4;
   if(order===0)return evalAt(expr,'x',x);
@@ -804,7 +803,6 @@ function numDeriv(expr,x,order){
   return(numDeriv(expr,x+h,order-1)-numDeriv(expr,x-h,order-1))/(2*h);
 }
 
-// Numerical integral — Simpson's rule
 function numInteg(expr,a,b,n=2000){
   if(n%2!==0)n++;
   const h=(b-a)/n;
@@ -843,30 +841,28 @@ function showCalcOut(label,val,note,steps){
 function doDiff(order){
   if(!expr){toast('Enter a function using the buttons above. e.g. sin(x)');return;}
   const fnExpr=expr;
-  // Normalize for symbolic lookup — replace x with x and check table
   const sym=order===1?DERIVS[fnExpr]:null;
   const pts=[-2,-1,0.5,1,2];
   let lines=[],steps=[];
 
   if(sym){
     lines.push(`d/dx [${fnExpr}] = ${sym}`);
-    steps.push(`📐 Symbolic: d/dx[${fnExpr}] = <b style="color:var(--acc3)">${sym}</b>`);
-    // Numeric at sample points
+    steps.push(`📐 Symbolic: d/dx[\( {fnExpr}] = <b style="color:var(--acc3)"> \){sym}</b>`);
     pts.forEach(pt=>{
       try{
         const v=numDeriv(fnExpr,pt,1);
-        if(isFinite(v))steps.push(`x=${pt} → f'(x) ≈ <b style="color:var(--acc2)">${fmt(v,8)}</b>`);
+        if(isFinite(v))steps.push(`x=\( {pt} → f'(x) ≈ <b style="color:var(--acc2)"> \){fmt(v,8)}</b>`);
       }catch(e){}
     });
   } else {
-    lines.push(`d${order>1?order:''}/dx${order>1?order:''} [${fnExpr}]`);
+    lines.push(`d\( {order>1?order:''}/dx \){order>1?order:''} [${fnExpr}]`);
     steps.push(`📊 Numerical central difference (h=0.0001)`);
     pts.forEach(pt=>{
       try{
         const v=numDeriv(fnExpr,pt,order);
         if(isFinite(v)){
           lines.push(`x=${pt} → ${fmt(v,10)}`);
-          steps.push(`x=${pt}  →  <b style="color:var(--acc3)">${fmt(v,10)}</b>`);
+          steps.push(`x=\( {pt}  →  <b style="color:var(--acc3)"> \){fmt(v,10)}</b>`);
         }
       }catch(e){}
     });
@@ -879,10 +875,9 @@ function doDiff(order){
 function doIndefinite(){
   if(!expr){toast('Enter a function first. e.g. tap sin( then x then )');return;}
   const fnExpr=expr;
-  // Check x^n pattern
-  const xnM=fnExpr.match(/^x\*\*(\-?\d+\.?\d*)$/) || fnExpr.match(/^x\^(\-?\d+\.?\d*)$/);
+  const xnM=fnExpr.match(/^x\*\*(\-?\d+\.?\d*)\( /) || fnExpr.match(/^x\^(\-?\d+\.?\d*) \)/);
   let sym=INTEGRALS[fnExpr];
-  if(!sym&&xnM){const n=parseFloat(xnM[1]);sym=`x^${n+1}/${n+1}+C`;}
+  if(!sym&&xnM){const n=parseFloat(xnM[1]);sym=`x^\( {n+1}/ \){n+1}+C`;}
   if(sym){
     showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx = ${sym}`,'✅ Exact symbolic result',[]);
   } else {
@@ -907,16 +902,15 @@ function doDefinite(){
   const a=parseFloat(document.getElementById('defA').value);
   const b=parseFloat(document.getElementById('defB').value);
   if(isNaN(a)||isNaN(b)){toast('⚠️ Enter both bounds a and b');return;}
-  if(a===b){showCalcOut('∫ₐᵇ RESULT',`∫[${a},${a}] = 0`,'Same bounds → zero',[]);return;}
+  if(a===b){showCalcOut('∫ₐᵇ RESULT',`∫[\( {a}, \){a}] = 0`,'Same bounds → zero',[]);return;}
   try{
     const r=numInteg(fnExpr,a,b);
     const steps=[
       `Function: ${fnExpr}`,
-      `Bounds: a=${a}, b=${b}`,
+      `Bounds: a=\( {a}, b= \){b}`,
       `Method: Simpson's Rule, 2000 intervals`,
       `Result: <b style="color:var(--acc3)">${fmt(r,12)}</b>`,
     ];
-    // Check symbolic too
     const sym=INTEGRALS[fnExpr];
     if(sym&&!sym.includes('|')){
       const F=sym.replace(/\+C$/,'');
@@ -926,14 +920,14 @@ function doDefinite(){
       }catch(e){}
     }
     showCalcOut('∫ₐᵇ RESULT',`∫[${a} → ${b}] ${fnExpr} dx\n≈ ${fmt(r,12)}`,`Simpson's rule, 2000 intervals`,steps);
-    addHist(`∫[${a},${b}] ${fnExpr}dx`,fmt(r,12));
+    addHist(`∫[\( {a}, \){b}] ${fnExpr}dx`,fmt(r,12));
   }catch(e){showCalcOut('∫ₐᵇ ERROR','❌ '+e.message,'Check your function and bounds',[]);}
 }
 
 function doTaylor(){
   if(!expr){toast('Enter a function first. e.g. sin(x)');return;}
   const fnExpr=expr;
-  const a=0; // always expand around 0
+  const a=0;
   const n=6;
   const steps=[];
   try{
@@ -943,111 +937,188 @@ function doTaylor(){
         const dk=numDeriv(fnExpr,a,k);
         const c=dk/_fact(k);
         coeffs.push(isFinite(c)?c:0);
-        if(isFinite(c)&&Math.abs(c)>1e-10)steps.push(`k=${k}: f^(${k})(0)/${k}! = ${fmt(dk,6)}/${_fact(k)} = <b style="color:var(--acc3)">${fmt(c,5)}</b>`);
+        if(isFinite(c)&&Math.abs(c)>1e-10)steps.push(`k=\( {k}: f^( \){k})(0)/${k}! = \( {fmt(dk,6)}/ \){_fact(k)} = <b style="color:var(--acc3)">${fmt(c,5)}</b>`);
       }catch(e){coeffs.push(0);}
     }
     const terms=coeffs.map((c,k)=>{
       if(!isFinite(c)||Math.abs(c)<1e-10)return null;
       const cs=parseFloat(c.toPrecision(4)).toString();
       if(k===0)return cs;
-      return `(${cs})${k===1?'x':'x^'+k}`;
+      return `(\( {cs}) \){k===1?'x':'x^'+k}`;
     }).filter(Boolean);
     const result=terms.length
-      ?`${fnExpr} ≈\n${terms.join('\n+ ')}\n+ O(x^${n})`
+      ?`\( {fnExpr} ≈\n \){terms.join('\n+ ')}\n+ O(x^${n})`
       :'All coefficients zero at x=0. Try a different point.';
     showCalcOut('TAYLOR SERIES (around x=0)',result,'',steps);
     addHist('Taylor('+fnExpr+')',terms[0]||'?');
   }catch(e){showCalcOut('TAYLOR ERROR','❌ '+e.message,'',[]);}
 }
 
-// ═══════════════ PRIME ═══════════════
-// Prime tab is part of Basic → user types number and gets result via calculate()
-// Add prime check shortcut in basic tab calculate
-function isPrimeBig(n){
-  if(n<2n)return false;if(n===2n)return true;if(n%2n===0n)return false;
-  for(let i=3n;i*i<=n;i+=2n)if(n%i===0n)return false;return true;
+// ═══════════════ PRIME NUMBER CALCULATOR (NEW TAB) ═══════════════
+function isPrime(numStr) {
+  let n;
+  try { n = BigInt(numStr); } catch(e) { return false; }
+  if (n < 2n) return false;
+  if (n === 2n || n === 3n) return true;
+  if (n % 2n === 0n || n % 3n === 0n) return false;
+  for (let i = 5n; i * i <= n; i += 6n) {
+    if (n % i === 0n || n % (i + 2n) === 0n) return false;
+  }
+  return true;
 }
 
-// ═══════════════ MATRIX ═══════════════
-function buildMatUI(id){
-  const r=Math.min(parseInt(document.getElementById('mR'+id).value)||2,6);
-  const c=Math.min(parseInt(document.getElementById('mC'+id).value)||2,6);
-  const g=document.getElementById('matGrid'+id);
-  g.innerHTML='';
-  const wrap=document.createElement('div');
-  wrap.style.cssText=`display:inline-grid;grid-template-columns:repeat(${c},46px);gap:3px;`;
-  for(let i=0;i<r;i++)for(let j=0;j<c;j++){
-    const inp=document.createElement('input');
-    inp.id=`m${id}_${i}_${j}`;inp.value=i===j?'1':'0';
-    inp.style.cssText='width:46px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px 3px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;';
-    wrap.appendChild(inp);
+function getPrimeFactors(numStr) {
+  let n;
+  try { n = BigInt(numStr); } catch(e) { return []; }
+  let factors = [];
+  while (n % 2n === 0n) {
+    factors.push('2');
+    n /= 2n;
   }
-  g.appendChild(wrap);
-}
-function getMat(id){
-  const r=Math.min(parseInt(document.getElementById('mR'+id).value)||2,6);
-  const c=Math.min(parseInt(document.getElementById('mC'+id).value)||2,6);
-  return Array.from({length:r},(_,i)=>Array.from({length:c},(_,j)=>parseFloat(document.getElementById(`m${id}_${i}_${j}`)?.value)||0));
-}
-function mStr(M){return M.map(r=>'['+r.map(v=>String(parseFloat(v.toPrecision(5))).padStart(10)).join(' ')+' ]').join('\n');}
-function mDet(M){
-  const n=M.length;if(n===1)return M[0][0];if(n===2)return M[0][0]*M[1][1]-M[0][1]*M[1][0];
-  let d=0;for(let j=0;j<n;j++)d+=(j%2===0?1:-1)*M[0][j]*mDet(M.slice(1).map(r=>r.filter((_,c)=>c!==j)));return d;
-}
-function mInv(M){
-  const n=M.length;
-  const aug=M.map((r,i)=>[...r,...Array.from({length:n},(_,j)=>i===j?1:0)]);
-  for(let col=0;col<n;col++){
-    let mx=col;for(let r=col+1;r<n;r++)if(Math.abs(aug[r][col])>Math.abs(aug[mx][col]))mx=r;
-    [aug[col],aug[mx]]=[aug[mx],aug[col]];
-    if(Math.abs(aug[col][col])<1e-12)return null;
-    const pv=aug[col][col];aug[col]=aug[col].map(v=>v/pv);
-    for(let r=0;r<n;r++)if(r!==col){const f=aug[r][col];aug[r]=aug[r].map((v,j)=>v-f*aug[col][j]);}
+  for (let i = 3n; i * i <= n; i += 2n) {
+    while (n % i === 0n) {
+      factors.push(i.toString());
+      n /= i;
+    }
   }
-  return aug.map(r=>r.slice(n));
+  if (n > 1n) factors.push(n.toString());
+  return factors;
 }
-function matOp(op){
-  const A=getMat('A'),B=getMat('B');
-  let res='',note='';
-  try{
-    if(op==='det')res=`det(A) = ${fmt(mDet(A),12)}`;
-    else if(op==='trace')res=`trace(A) = ${fmt(A.reduce((s,r,i)=>s+(r[i]||0),0))}`;
-    else if(op==='transpose')res='Aᵀ =\n'+mStr(A[0].map((_,ci)=>A.map(r=>r[ci])));
-    else if(op==='inv'){const inv=mInv(A);res=inv?'A⁻¹ =\n'+mStr(inv):'❌ Singular (no inverse)';}
-    else if(op==='add'){
-      if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}
-      res='A+B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v+B[i][j])));
+
+function getNextPrime(numStr) {
+  let n;
+  try { n = BigInt(numStr); } catch(e) { return null; }
+  if (n < 2n) return 2n;
+  let candidate = (n % 2n === 0n) ? n + 1n : n + 2n;
+  while (!isPrime(candidate.toString())) {
+    candidate += 2n;
+  }
+  return candidate;
+}
+
+function getPrimesInRange(startStr, endStr) {
+  let a, b;
+  try {
+    a = BigInt(startStr);
+    b = BigInt(endStr);
+  } catch(e) { return []; }
+  if (a > b) [a, b] = [b, a];
+  let primes = [];
+  if (a <= 2n && b >= 2n) primes.push(2n);
+  let start = a > 2n ? (a % 2n === 0n ? a + 1n : a) : 3n;
+  for (let i = start; i <= b; i += 2n) {
+    if (isPrime(i.toString())) primes.push(i);
+  }
+  return primes.map(p => p.toString());
+}
+
+function getNthPrime(k) {
+  k = parseInt(k);
+  if (isNaN(k) || k < 1) return null;
+  if (k === 1) return '2';
+  if (k > 20000) return null;
+  let limit = k < 100 ? 1000 : Math.floor(k * (Math.log(k) * 1.2 + 10));
+  if (limit > 300000) limit = 300000;
+  const sieve = new Array(limit + 1).fill(true);
+  sieve[0] = sieve[1] = false;
+  for (let i = 2; i * i <= limit; i++) {
+    if (sieve[i]) {
+      for (let j = i * i; j <= limit; j += i) sieve[j] = false;
     }
-    else if(op==='sub'){
-      if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}
-      res='A-B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v-B[i][j])));
+  }
+  let count = 0;
+  for (let i = 2; i <= limit; i++) {
+    if (sieve[i]) {
+      count++;
+      if (count === k) return i.toString();
     }
-    else if(op==='mul'){
-      if(A[0].length!==B.length){toast('⚠️ A cols must = B rows');return;}
-      res='A×B =\n'+mStr(A.map((r,i)=>B[0].map((_,j)=>r.reduce((s,_,k)=>s+A[i][k]*B[k][j],0))));
-    }
-    else if(op==='eigen'){
-      if(A.length!==2){toast('⚠️ 2×2 only for eigenvalues');return;}
-      const [[a,b],[c,d]]=A,tr=a+d,dt=a*d-b*c,disc=tr*tr-4*dt;
-      if(disc<0){const re=tr/2,im=Math.sqrt(-disc)/2;res=`Complex:\nλ₁=${fmt(re)}+${fmt(im)}i\nλ₂=${fmt(re)}-${fmt(im)}i`;}
-      else res=`λ₁ = ${fmt((tr+Math.sqrt(disc))/2,10)}\nλ₂ = ${fmt((tr-Math.sqrt(disc))/2,10)}`;
-    }
-    else if(op==='rank'){
-      const M=A.map(r=>[...r]);let rank=0;
-      for(let col=0;col<M[0].length&&rank<M.length;col++){
-        let piv=-1;for(let r=rank;r<M.length;r++)if(Math.abs(M[r][col])>1e-10){piv=r;break;}
-        if(piv===-1)continue;[M[rank],M[piv]]=[M[piv],M[rank]];
-        const pv=M[rank][col];M[rank]=M[rank].map(v=>v/pv);
-        for(let r=0;r<M.length;r++)if(r!==rank){const f=M[r][col];M[r]=M[r].map((v,j)=>v-f*M[rank][j]);}
-        rank++;
-      }
-      res=`rank(A) = ${rank}`;
-    }
-    document.getElementById('matOutVal').textContent=res;
-    document.getElementById('matOutNote').textContent=note;
-    document.getElementById('matOut').style.display='block';
-    addHist(`Matrix ${op}`,res.split('\n')[0]);
-  }catch(e){document.getElementById('matOutVal').textContent='❌ '+e.message;document.getElementById('matOut').style.display='block';}
+  }
+  return null;
+}
+
+function getPrimeCount(xStr) {
+  let x;
+  try { x = BigInt(xStr); } catch(e) { return 0; }
+  if (x < 2n) return 0;
+  if (x > 100000n) return 'Too large (limit 100,000 for speed)';
+  const lim = Number(x);
+  const sieve = new Array(lim + 1).fill(true);
+  sieve[0] = sieve[1] = false;
+  for (let i = 2; i * i <= lim; i++) {
+    if (sieve[i]) for (let j = i * i; j <= lim; j += i) sieve[j] = false;
+  }
+  let count = 0;
+  for (let i = 2; i <= lim; i++) if (sieve[i]) count++;
+  return count;
+}
+
+function doPrimeCheck() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter a number'); return; }
+  const isP = isPrime(val);
+  const html = `<div style="text-align:center;padding:20px 10px;">
+    <div style="font-size:22px;margin-bottom:8px;">${val}</div>
+    <div style="font-size:18px;color:\( {isP ? 'var(--acc3)' : 'var(--red)'};font-weight:800;"> \){isP ? '✅ YES, it is PRIME!' : '❌ NOT a prime number'}</div>
+  </div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+  addHist(`IsPrime(${val})`, isP ? 'Prime' : 'Composite');
+}
+
+function doPrimeFactors() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter a number'); return; }
+  const factors = getPrimeFactors(val);
+  const html = `<div>Prime factorization of <b>\( {val}</b>:<br><span style="color:var(--acc2);font-size:15px;"> \){factors.join(' × ')}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+  addHist(`Factors of ${val}`, factors.join('×'));
+}
+
+function doNextPrime() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter a number'); return; }
+  const np = getNextPrime(val);
+  const html = `<div style="text-align:center;">Next prime after <b>\( {val}</b> is<br><span style="font-size:24px;color:var(--acc3);font-weight:700;"> \){np}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+  addHist(`Next prime after ${val}`, np.toString());
+}
+
+function doPrimesRange() {
+  const input = document.getElementById('primeInput').value.trim();
+  const parts = input.split(/[\s,]+/).filter(Boolean);
+  if (parts.length < 2) { toast('Enter two numbers: low, high'); return; }
+  const primes = getPrimesInRange(parts[0], parts[1]);
+  let disp = primes.slice(0, 40).join(', ');
+  if (primes.length > 40) disp += ` ... (${primes.length} total)`;
+  const html = `<div>Primes from ${parts[0]} to \( {parts[1]}:<br><span style="font-size:12px;line-height:1.4;"> \){disp}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+  addHist(`Primes [\( {parts[0]}, \){parts[1]}]`, `${primes.length} found`);
+}
+
+function doNthPrime() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter n'); return; }
+  const p = getNthPrime(val);
+  if (!p) { toast('n too large (max 20,000) or invalid'); return; }
+  const html = `<div>The <b>\( {val}</b><sup>th</sup> prime number is<br><span style="font-size:24px;color:var(--acc3);font-weight:700;"> \){p}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+  addHist(`${val}th prime`, p);
+}
+
+function doPrimePi() {
+  const val = document.getElementById('primeInput').value.trim();
+  if (!val) { toast('Enter x'); return; }
+  const count = getPrimeCount(val);
+  let html = typeof count === 'string' 
+    ? `<div style="color:var(--red);">⚠️ ${count}</div>` 
+    : `<div style="text-align:center;">π(<b>${val}</b>) = number of primes ≤ \( {val}<br><span style="font-size:28px;color:var(--acc3);font-weight:800;"> \){count}</span></div>`;
+  document.getElementById('primeResultHTML').innerHTML = html;
+  document.getElementById('primeOut').style.display = 'block';
+  addHist(`π(${val})`, String(count));
 }
 
 // ═══════════════ STATS ═══════════════
@@ -1093,7 +1164,7 @@ const UDEFS={
 };
 function buildUnitSels(){
   const cat=document.getElementById('uCat').value;
-  const opts=UDEFS[cat].u.map((u,i)=>`<option value="${i}">${u}</option>`).join('');
+  const opts=UDEFS[cat].u.map((u,i)=>`<option value="\( {i}"> \){u}</option>`).join('');
   document.getElementById('uFrom').innerHTML=opts;
   document.getElementById('uTo').innerHTML=opts;
   document.getElementById('uTo').selectedIndex=1;
@@ -1122,7 +1193,7 @@ function doConvert(){
   const disp=Math.abs(r)>1e12||(Math.abs(r)<1e-8&&r!==0)?r.toExponential(6):fmt(r,10);
   document.getElementById('unitOutVal').textContent=`${val} ${units[fi]} = ${disp} ${units[ti]}`;
   document.getElementById('unitOut').style.display='block';
-  addHist(`${val} ${units[fi]}→${units[ti]}`,disp);
+  addHist(`${val} \( {units[fi]}→ \){units[ti]}`,disp);
 }
 
 // ═══════════════ HISTORY ═══════════════
