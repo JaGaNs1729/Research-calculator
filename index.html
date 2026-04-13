@@ -1,6 +1,4 @@
-I will provide the complete HTML code that includes your original research calculator exactly as you sent it, plus the new prime number calculator module with numpad, next prime, and factor checking, without missing any part of your original code.
 
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -901,7 +899,7 @@ function closeHist(){document.getElementById('histModal').classList.remove('on')
 function showDonate(){document.getElementById('donateModal').classList.add('on');}
 function closeDonate(){document.getElementById('donateModal').classList.remove('on');}
 function pickD(el,amt){ document.querySelectorAll('#dAmts > div').forEach(d=>{d.style.borderColor='var(--bord)';d.style.color='';}); el.style.borderColor='var(--acc2)';el.style.color='var(--acc2)'; donateAmt=amt; document.getElementById('custD').style.display=amt==='x'?'block':'none';}
-function doDonate(){ const amt=donateAmt==='x'?parseFloat(document.getElementById('custD').value):parseFloat(donateAmt); if(isNaN(amt)||amt<=0){toast('Enter valid amount');return;} toast(`❤️ Thank you for $${amt}! You are amazing!`,4000); closeDonate();}
+function doDonate(){ const amt=donateAmt==='x'?parseFloat(document.getElementById('custD').value):parseFloat(donateAmt); if(isNaN(amt)||amt<=0){toast('Enter valid amount');return;} toast(`donation Thank you for $${amt}! You are amazing!`,4000); closeDonate();}
 function toggleTheme(){ const themes=[{bg:'#0b0f1a',surf:'#111827',card:'#1a2235',bord:'#253050',text:'#e2e8f8',muted:'#4a5880'},{bg:'#f0f4ff',surf:'#ffffff',card:'#f5f8ff',bord:'#d8e0f0',text:'#1a2040',muted:'#7a88b0'},{bg:'#040e18',surf:'#071424',card:'#0b1c32',bord:'#142848',text:'#c8d8f0',muted:'#3a5878'},{bg:'#050e06',surf:'#081408',card:'#0c1c10',bord:'#162818',text:'#c0e0c4',muted:'#3a6040'}]; const cur=parseInt(localStorage.getItem('jrc_theme')||'0'); const next=(cur+1)%themes.length; const v=themes[next]; const r=document.documentElement.style; Object.entries(v).forEach(([k,val])=>r.setProperty('--'+k,val)); localStorage.setItem('jrc_theme',String(next)); toast('🎨 Theme changed');}
 function toast(msg,dur=2200){ const t=document.getElementById('toast'); t.textContent=msg;t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),dur);}
 
@@ -926,4 +924,3 @@ updatePrimeDisplay();
 </script>
 </body>
 </html>
-```
