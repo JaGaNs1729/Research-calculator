@@ -784,7 +784,7 @@ function _prod(exStr,from,to){let p=1;for(let i=Math.ceil(from);i<=Math.floor(to
 function fmt(v,d=10){
   if(v===undefined||v===null)return 'undefined';
   if(typeof v==='string')return v;
-  if(!isFinite(v))return v>0?'∞':isNaN(v)?'undefined':'-∞';
+  if(!isFinite(v))return v>0?'not in not in range':isNaN(v)?'undefined':'-not in range';
   const r=parseFloat(v.toPrecision(d));
   return r.toString();
 }
