@@ -561,7 +561,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px;">
     <button class="k fn orange" onclick="doFactor()">🔍 FACTORIZE</button>
-    <button class="k fn green"  onclick="doPrime()">🔬Is this Prime</button>
+    <button class="k fn green"  onclick="doPrime()">🔬 PRIMALITY TEST</button>
     <button class="k fn purple" onclick="doGCD()">GCD (n,m)</button>
     <button class="k fn purple" onclick="doLCM()">LCM (n,m)</button>
   </div>
@@ -756,16 +756,44 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
       <div class="pay-security">🔒 You authorize a one-time charge. No subscription.</div>
     </div>
 
-    <!-- Step 3: Success -->
+    <!-- Step 3: Real GPay / UPI Payment -->
     <div class="pay-step" id="payStep3">
-      <div class="success-anim">
-        <span class="checkmark">✅</span>
-        <div style="font-family:var(--disp);font-size:20px;font-weight:800;color:var(--acc3);margin-bottom:8px;">Payment Successful!</div>
-        <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">Thank you for supporting J Idea!</div>
-        <div style="font-size:14px;color:var(--acc2);font-weight:700;" id="successAmt">$5.00 donated ❤️</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:10px;">A receipt has been sent to your email.</div>
-        <button class="k fn green" style="width:100%;margin-top:16px;" onclick="closeDonate()">🎉 Close &amp; Keep Calculating</button>
+      <div style="text-align:center;padding:4px 0 12px;">
+        <div style="font-size:28px;margin-bottom:6px;">💚</div>
+        <div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--acc3);margin-bottom:4px;">Pay via Google Pay / UPI</div>
+        <div style="font-size:11px;color:var(--muted);">Amount: <span style="color:var(--acc2);font-weight:700;" id="upiAmt">₹415</span></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;">UPI ID: <span style="color:var(--text);font-weight:700;" id="upiID">jidea@okaxis</span></div>
       </div>
+
+      <!-- Primary: Open Google Pay app directly -->
+      <button id="gpayBtn" class="k fn green" style="width:100%;height:52px;font-size:14px;margin-bottom:8px;background:#1a73e8;border-color:#1a73e8;color:#fff;">
+        📲 Open Google Pay App
+      </button>
+
+      <!-- Any UPI app -->
+      <button id="upiBtn" class="k fn orange" style="width:100%;height:46px;font-size:13px;margin-bottom:8px;">
+        🏦 Pay with Any UPI App (PhonePe / Paytm / Bank)
+      </button>
+
+      <!-- Search GPay -->
+      <button id="searchGpayBtn" class="k fn dark" style="width:100%;height:42px;font-size:12px;margin-bottom:10px;">
+        🔍 Search / Open Google Pay Website
+      </button>
+
+      <div style="background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-bottom:10px;">
+        <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">UPI PAYMENT LINK (copy & paste in any UPI app)</div>
+        <div id="upiQRText" style="font-size:9px;color:var(--acc3);word-break:break-all;line-height:1.5;user-select:all;cursor:text;"></div>
+        <button class="k fn dark" style="width:100%;margin-top:6px;height:34px;font-size:10px;" onclick="copyUPI()">📋 Copy UPI Link</button>
+      </div>
+
+      <div style="font-size:9px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:10px;">
+        ✅ Sender can use <b>any bank account</b>, any UPI app, any currency.<br>
+        ✅ Your UPI ID is safe — only you receive money, nothing personal leaks.<br>
+        ✅ Works worldwide via Google Pay, PhonePe, Paytm, BHIM, bank apps.
+      </div>
+
+      <button class="k fn dark" style="width:100%;margin-bottom:4px;" onclick="goPayStep(2)">← Back</button>
+      <button class="k fn green" style="width:100%;" onclick="closeDonate()">🎉 Done · Close</button>
     </div>
 
   </div>
@@ -883,7 +911,8 @@ function toJS(e) {
   s = s.replace(/\^/g, '**');
 
   // 3. Custom functions — order matters: longer names first
-  s = s.replace(/\blogb\(\s*([^,]+)\s*,\s*([^)]+)\s*\)/g, (_,x,b) => `(Math.log(${x})/Math.log(${b}))`);
+  // logb(x,n) — uses replaceFn2 so nested parens like logb(ln(x),10) work correctly
+  s = replaceFn2(s, 'logb', (x, b) => `(Math.log(${x})/Math.log(${b}))`);
   s = s.replace(/\blog10\(/g, 'Math.log10(');
   s = s.replace(/\blog2\(/g,  'Math.log2(');
   s = s.replace(/\bln\(/g,    'Math.log(');
@@ -1180,7 +1209,7 @@ function doPrime(){
     }
     if(!note){const d=pollardRho(n);if(d!==n)note=`Factor found: ${d}`;}
   }
-  showFactOut('is this prime (Miller-Rabin)',`${n}\n${verdict}`,note);
+  showFactOut('PRIMALITY TEST (Miller-Rabin)',`${n}\n${verdict}`,note);
   addHist('isPrime('+raw+')',verdict);
 }
 function doGCD(){
@@ -1341,7 +1370,17 @@ function calcAllHyp() {
 }
 function calcAllLog() {
   if (!expr){toast('Enter a value first');return;}
-  let x; try{x=mathEval(expr);}catch(e){toast('❌ Invalid');return;}
+  // Auto-close any unclosed parentheses (e.g. user typed ln(5 without closing paren)
+  let safeExpr = expr;
+  let open = 0;
+  for (const ch of safeExpr) { if (ch==='(') open++; else if (ch===')') open--; }
+  if (open > 0) safeExpr += ')'.repeat(open);
+  // Reject if expr is JUST a bare function name with nothing inside yet
+  if (/^(ln|log10|log2|logb|exp|sqrt|cbrt|abs|floor|ceil|round|sign|fact|gamma)\($/.test(safeExpr.trim())) {
+    toast('⚠️ Enter a number inside the function first'); return;
+  }
+  let x; try{x=mathEval(safeExpr);}catch(e){toast('❌ Invalid expression');return;}
+  if (!isFinite(x)){toast('⚠️ Value must be a finite number');return;}
   const fns=[
     ['ln(x)',Math.log(x)],['log₁₀(x)',Math.log10(x)],['log₂(x)',Math.log2(x)],
     ['exp(x)',Math.exp(x)],['√x',Math.sqrt(x)],['∛x',Math.cbrt(x)],
@@ -1640,6 +1679,19 @@ function showDonate(){
 }
 function closeDonate(){document.getElementById('donateModal').classList.remove('on');}
 
+function copyUPI(){
+  const txt = document.getElementById('upiQRText').textContent;
+  if (!txt) return;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(txt).then(()=>toast('📋 UPI link copied!')).catch(()=>toast('Copy failed'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    toast('📋 UPI link copied!');
+  }
+}
+
 function goPayStep(n){
   document.querySelectorAll('.pay-step').forEach(s=>s.classList.remove('on'));
   document.getElementById('payStep'+n).classList.add('on');
@@ -1700,17 +1752,35 @@ function goPayStep2(){
 }
 
 function doConfirmPay(){
-  const btn=document.querySelector('#payStep2 .k.orange');
-  btn.textContent='⏳ Processing…';
-  btn.disabled=true;
-  // Simulate payment processing (2 seconds)
-  setTimeout(()=>{
-    const amt=getFinalAmt();
-    document.getElementById('successAmt').textContent='$'+amt.toFixed(2)+' donated ❤️';
-    goPayStep(3);
-    btn.textContent='❤️ CONFIRM & PAY NOW';
-    btn.disabled=false;
-  },2000);
+  const amt = getFinalAmt();
+  if(isNaN(amt)||amt<=0){toast('⚠️ Invalid amount');return;}
+
+  // ── REPLACE THIS LINE WITH YOUR OWN GPay/UPI ID ──
+  // Your GPay UPI ID looks like:  yourname@okicici  OR  yourphone@ybl  etc.
+  // You can find it in Google Pay → Profile → UPI ID
+  const UPI_ID = 'jidea@okaxis';           // <── EDIT THIS: your GPay UPI ID
+  const UPI_NAME = 'J+Idea';               // <── EDIT THIS: your display name
+
+  // Convert amount to INR (1 USD ≈ 83 INR — update rate as needed)
+  const INR_RATE = 83;
+  const amtINR = (amt * INR_RATE).toFixed(2);
+
+  // Build UPI deep-link (works with GPay, PhonePe, Paytm, any UPI app)
+  // Sender can use ANY bank account or UPI app — they just need UPI
+  const upiLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amtINR}&cu=INR&tn=Donation+to+J+Idea`;
+  // Google Pay specific deep-link (tez://)
+  const gpayLink = `tez://upi/pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amtINR}&cu=INR&tn=Donation+to+J+Idea`;
+
+  // Show the payment panel with both links
+  document.getElementById('upiAmt').textContent = `₹${amtINR} (~$${amt.toFixed(2)})`;
+  document.getElementById('upiID').textContent = UPI_ID;
+  document.getElementById('gpayBtn').onclick = () => { window.location.href = gpayLink; };
+  document.getElementById('upiBtn').onclick  = () => { window.location.href = upiLink; };
+  document.getElementById('searchGpayBtn').onclick = () => {
+    window.open('https://pay.google.com/about/', '_blank');
+  };
+  document.getElementById('upiQRText').textContent = upiLink;
+  goPayStep(3);
 }
 
 // Card number formatter
