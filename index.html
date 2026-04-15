@@ -1180,7 +1180,7 @@ function doPrime(){
     }
     if(!note){const d=pollardRho(n);if(d!==n)note=`Factor found: ${d}`;}
   }
-  showFactOut('PRIMALITY TEST (Miller-Rabin)',`${n}\n${verdict}`,note);
+  showFactOut('is this prime (Miller-Rabin)',`${n}\n${verdict}`,note);
   addHist('isPrime('+raw+')',verdict);
 }
 function doGCD(){
