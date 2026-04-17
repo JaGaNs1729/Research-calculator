@@ -762,7 +762,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
         <div style="font-size:28px;margin-bottom:6px;">💚</div>
         <div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--acc3);margin-bottom:4px;">Pay via Google Pay / UPI</div>
         <div style="font-size:11px;color:var(--muted);">Amount: <span style="color:var(--acc2);font-weight:700;" id="upiAmt">₹415</span></div>
-        <div style="font-size:10px;color:var(--muted);margin-top:4px;">UPI ID: <span style="color:var(--text);font-weight:700;" id="upiID">mahadevi dhanasekar@oksbi</span></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;">UPI ID: <span style="color:var(--text);font-weight:700;" id="upiID">jidea@okaxis</span></div>
       </div>
 
       <!-- Primary: Open Google Pay app directly -->
@@ -911,10 +911,12 @@ function toJS(e) {
   s = s.replace(/\^/g, '**');
 
   // 3. Custom functions — order matters: longer names first
+  // logb(x,n) — uses replaceFn2 so nested parens like logb(ln(x),10) work correctly
   s = replaceFn2(s, 'logb', (x, b) => `(Math.log(${x})/Math.log(${b}))`);
   s = s.replace(/\blog10\(/g, 'Math.log10(');
   s = s.replace(/\blog2\(/g,  'Math.log2(');
   s = s.replace(/\bln\(/g,    'Math.log(');
+  // FIXED: 'log(' alone → log10 (after log10( and log2( already replaced)
   s = s.replace(/\blog\(/g,   'Math.log10(');
   s = s.replace(/\bexp\(/g,   'Math.exp(');
   s = s.replace(/\bsqrt\(/g,  'Math.sqrt(');
@@ -926,18 +928,22 @@ function toJS(e) {
   s = s.replace(/\bsign\(/g,  'Math.sign(');
   s = s.replace(/\bpow\(/g,   'Math.pow(');
 
+  // Inverse trig (before trig to avoid asin→ Math.asin being re-processed)
   s = s.replace(/\basin\(/g,   'Math.asin(');
   s = s.replace(/\bacos\(/g,   'Math.acos(');
   s = s.replace(/\batan2\(/g,  'Math.atan2(');
   s = s.replace(/\batan\(/g,   'Math.atan(');
 
+  // Hyperbolic
   s = s.replace(/\bsinh\(/g,  'Math.sinh(');
   s = s.replace(/\bcosh\(/g,  'Math.cosh(');
   s = s.replace(/\btanh\(/g,  'Math.tanh(');
+  // coth, sech, csch need the full arg — use a balanced-paren approach
   s = replaceFn1(s, 'coth', x => `(Math.cosh(${x})/Math.sinh(${x}))`);
   s = replaceFn1(s, 'sech', x => `(1/Math.cosh(${x}))`);
   s = replaceFn1(s, 'csch', x => `(1/Math.sinh(${x}))`);
 
+  // Trig (after hyperbolic so sinh/cosh/tanh are already replaced)
   s = replaceFn1(s, 'cot', x => `(Math.cos(${x})/Math.sin(${x}))`);
   s = replaceFn1(s, 'sec', x => `(1/Math.cos(${x}))`);
   s = replaceFn1(s, 'csc', x => `(1/Math.sin(${x}))`);
@@ -945,6 +951,7 @@ function toJS(e) {
   s = s.replace(/\bcos\(/g, 'Math.cos(');
   s = s.replace(/\btan\(/g, 'Math.tan(');
 
+  // Special functions
   s = replaceFn1(s, 'fact',    x => `_fact(${x})`);
   s = replaceFn1(s, 'gamma',   x => `_gamma(${x})`);
   s = replaceFn2(s, 'perm',    (n,r) => `_perm(${n},${r})`);
@@ -956,7 +963,9 @@ function toJS(e) {
   return s;
 }
 
+// Helper: replace fn(arg) where arg may contain nested parens
 function extractArg(s, start) {
+  // s[start] must be '('
   let depth = 0, i = start;
   while (i < s.length) {
     if (s[i] === '(') depth++;
@@ -975,7 +984,7 @@ function replaceFn1(s, name, builder) {
     const arg = extractArg(s, parenStart);
     if (arg === null) continue;
     result += s.slice(lastIdx, m.index) + builder(arg);
-    lastIdx = parenStart + arg.length + 2;
+    lastIdx = parenStart + arg.length + 2; // skip name( arg )
     re.lastIndex = lastIdx;
   }
   return result + s.slice(lastIdx);
@@ -989,6 +998,7 @@ function replaceFn2(s, name, builder) {
     const parenStart = m.index + m[0].length - 1;
     const inner = extractArg(s, parenStart);
     if (inner === null) continue;
+    // split on first top-level comma
     const comma = findTopComma(inner);
     const a = inner.slice(0, comma), b = inner.slice(comma+1);
     result += s.slice(lastIdx, m.index) + builder(a, b);
@@ -1223,6 +1233,7 @@ function showFactOut(label,val,note){
 }
 
 // ═══════════════ PARTITION p(n) ═══════════════
+// Exact partition table for n = 0..100 (precomputed via DP)
 const PART_EXACT = (function(){
   const MAX = 100, dp = Array(MAX+1).fill(0n);
   dp[0] = 1n;
@@ -1248,6 +1259,7 @@ function doPartition() {
   let val = '', note = '', label = 'PARTITION p(n)';
 
   if (n <= 100) {
+    // Exact via dynamic programming
     const pn = PART_EXACT[n];
     val = `p(${n}) = ${pn}`;
     if (n <= 20) {
@@ -1260,6 +1272,7 @@ function doPartition() {
     }
     label = n <= 20 ? 'EXACT PARTITION p(' + n + ')' : 'EXACT PARTITION (DP) p(' + n + ')';
   } else {
+    // Hardy-Ramanujan asymptotic formula
     const approx = hrFormula(n);
     val = `p(${n}) ≈ ${approx.toExponential(8)}`;
     note = `⚠️ n > 100: Using Hardy-Ramanujan (1918) asymptotic formula:\n\n` +
@@ -1269,6 +1282,7 @@ function doPartition() {
     label = 'ASYMPTOTIC PARTITION p(' + n + ')';
   }
 
+  // Show all partitions for small n
   if (n <= 10) {
     const parts = listPartitions(n);
     note += `\n\nAll ${parts.length} partition(s) of ${n}:\n` + parts.map(p=>p.join('+') || '∅').join('\n');
@@ -1282,9 +1296,11 @@ function doPartition() {
 }
 
 function hrFormula(n) {
+  // p(n) ≈ 1/(4n√3) · exp(π · √(2n/3))
   return (1 / (4 * n * Math.sqrt(3))) * Math.exp(Math.PI * Math.sqrt(2*n/3));
 }
 
+// Generate all integer partitions of n (only for n ≤ 10 — manageable)
 function listPartitions(n) {
   const result = [];
   function helper(remaining, maxPart, current) {
@@ -1300,6 +1316,7 @@ function listPartitions(n) {
 }
 
 function doPartitionList() {
+  // Show p(0)..p(20) table
   const tbl = document.getElementById('partTable');
   tbl.innerHTML = `<tr style="background:var(--card);">
     <th style="padding:6px 10px;font-size:10px;color:var(--muted);text-align:left;border-bottom:1px solid var(--bord);">n</th>
@@ -1353,10 +1370,12 @@ function calcAllHyp() {
 }
 function calcAllLog() {
   if (!expr){toast('Enter a value first');return;}
+  // Auto-close any unclosed parentheses (e.g. user typed ln(5 without closing paren)
   let safeExpr = expr;
   let open = 0;
   for (const ch of safeExpr) { if (ch==='(') open++; else if (ch===')') open--; }
   if (open > 0) safeExpr += ')'.repeat(open);
+  // Reject if expr is JUST a bare function name with nothing inside yet
   if (/^(ln|log10|log2|logb|exp|sqrt|cbrt|abs|floor|ceil|round|sign|fact|gamma)\($/.test(safeExpr.trim())) {
     toast('⚠️ Enter a number inside the function first'); return;
   }
@@ -1709,6 +1728,7 @@ function selMethod(el,method){
 
 function goPayStep2(){
   const amt=getFinalAmt();
+  // Basic validation
   if(payMethod==='card'){
     const name=document.getElementById('cardName').value.trim();
     const num=document.getElementById('cardNumber').value.replace(/\s/g,'');
@@ -1735,23 +1755,27 @@ function doConfirmPay(){
   const amt = getFinalAmt();
   if(isNaN(amt)||amt<=0){toast('⚠️ Invalid amount');return;}
 
-  // ── YOUR GPAY UPI ACCOUNT ──
-  const UPI_ID   = 'mahadevi dhanasekar@oksbi';  // Your GPay UPI ID
-  const UPI_NAME = 'Mahadevi+Dhanasekar';         // Your display name (URL-encoded)
+  // ── REPLACE THIS LINE WITH YOUR OWN GPay/UPI ID ──
+  // Your GPay UPI ID looks like:  yourname@okicici  OR  yourphone@ybl  etc.
+  // You can find it in Google Pay → Profile → UPI ID
+  const UPI_ID = 'jidea@okaxis';           // <── EDIT THIS: your GPay UPI ID
+  const UPI_NAME = 'J+Idea';               // <── EDIT THIS: your display name
 
-  // Convert USD → INR (update rate as needed; 1 USD ≈ 83 INR)
+  // Convert amount to INR (1 USD ≈ 83 INR — update rate as needed)
   const INR_RATE = 83;
-  const amtINR   = (amt * INR_RATE).toFixed(2);
+  const amtINR = (amt * INR_RATE).toFixed(2);
 
-  // Standard UPI deep-link (works with any UPI app: GPay, PhonePe, Paytm, BHIM, etc.)
-  const upiLink  = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amtINR}&cu=INR&tn=Donation+to+J+Idea`;
-  // Google Pay / Tez specific deep-link
+  // Build UPI deep-link (works with GPay, PhonePe, Paytm, any UPI app)
+  // Sender can use ANY bank account or UPI app — they just need UPI
+  const upiLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amtINR}&cu=INR&tn=Donation+to+J+Idea`;
+  // Google Pay specific deep-link (tez://)
   const gpayLink = `tez://upi/pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amtINR}&cu=INR&tn=Donation+to+J+Idea`;
 
+  // Show the payment panel with both links
   document.getElementById('upiAmt').textContent = `₹${amtINR} (~$${amt.toFixed(2)})`;
-  document.getElementById('upiID').textContent  = UPI_ID;
-  document.getElementById('gpayBtn').onclick     = () => { window.location.href = gpayLink; };
-  document.getElementById('upiBtn').onclick      = () => { window.location.href = upiLink; };
+  document.getElementById('upiID').textContent = UPI_ID;
+  document.getElementById('gpayBtn').onclick = () => { window.location.href = gpayLink; };
+  document.getElementById('upiBtn').onclick  = () => { window.location.href = upiLink; };
   document.getElementById('searchGpayBtn').onclick = () => {
     window.open('https://pay.google.com/about/', '_blank');
   };
