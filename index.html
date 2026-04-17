@@ -264,6 +264,1861 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
 
 <!-- ══════════════════════════════════════ -->
 <!-- ── LOG / EXP ── (FIXED) -->
+<!-- ══════════════════════════════════
+<!-- ══════════════════════════════════════ --><!-- ── LOG / EXP ── (FIXED & CLEAN) --><!-- ══════════════════════════════════════ --><div class="keypad" id="kp-log">  <!-- Function buttons -->  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)"><button class="k fn" onclick="kp('ln(')">ln( )</button>
+<button class="k fn" onclick="kp('log10(')">log₁₀</button>
+<button class="k fn" onclick="kp('log2(')">log₂</button>
+
+<button class="k fn" onclick="kp('exp(')">eˣ</button>
+<button class="k fn" onclick="kp('sqrt(')">√x</button>
+<button class="k fn" onclick="kp('cbrt(')">∛x</button>
+
+<button class="k fn" onclick="kp('^2')">x²</button>
+<button class="k fn" onclick="kp('^3')">x³</button>
+<button class="k fn" onclick="kp('^0.5')">x^½</button>
+
+<button class="k fn" onclick="kp('1/(')">1/x</button>
+<button class="k fn" onclick="kp('abs(')">|x|</button>
+<button class="k fn" onclick="kp('fact(')">x!</button>
+
+<button class="k fn" onclick="kp('gamma(')">Γ(x)</button>
+<button class="k fn" onclick="kp('floor(')">floor</button>
+<button class="k fn" onclick="kp('ceil(')">ceil</button>
+
+<button class="k fn" onclick="kp('round(')">round</button>
+<button class="k fn" onclick="kp('sign(')">sign</button>
+<button class="k fn" onclick="kp('logb(')">logₙ(x,n)</button>
+
+  </div>  <!-- Arithmetic operators -->  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('-')">−</button>
+    <button class="k orange" onclick="kp('*')">×</button>
+    <button class="k orange" onclick="kp('/')">÷</button>
+  </div>  <!-- Number keypad -->  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;"><button class="k blue" onclick="kp('1')">1</button>
+<button class="k blue" onclick="kp('2')">2</button>
+<button class="k blue" onclick="kp('3')">3</button>
+<button class="k dark" onclick="kp(',')">,</button>
+
+<button class="k blue" onclick="kp('4')">4</button>
+<button class="k blue" onclick="kp('5')">5</button>
+<button class="k blue" onclick="kp('6')">6</button>
+<button class="k dark" onclick="kp('.')">.</button>
+
+<button class="k blue" onclick="kp('7')">7</button>
+<button class="k blue" onclick="kp('8')">8</button>
+<button class="k blue" onclick="kp('9')">9</button>
+<button class="k dark" onclick="kp('⌫')">⌫</button>
+
+<button class="k red" onclick="kp('AC')">AC</button>
+<button class="k blue" onclick="kp('0')">0</button>
+<button class="k dark" onclick="kp(')')">)</button>
+<button class="k green eq" onclick="kp('=')">=</button>
+
+  </div>  <!-- Calculate all logs --><button class="k fn"
+style="width:100%;margin-top:6px;background:var(--acc);color:#fff;"
+onclick="calcAllLog()">
+㏒ CALCULATE ALL LOG / EXP VALUES AT ONCE
+</button>
+
+  <!-- Output -->  <div id="logAllOut" style="display:none;margin-top:8px;">
+    <div class="r-grid" id="logAllGrid"></div>
+  </div></div> ══════════════════════════════════════ -->
+<!-- ── COMBO ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-combo">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Enter n then tap function. Use comma for two inputs (n,r).</div>
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+    <button class="k fn orange" onclick="kp('perm(')">P(n,r)</button>
+    <button class="k fn orange" onclick="kp('comb(')">C(n,r)</button>
+    <button class="k fn orange" onclick="kp('binom(')">binom(n,r)</button>
+    <button class="k fn orange" onclick="kp('fact(')">n!</button>
+    <button class="k fn orange" onclick="kp('gamma(')">Γ(x)</button>
+    <button class="k fn orange" onclick="calcBinomExpand()">Expand (a+b)ⁿ</button>
+  </div>
+  <!-- Arithmetic operators -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp(',')">  ,  </button>
+    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
+    <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+  <div id="binomExpandOut" style="display:none;margin-top:8px;">
+    <div class="r-val" id="binomExpandVal" style="font-size:11px;white-space:pre;background:var(--card);padding:10px;border-radius:8px;overflow-y:auto;max-height:160px;"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── SIGMA ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-sigma">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 4px;">sigma(expr, from, to) — use i as index<br>e.g. sigma(i^2, 1, 10)</div>
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+    <button class="k fn purple" onclick="kp('sigma(')">Σ sigma(expr,from,to)</button>
+    <button class="k fn purple" onclick="kp('product(')">Π product(expr,from,to)</button>
+    <button class="k fn purple" onclick="kp('i')">i (index)</button>
+    <button class="k fn purple" onclick="kp(',')">  ,  </button>
+    <button class="k fn purple" onclick="kp('^')">^</button>
+    <button class="k fn purple" onclick="kp('*')">×</button>
+  </div>
+  <!-- Arithmetic operators -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+    <button class="k dark"   onclick="kp('(')">( )</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('-')">−</button>
+    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
+    <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── CALCULUS ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-calc">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 4px;">Type expression then press DIFF or INTEG or TAYLOR</div>
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr);margin-bottom:5px;">
+    <button class="k fn" onclick="kp('sin(')">sin(x)</button>
+    <button class="k fn" onclick="kp('cos(')">cos(x)</button>
+    <button class="k fn" onclick="kp('tan(')">tan(x)</button>
+    <button class="k fn" onclick="kp('exp(')">exp(x)</button>
+    <button class="k fn" onclick="kp('ln(')">ln(x)</button>
+    <button class="k fn" onclick="kp('sqrt(')">√(x)</button>
+    <button class="k fn" onclick="kp('x')">x</button>
+    <button class="k fn" onclick="kp('^')">^</button>
+    <button class="k fn" onclick="kp('*')">×</button>
+    <button class="k fn" onclick="kp('+')">+</button>
+    <button class="k fn" onclick="kp('-')">−</button>
+    <button class="k fn" onclick="kp('/')">÷</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
+    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('(')">( )</button>
+    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
+    <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:6px;">
+    <button class="k fn orange" onclick="doDiff(1)">d/dx (1st)</button>
+    <button class="k fn orange" onclick="doDiff(2)">d²/dx² (2nd)</button>
+    <button class="k fn orange" onclick="doDiff(3)">d³/dx³ (3rd)</button>
+    <button class="k fn purple" onclick="doIndefinite()">∫ Indefinite</button>
+    <button class="k fn purple" onclick="promptDefinite()">∫ₐᵇ Definite</button>
+    <button class="k fn green"  onclick="doTaylor()">Taylor Series</button>
+  </div>
+  <div id="calcOut" style="display:none;margin-top:8px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;" id="calcOutLabel">RESULT</div>
+      <div class="r-val" id="calcOutVal" style="font-size:13px;white-space:pre;"></div>
+      <div class="r-note" id="calcOutNote"></div>
+      <div id="calcSteps" style="margin-top:6px;"></div>
+    </div>
+  </div>
+  <div id="defBoundsPanel" style="display:none;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-top:6px;">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Enter bounds for definite integral:</div>
+    <div style="display:flex;gap:6px;">
+      <input id="defA" style="flex:1;background:var(--surf);border:1px solid var(--bord);border-radius:6px;padding:8px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;" placeholder="Lower a" type="number">
+      <input id="defB" style="flex:1;background:var(--surf);border:1px solid var(--bord);border-radius:6px;padding:8px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;" placeholder="Upper b" type="number">
+    </div>
+    <button class="k green fn" style="width:100%;margin-top:6px;" onclick="doDefinite()">= CALCULATE ∫ₐᵇ</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── CONSTANTS (EDITABLE) ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-const">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap INSERT to put constant in expression. You can edit any value or name.</div>
+  <div id="constList"></div>
+  <button class="k fn green" style="width:100%;margin-top:6px;" onclick="addCustomConst()">+ ADD CUSTOM CONSTANT</button>
+  <button class="k fn dark"  style="width:100%;margin-top:4px;" onclick="resetConsts()">↺ Reset to Defaults</button>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('^')">^</button>
+    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
+    <button class="k dark" onclick="kp('(')">( )</button><button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── MATRIX ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-matrix">
+  <div style="display:flex;gap:8px;margin-bottom:6px;">
+    <div style="flex:1">
+      <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">MATRIX A — Rows × Cols</div>
+      <div style="display:flex;gap:4px;">
+        <input id="mRA" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('A')">
+        <span style="color:var(--muted);padding:5px 2px;font-size:12px;">×</span>
+        <input id="mCA" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('A')">
+      </div>
+      <div style="overflow-x:auto;margin-top:4px;" id="matGridA"></div>
+    </div>
+    <div style="flex:1">
+      <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">MATRIX B — Rows × Cols</div>
+      <div style="display:flex;gap:4px;">
+        <input id="mRB" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('B')">
+        <span style="color:var(--muted);padding:5px 2px;font-size:12px;">×</span>
+        <input id="mCB" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('B')">
+      </div>
+      <div style="overflow-x:auto;margin-top:4px;" id="matGridB"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;">
+    <button class="k fn blue" onclick="matOp('det')">det(A)</button>
+    <button class="k fn blue" onclick="matOp('inv')">A⁻¹</button>
+    <button class="k fn blue" onclick="matOp('transpose')">Aᵀ</button>
+    <button class="k fn blue" onclick="matOp('trace')">trace(A)</button>
+    <button class="k fn blue" onclick="matOp('rank')">rank(A)</button>
+    <button class="k fn blue" onclick="matOp('eigen')">eigenval(A)</button>
+    <button class="k fn orange" onclick="matOp('add')">A + B</button>
+    <button class="k fn orange" onclick="matOp('mul')">A × B</button>
+    <button class="k fn orange" onclick="matOp('sub')">A − B</button>
+  </div>
+  <div id="matOut" style="display:none;margin-top:8px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div class="r-val" id="matOutVal" style="font-size:12px;white-space:pre;"></div>
+      <div class="r-note" id="matOutNote"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── STATS ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-stats">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Enter numbers (comma or space separated), then tap ANALYZE.</div>
+  <textarea id="statsInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;color:var(--text);font-family:var(--mono);font-size:13px;resize:vertical;min-height:60px;outline:none;margin-bottom:6px;" placeholder="e.g.  4, 8, 15, 16, 23, 42"></textarea>
+  <button class="k blue fn" style="width:100%;margin-bottom:6px;" onclick="doStats()">📊 ANALYZE DATASET</button>
+  <div id="statsOut" style="display:none;">
+    <table style="width:100%;border-collapse:collapse;" id="statsTbl"></table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── UNITS ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-units">
+  <select id="uCat" onchange="buildUnitSels()" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:9px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;margin-bottom:6px;">
+    <option value="length">Length</option><option value="mass">Mass</option>
+    <option value="temp">Temperature</option><option value="speed">Speed</option>
+    <option value="area">Area</option><option value="volume">Volume</option>
+    <option value="energy">Energy</option><option value="pressure">Pressure</option>
+    <option value="time">Time</option><option value="data">Data (bytes)</option>
+  </select>
+  <div style="display:flex;gap:6px;margin-bottom:6px;">
+    <select id="uFrom" style="flex:1;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:8px;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;"></select>
+    <button class="k fn dark" style="width:40px;flex-shrink:0;" onclick="swapU()">⇅</button>
+    <select id="uTo"   style="flex:1;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:8px;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;"></select>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+    <button class="k blue" onclick="uKp('1')">1</button><button class="k blue" onclick="uKp('2')">2</button>
+    <button class="k blue" onclick="uKp('3')">3</button><button class="k dark" onclick="uKp('⌫')">⌫</button>
+    <button class="k blue" onclick="uKp('4')">4</button><button class="k blue" onclick="uKp('5')">5</button>
+    <button class="k blue" onclick="uKp('6')">6</button><button class="k dark" onclick="uKp('.')">.</button>
+    <button class="k blue" onclick="uKp('7')">7</button><button class="k blue" onclick="uKp('8')">8</button>
+    <button class="k blue" onclick="uKp('9')">9</button><button class="k dark" onclick="uKp('-')">−</button>
+    <button class="k red"  onclick="uKp('AC')">AC</button><button class="k blue" onclick="uKp('0')">0</button>
+    <button class="k dark" onclick="uKp('e')">E</button><button class="k green eq" onclick="doConvert()">=</button>
+  </div>
+  <div style="font-size:13px;color:var(--muted);min-height:20px;text-align:center;margin-bottom:4px;" id="uValDisplay">0</div>
+  <div id="unitOut" style="display:none;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;text-align:center;">
+      <div class="r-val" id="unitOutVal" style="font-size:16px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── FACTOR / PRIMALITY ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-factor">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Enter any integer (up to ~20 digits) then tap FACTORIZE.<br>Supports BigInt — no size limit for primality.</div>
+  <textarea id="factInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;color:var(--text);font-family:var(--mono);font-size:14px;resize:none;height:52px;outline:none;margin-bottom:6px;" placeholder="e.g. 12345678901234567890"></textarea>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+    <button class="k blue" onclick="fKp('1')">1</button><button class="k blue" onclick="fKp('2')">2</button>
+    <button class="k blue" onclick="fKp('3')">3</button><button class="k dark" onclick="fKp('⌫')">⌫</button>
+    <button class="k blue" onclick="fKp('4')">4</button><button class="k blue" onclick="fKp('5')">5</button>
+    <button class="k blue" onclick="fKp('6')">6</button><button class="k dark" onclick="fKp(',')">  ,  </button>
+    <button class="k blue" onclick="fKp('7')">7</button><button class="k blue" onclick="fKp('8')">8</button>
+    <button class="k blue" onclick="fKp('9')">9</button><button class="k red"  onclick="fKp('AC')">AC</button>
+    <button class="k blue wide" onclick="fKp('0')">0</button>
+    <button class="k dark" onclick="fKp('-')">−</button>
+    <button class="k green" onclick="doFactor()">GO</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px;">
+    <button class="k fn orange" onclick="doFactor()">🔍 FACTORIZE</button>
+    <button class="k fn green"  onclick="doPrime()">🔬 PRIMALITY TEST</button>
+    <button class="k fn purple" onclick="doGCD()">GCD (n,m)</button>
+    <button class="k fn purple" onclick="doLCM()">LCM (n,m)</button>
+  </div>
+  <div id="factOut" style="display:none;margin-top:4px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:6px;" id="factOutLabel">RESULT</div>
+      <div class="r-val" id="factOutVal" style="font-size:13px;white-space:pre-wrap;word-break:break-all;"></div>
+      <div class="r-note" id="factOutNote" style="margin-top:6px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── PARTITION (NEW) ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-partition">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">
+    <b style="color:var(--acc)">Integer Partition p(n)</b>: Number of ways to write n as sum of positive integers.<br>
+    n ≤ 20: exact table. n &gt; 20: Hardy-Ramanujan asymptotic formula.
+  </div>
+  <textarea id="partInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;color:var(--text);font-family:var(--mono);font-size:16px;resize:none;height:52px;outline:none;margin-bottom:6px;text-align:right;" placeholder="Enter n (e.g. 15 or 100)"></textarea>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+    <button class="k blue" onclick="pKp('1')">1</button><button class="k blue" onclick="pKp('2')">2</button>
+    <button class="k blue" onclick="pKp('3')">3</button><button class="k dark" onclick="pKp('⌫')">⌫</button>
+    <button class="k blue" onclick="pKp('4')">4</button><button class="k blue" onclick="pKp('5')">5</button>
+    <button class="k blue" onclick="pKp('6')">6</button><button class="k dark" onclick="pKp('0')">0</button>
+    <button class="k blue" onclick="pKp('7')">7</button><button class="k blue" onclick="pKp('8')">8</button>
+    <button class="k blue" onclick="pKp('9')">9</button><button class="k red"  onclick="pKp('AC')">AC</button>
+    <button class="k green wide eq fn" style="height:46px;grid-column:span 3;" onclick="doPartition()">🔣 CALCULATE p(n)</button>
+    <button class="k orange fn" onclick="doPartitionList()">Table</button>
+  </div>
+  <!-- Advanced Partition Formula display -->
+  <div style="background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-bottom:6px;">
+    <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:6px;">HARDY-RAMANUJAN ASYMPTOTIC FORMULA</div>
+    <div style="font-size:11px;color:var(--acc3);text-align:center;padding:6px 0;line-height:1.8;">
+      p(n) ≈ <span style="color:var(--acc2)">1/(4n√3)</span> · e<sup style="color:var(--acc)">π√(2n/3)</sup>
+    </div>
+    <div style="font-size:9px;color:var(--muted);text-align:center;">Used automatically when n &gt; 20</div>
+  </div>
+  <div id="partOut" style="display:none;margin-top:6px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:6px;" id="partOutLabel">RESULT</div>
+      <div class="r-val" id="partOutVal" style="font-size:15px;word-break:break-all;white-space:pre-wrap;"></div>
+      <div class="r-note" id="partOutNote" style="margin-top:6px;white-space:pre-wrap;"></div>
+    </div>
+  </div>
+  <div id="partTableOut" style="display:none;margin-top:6px;">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Exact partition values p(0)…p(20):</div>
+    <table id="partTable" style="width:100%;border-collapse:collapse;font-size:12px;"></table>
+  </div>
+</div>
+
+<div class="result-panel" id="resultPanel">
+  <div class="r-label" id="rLabel">Result</div>
+  <div class="r-val" id="rVal"></div>
+  <div class="r-note" id="rNote"></div>
+  <div class="r-tags" id="rTags" style="display:none;"></div>
+  <div class="r-grid" id="rGrid" style="display:none;"></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- HISTORY MODAL -->
+<!-- ══════════════════════════════════════ -->
+<div class="modal-bg" id="histModal" onclick="if(event.target===this)closeHist()">
+  <div class="modal">
+    <div class="modal-title">📜 History
+      <div style="display:flex;gap:8px;">
+        <button class="hbtn" onclick="clearHist()">🗑 Clear</button>
+        <button class="hbtn" onclick="closeHist()">✕</button>
+      </div>
+    </div>
+    <div id="histList"><div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">No history yet</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- DONATE MODAL — multi-step payment -->
+<!-- ══════════════════════════════════════ -->
+<div class="modal-bg" id="donateModal" onclick="if(event.target===this)closeDonate()">
+  <div class="modal">
+    <div class="modal-title">❤️ Support J Idea <button class="hbtn" onclick="closeDonate()">✕</button></div>
+
+    <!-- Step 0: Amount -->
+    <div class="pay-step on" id="payStep0">
+      <div class="pay-progress">
+        <div class="pay-step-dot active" id="pd0"></div>
+        <div class="pay-step-dot" id="pd1"></div>
+        <div class="pay-step-dot" id="pd2"></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6;">Research Calculator is free forever. If it helped your research, consider a donation!</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;" id="dAmts">
+        <div onclick="pickD(this,'1')"  style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$1</div><div style="font-size:9px;color:var(--muted);">Coffee</div></div>
+        <div onclick="pickD(this,'5')"  style="background:var(--card);border:2px solid var(--acc2);border-radius:8px;padding:10px;text-align:center;cursor:pointer;color:var(--acc2);"><div style="font-size:16px;font-weight:700;">$5</div><div style="font-size:9px;">Lunch</div></div>
+        <div onclick="pickD(this,'10')" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$10</div><div style="font-size:9px;color:var(--muted);">Support</div></div>
+        <div onclick="pickD(this,'25')" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$25</div><div style="font-size:9px;color:var(--muted);">Generous</div></div>
+        <div onclick="pickD(this,'50')" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$50</div><div style="font-size:9px;color:var(--muted);">Hero</div></div>
+        <div onclick="pickD(this,'x')"  style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;">✏️</div><div style="font-size:9px;color:var(--muted);">Custom</div></div>
+      </div>
+      <input id="custD" type="number" placeholder="Custom amount (USD)..." style="display:none;width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:9px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;margin-bottom:8px;">
+      <button class="k orange fn" style="width:100%;" onclick="goPayStep1()">CONTINUE TO PAYMENT →</button>
+    </div>
+
+    <!-- Step 1: Payment Method & Card Details -->
+    <div class="pay-step" id="payStep1">
+      <div class="pay-progress">
+        <div class="pay-step-dot done"   id="pd0b"></div>
+        <div class="pay-step-dot active" id="pd1b"></div>
+        <div class="pay-step-dot"        id="pd2b"></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Amount: <span style="color:var(--acc3);font-weight:700;" id="payAmtLabel">$5</span></div>
+
+      <!-- Payment method picker -->
+      <div style="font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:6px;">PAYMENT METHOD</div>
+      <div class="pay-method" id="payMethodRow">
+        <div class="pay-method-btn sel" onclick="selMethod(this,'card')" data-method="card">
+          <div class="pm-icon">💳</div><div class="pm-label">Card</div>
+        </div>
+        <div class="pay-method-btn" onclick="selMethod(this,'bank')" data-method="bank">
+          <div class="pm-icon">🏦</div><div class="pm-label">Bank Transfer</div>
+        </div>
+        <div class="pay-method-btn" onclick="selMethod(this,'paypal')" data-method="paypal">
+          <div class="pm-icon">🅿️</div><div class="pm-label">PayPal</div>
+        </div>
+        <div class="pay-method-btn" onclick="selMethod(this,'crypto')" data-method="crypto">
+          <div class="pm-icon">₿</div><div class="pm-label">Crypto</div>
+        </div>
+      </div>
+
+      <!-- Card fields -->
+      <div id="methodFields">
+        <div id="fieldCard">
+          <input class="pay-input" id="cardName"   placeholder="Cardholder name" type="text" autocomplete="cc-name">
+          <input class="pay-input" id="cardNumber" placeholder="1234  5678  9012  3456" type="tel" maxlength="19" autocomplete="cc-number" oninput="fmtCard(this)">
+          <div class="pay-row">
+            <input class="pay-input" id="cardExp"  placeholder="MM / YY" type="tel" maxlength="7" autocomplete="cc-exp" oninput="fmtExp(this)">
+            <input class="pay-input" id="cardCvv"  placeholder="CVV" type="tel" maxlength="4" autocomplete="cc-csc">
+          </div>
+        </div>
+        <div id="fieldBank" style="display:none;">
+          <input class="pay-input" placeholder="Account holder name" type="text">
+          <input class="pay-input" placeholder="Bank routing number (9 digits)" type="tel" maxlength="9">
+          <input class="pay-input" placeholder="Account number" type="tel" maxlength="17">
+          <select class="pay-input" style="height:44px;">
+            <option>Checking</option><option>Savings</option>
+          </select>
+        </div>
+        <div id="fieldPaypal" style="display:none;">
+          <input class="pay-input" placeholder="PayPal email address" type="email">
+          <div style="font-size:10px;color:var(--muted);text-align:center;padding:6px;">You will be redirected to PayPal to authorize the payment securely.</div>
+        </div>
+        <div id="fieldCrypto" style="display:none;">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Select currency:</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;">
+            <div onclick="this.parentNode.querySelectorAll('div').forEach(d=>d.style.borderColor='var(--bord)');this.style.borderColor='var(--acc)'" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:12px;">₿ BTC</div>
+            <div onclick="this.parentNode.querySelectorAll('div').forEach(d=>d.style.borderColor='var(--bord)');this.style.borderColor='var(--acc)'" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:12px;">Ξ ETH</div>
+            <div onclick="this.parentNode.querySelectorAll('div').forEach(d=>d.style.borderColor='var(--bord)');this.style.borderColor='var(--acc)'" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:12px;">◎ SOL</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;text-align:center;font-size:10px;color:var(--muted);">Wallet address will appear after confirmation →</div>
+        </div>
+      </div>
+
+      <button class="k green fn" style="width:100%;margin-top:10px;" onclick="goPayStep2()">REVIEW PAYMENT →</button>
+      <button class="k fn dark"  style="width:100%;margin-top:6px;" onclick="goPayStep(0)">← Back</button>
+      <div class="pay-security">🔒 256-bit SSL encrypted · Your data is never stored</div>
+    </div>
+
+    <!-- Step 2: Review & Confirm -->
+    <div class="pay-step" id="payStep2">
+      <div class="pay-progress">
+        <div class="pay-step-dot done"   ></div>
+        <div class="pay-step-dot done"   ></div>
+        <div class="pay-step-dot active" ></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">Please review your payment details:</div>
+      <div style="background:var(--card);border:1px solid var(--bord);border-radius:10px;padding:12px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:11px;color:var(--muted);">Donation to J Idea</span>
+          <span style="font-size:16px;font-weight:700;color:var(--acc3);" id="reviewAmt">$5.00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:10px;color:var(--muted);">Payment method</span>
+          <span style="font-size:11px;color:var(--text);" id="reviewMethod">💳 Card ending ****</span>
+        </div>
+        <div style="border-top:1px solid var(--bord);margin:8px 0;"></div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="font-size:11px;color:var(--muted);">Processing fee</span>
+          <span style="font-size:11px;color:var(--muted);">$0.00 (we cover it)</span>
+        </div>
+      </div>
+      <button class="k orange fn" style="width:100%;height:52px;font-size:14px;" onclick="doConfirmPay()">❤️ CONFIRM &amp; PAY NOW</button>
+      <button class="k fn dark"   style="width:100%;margin-top:6px;" onclick="goPayStep(1)">← Back</button>
+      <div class="pay-security">🔒 You authorize a one-time charge. No subscription.</div>
+    </div>
+
+    <!-- Step 3: Real GPay / UPI Payment -->
+    <div class="pay-step" id="payStep3">
+      <div style="text-align:center;padding:4px 0 12px;">
+        <div style="font-size:28px;margin-bottom:6px;">💚</div>
+        <div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--acc3);margin-bottom:4px;">Pay via Google Pay / UPI</div>
+        <div style="font-size:11px;color:var(--muted);">Amount: <span style="color:var(--acc2);font-weight:700;" id="upiAmt">₹415</span></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;">UPI ID: <span style="color:var(--text);font-weight:700;" id="upiID">jidea@okaxis</span></div>
+      </div>
+
+      <!-- Primary: Open Google Pay app directly -->
+      <button id="gpayBtn" class="k fn green" style="width:100%;height:52px;font-size:14px;margin-bottom:8px;background:#1a73e8;border-color:#1a73e8;color:#fff;">
+        📲 Open Google Pay App
+      </button>
+
+      <!-- Any UPI app -->
+      <button id="upiBtn" class="k fn orange" style="width:100%;height:46px;font-size:13px;margin-bottom:8px;">
+        🏦 Pay with Any UPI App (PhonePe / Paytm / Bank)
+      </button>
+
+      <!-- Search GPay -->
+      <button id="searchGpayBtn" class="k fn dark" style="width:100%;height:42px;font-size:12px;margin-bottom:10px;">
+        🔍 Search / Open Google Pay Website
+      </button>
+
+      <div style="background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-bottom:10px;">
+        <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">UPI PAYMENT LINK (copy & paste in any UPI app)</div>
+        <div id="upiQRText" style="font-size:9px;color:var(--acc3);word-break:break-all;line-height:1.5;user-select:all;cursor:text;"></div>
+        <button class="k fn dark" style="width:100%;margin-top:6px;height:34px;font-size:10px;" onclick="copyUPI()">📋 Copy UPI Link</button>
+      </div>
+
+      <div style="font-size:9px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:10px;">
+        ✅ Sender can use <b>any bank account</b>, any UPI app, any currency.<br>
+        ✅ Your UPI ID is safe — only you receive money, nothing personal leaks.<br>
+        ✅ Works worldwide via Google Pay, PhonePe, Paytm, BHIM, bank apps.
+      </div>
+
+      <button class="k fn dark" style="width:100%;margin-bottom:4px;" onclick="goPayStep(2)">← Back</button>
+      <button class="k fn green" style="width:100%;" onclick="closeDonate()">🎉 Done · Close</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ═══════════════ STATE ═══════════════
+let expr = '';
+let histArr = JSON.parse(localStorage.getItem('jrc_hist') || '[]');
+let donateAmt = '5';
+let uVal = '0';
+let payMethod = 'card';
+
+// ═══════════════ DEFAULT CONSTANTS ═══════════════
+const DEFAULT_CONSTS = [
+  { label: 'π  Pi',             name: 'PI',   value: '3.141592653589793238462643383' },
+  { label: 'e  Euler',          name: 'EU',   value: '2.718281828459045235360287471' },
+  { label: 'φ  Golden Ratio',   name: 'PHI',  value: '1.618033988749894848204586834' },
+  { label: 'ℏ  Planck',         name: 'hP',   value: '6.62607015e-34' },
+  { label: 'kB Boltzmann',      name: 'kB',   value: '1.380649e-23' },
+  { label: 'G  Gravity',        name: 'GG',   value: '6.67430e-11' },
+  { label: 'c  Speed of Light', name: 'cL',   value: '299792458' },
+  { label: 'Nₐ Avogadro',       name: 'NA',   value: '6.02214076e23' },
+  { label: 'R  Gas Const.',     name: 'RG',   value: '8.314462618' },
+  { label: 'ε₀ Permittivity',   name: 'eps0', value: '8.854187817e-12' },
+  { label: 'mₚ Proton mass',    name: 'mp',   value: '1.6726219e-27' },
+  { label: 'mₑ Electron mass',  name: 'me',   value: '9.1093837e-31' },
+  { label: 'σ  Stefan-Boltz.',  name: 'sg0',  value: '5.670374419e-8' },
+];
+
+let userConsts = JSON.parse(localStorage.getItem('jrc_consts') || 'null') || DEFAULT_CONSTS.map(c => ({...c}));
+
+function saveConsts() { localStorage.setItem('jrc_consts', JSON.stringify(userConsts)); }
+function resetConsts() {
+  if (!confirm('Reset all constants to defaults?')) return;
+  userConsts = DEFAULT_CONSTS.map(c => ({...c}));
+  saveConsts(); renderConstList(); toast('↺ Constants reset');
+}
+function renderConstList() {
+  const el = document.getElementById('constList');
+  el.innerHTML = userConsts.map((c, i) => `
+    <div class="const-row">
+      <input class="const-input" style="width:60px;flex:none;" value="${escHtml(c.name)}"
+        placeholder="name" oninput="userConsts[${i}].name=this.value;saveConsts()" title="Variable name">
+      <input class="const-input" style="flex:1;" value="${escHtml(c.value)}"
+        placeholder="value" oninput="userConsts[${i}].value=this.value;saveConsts()" title="Numeric value">
+      <button class="const-btn" onclick="insertConst(${i})" ${c.value?'':'disabled style="opacity:.4"'}>INSERT</button>
+      <button class="const-btn" style="color:var(--red);" onclick="removeConst(${i})">✕</button>
+    </div>`).join('');
+}
+function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function insertConst(i) {
+  const c = userConsts[i];
+  if (!c.value) { toast('⚠️ Constant has no value'); return; }
+  setDisplay(expr + c.value); toast(`✅ ${c.name} = ${c.value}`);
+}
+function addCustomConst() {
+  userConsts.push({ label:'— Custom', name:'MY'+Date.now().toString().slice(-4), value:'' });
+  saveConsts(); renderConstList();
+}
+function removeConst(i) { userConsts.splice(i,1); saveConsts(); renderConstList(); }
+
+// ═══════════════ DISPLAY ═══════════════
+function setDisplay(e) {
+  expr = e;
+  const el = document.getElementById('dMain');
+  el.textContent = expr || '0';
+  el.style.fontSize = expr.length > 22 ? '14px' : expr.length > 14 ? '20px' : '26px';
+}
+function setResult(val, note='') {
+  document.getElementById('dResult').textContent = val;
+  document.getElementById('dNote').textContent = note;
+}
+function setHist(h) { document.getElementById('dHist').textContent = h; }
+
+// ═══════════════ KEYPAD INPUT ═══════════════
+function kp(k) {
+  if (k === 'AC') {
+    setDisplay(''); setResult(''); setHist(''); hideResultPanel();
+    document.getElementById('calcOut').style.display = 'none';
+    document.getElementById('defBoundsPanel').style.display = 'none';
+    return;
+  }
+  if (k === '⌫') { setDisplay(expr.slice(0,-1)); return; }
+  if (k === '=') { calculate(); return; }
+  if (k === '(') {
+    const last = expr.slice(-1);
+    setDisplay(expr + (last.match(/[\d\)]/) ? '*(' : '('));
+    return;
+  }
+  // Map display chars to JS operators
+  const map = { '÷':'/', '×':'*', '−':'-' };
+  setDisplay(expr + (map[k] || k));
+}
+
+// ═══════════════ MATH ENGINE (FIXED) ═══════════════
+function toJS(e) {
+  let s = e.trim();
+
+  // 1. Replace user-defined constant names (longest first to avoid partial matches)
+  const sortedConsts = [...userConsts]
+    .filter(c => c.name && c.value)
+    .sort((a,b) => b.name.length - a.name.length);
+  for (const c of sortedConsts) {
+    const safe = c.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const re = new RegExp(`(?<![A-Za-z0-9_])${safe}(?![A-Za-z0-9_])`, 'g');
+    s = s.replace(re, `(${c.value})`);
+  }
+
+  // 2. Power operator
+  s = s.replace(/\^/g, '**');
+
+  // 3. Custom functions — order matters: longer names first
+  // logb(x,n) — uses replaceFn2 so nested parens like logb(ln(x),10) work correctly
+  s = replaceFn2(s, 'logb', (x, b) => `(Math.log(${x})/Math.log(${b}))`);
+  s = s.replace(/\blog10\(/g, 'Math.log10(');
+  s = s.replace(/\blog2\(/g,  'Math.log2(');
+  s = s.replace(/\bln\(/g,    'Math.log(');
+  // FIXED: 'log(' alone → log10 (after log10( and log2( already replaced)
+  s = s.replace(/\blog\(/g,   'Math.log10(');
+  s = s.replace(/\bexp\(/g,   'Math.exp(');
+  s = s.replace(/\bsqrt\(/g,  'Math.sqrt(');
+  s = s.replace(/\bcbrt\(/g,  'Math.cbrt(');
+  s = s.replace(/\babs\(/g,   'Math.abs(');
+  s = s.replace(/\bfloor\(/g, 'Math.floor(');
+  s = s.replace(/\bceil\(/g,  'Math.ceil(');
+  s = s.replace(/\bround\(/g, 'Math.round(');
+  s = s.replace(/\bsign\(/g,  'Math.sign(');
+  s = s.replace(/\bpow\(/g,   'Math.pow(');
+
+  // Inverse trig (before trig to avoid asin→ Math.asin being re-processed)
+  s = s.replace(/\basin\(/g,   'Math.asin(');
+  s = s.replace(/\bacos\(/g,   'Math.acos(');
+  s = s.replace(/\batan2\(/g,  'Math.atan2(');
+  s = s.replace(/\batan\(/g,   'Math.atan(');
+
+  // Hyperbolic
+  s = s.replace(/\bsinh\(/g,  'Math.sinh(');
+  s = s.replace(/\bcosh\(/g,  'Math.cosh(');
+  s = s.replace(/\btanh\(/g,  'Math.tanh(');
+  // coth, sech, csch need the full arg — use a balanced-paren approach
+  s = replaceFn1(s, 'coth', x => `(Math.cosh(${x})/Math.sinh(${x}))`);
+  s = replaceFn1(s, 'sech', x => `(1/Math.cosh(${x}))`);
+  s = replaceFn1(s, 'csch', x => `(1/Math.sinh(${x}))`);
+
+  // Trig (after hyperbolic so sinh/cosh/tanh are already replaced)
+  s = replaceFn1(s, 'cot', x => `(Math.cos(${x})/Math.sin(${x}))`);
+  s = replaceFn1(s, 'sec', x => `(1/Math.cos(${x}))`);
+  s = replaceFn1(s, 'csc', x => `(1/Math.sin(${x}))`);
+  s = s.replace(/\bsin\(/g, 'Math.sin(');
+  s = s.replace(/\bcos\(/g, 'Math.cos(');
+  s = s.replace(/\btan\(/g, 'Math.tan(');
+
+  // Special functions
+  s = replaceFn1(s, 'fact',    x => `_fact(${x})`);
+  s = replaceFn1(s, 'gamma',   x => `_gamma(${x})`);
+  s = replaceFn2(s, 'perm',    (n,r) => `_perm(${n},${r})`);
+  s = replaceFn2(s, 'comb',    (n,r) => `_comb(${n},${r})`);
+  s = replaceFn2(s, 'binom',   (n,r) => `_comb(${n},${r})`);
+  s = replaceFnN(s, 'sigma',   args => `_sigma('${args[0]}',${args[1]},${args[2]})`);
+  s = replaceFnN(s, 'product', args => `_prod('${args[0]}',${args[1]},${args[2]})`);
+
+  return s;
+}
+
+// Helper: replace fn(arg) where arg may contain nested parens
+function extractArg(s, start) {
+  // s[start] must be '('
+  let depth = 0, i = start;
+  while (i < s.length) {
+    if (s[i] === '(') depth++;
+    else if (s[i] === ')') { depth--; if (depth === 0) return s.slice(start+1, i); }
+    i++;
+  }
+  return null;
+}
+
+function replaceFn1(s, name, builder) {
+  const re = new RegExp(`(?<![A-Za-z0-9_])${name}\\(`, 'g');
+  let result = '', lastIdx = 0, m;
+  re.lastIndex = 0;
+  while ((m = re.exec(s)) !== null) {
+    const parenStart = m.index + m[0].length - 1;
+    const arg = extractArg(s, parenStart);
+    if (arg === null) continue;
+    result += s.slice(lastIdx, m.index) + builder(arg);
+    lastIdx = parenStart + arg.length + 2; // skip name( arg )
+    re.lastIndex = lastIdx;
+  }
+  return result + s.slice(lastIdx);
+}
+
+function replaceFn2(s, name, builder) {
+  const re = new RegExp(`(?<![A-Za-z0-9_])${name}\\(`, 'g');
+  let result = '', lastIdx = 0, m;
+  re.lastIndex = 0;
+  while ((m = re.exec(s)) !== null) {
+    const parenStart = m.index + m[0].length - 1;
+    const inner = extractArg(s, parenStart);
+    if (inner === null) continue;
+    // split on first top-level comma
+    const comma = findTopComma(inner);
+    const a = inner.slice(0, comma), b = inner.slice(comma+1);
+    result += s.slice(lastIdx, m.index) + builder(a, b);
+    lastIdx = parenStart + inner.length + 2;
+    re.lastIndex = lastIdx;
+  }
+  return result + s.slice(lastIdx);
+}
+
+function replaceFnN(s, name, builder) {
+  const re = new RegExp(`(?<![A-Za-z0-9_])${name}\\(`, 'g');
+  let result = '', lastIdx = 0, m;
+  re.lastIndex = 0;
+  while ((m = re.exec(s)) !== null) {
+    const parenStart = m.index + m[0].length - 1;
+    const inner = extractArg(s, parenStart);
+    if (inner === null) continue;
+    const args = splitTopCommas(inner);
+    result += s.slice(lastIdx, m.index) + builder(args);
+    lastIdx = parenStart + inner.length + 2;
+    re.lastIndex = lastIdx;
+  }
+  return result + s.slice(lastIdx);
+}
+
+function findTopComma(s) {
+  let depth = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i]==='(' || s[i]==='[') depth++;
+    else if (s[i]===')' || s[i]===']') depth--;
+    else if (s[i]===',' && depth===0) return i;
+  }
+  return -1;
+}
+
+function splitTopCommas(s) {
+  const parts = [], idxs = [];
+  let depth = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i]==='(' || s[i]==='[') depth++;
+    else if (s[i]===')' || s[i]===']') depth--;
+    else if (s[i]===',' && depth===0) idxs.push(i);
+  }
+  let last = 0;
+  for (const idx of idxs) { parts.push(s.slice(last, idx).trim()); last = idx+1; }
+  parts.push(s.slice(last).trim());
+  return parts;
+}
+
+function runJS(js) {
+  return new Function('_fact','_gamma','_comb','_perm','_sigma','_prod',
+    `"use strict";return(${js});`)(_fact,_gamma,_comb,_perm,_sigma,_prod);
+}
+
+function mathEval(e) { return runJS(toJS(e)); }
+
+function evalAt(exprStr, varName, val) {
+  const safe = varName.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const subbed = exprStr.replace(new RegExp(`(?<![A-Za-z0-9_])${safe}(?![A-Za-z0-9_])`, 'g'), `(${val})`);
+  return mathEval(subbed);
+}
+
+// ═══════════════ MATH HELPERS ═══════════════
+function _fact(n) {
+  n = Math.round(n);
+  if (n < 0) return NaN;
+  if (n <= 1) return 1;
+  if (n > 170) return Infinity;
+  let r = 1; for (let i = 2; i <= n; i++) r *= i; return r;
+}
+function _gamma(x) {
+  if (x <= 0 && Number.isInteger(x)) return Infinity;
+  if (x < .5) return Math.PI / (Math.sin(Math.PI*x) * _gamma(1-x));
+  x -= 1;
+  const c=[.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,
+    -176.61502916214059,12.507343278686905,-.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  let a = c[0]; for (let i=1;i<9;i++) a += c[i]/(x+i);
+  const t = x + 7.5;
+  return Math.sqrt(2*Math.PI) * Math.pow(t,x+.5) * Math.exp(-t) * a;
+}
+function _comb(n,r) {
+  n=Math.round(n); r=Math.round(r);
+  if (r<0||r>n) return 0; if (r===0||r===n) return 1;
+  r = Math.min(r,n-r); let res=1;
+  for (let i=0;i<r;i++){res*=(n-i);res/=(i+1);} return Math.round(res);
+}
+function _perm(n,r) { return _comb(n,r)*_fact(r); }
+function _sigma(exStr,from,to) {
+  let s=0;
+  for (let i=Math.ceil(from);i<=Math.floor(to);i++) try{s+=evalAt(exStr,'i',i);}catch(e){}
+  return s;
+}
+function _prod(exStr,from,to) {
+  let p=1;
+  for (let i=Math.ceil(from);i<=Math.floor(to);i++) try{p*=evalAt(exStr,'i',i);}catch(e){}
+  return p;
+}
+function fmt(v, d=10) {
+  if (v===undefined||v===null) return 'undefined';
+  if (typeof v==='string') return v;
+  if (!isFinite(v)) return v>0?'∞':isNaN(v)?'NaN':'-∞';
+  return parseFloat(v.toPrecision(d)).toString();
+}
+
+// ═══════════════ CALCULATE ═══════════════
+function calculate() {
+  if (!expr) return;
+  setHist(expr + ' =');
+  try {
+    const r = mathEval(expr);
+    const disp = fmt(r,12);
+    setResult(disp);
+    let note = '';
+    if (isFinite(r) && r!==0) {
+      const ab = Math.abs(r);
+      if (ab >= 1e15 || (ab < 1e-9 && ab>0)) note = '≈ '+r.toExponential(6);
+    }
+    document.getElementById('dNote').textContent = note;
+    addHist(expr, disp);
+  } catch(e) {
+    setResult(''); document.getElementById('dNote').textContent = '❌ Check expression';
+  }
+}
+
+// ═══════════════ BIGINT FACTORIZATION ═══════════════
+function fKp(k) {
+  const ta = document.getElementById('factInput');
+  if (k==='AC'){ta.value='';return;}
+  if (k==='⌫'){ta.value=ta.value.slice(0,-1);return;}
+  ta.value += k;
+}
+function modpow(base,exp,mod){
+  let result=1n; base=base%mod;
+  while(exp>0n){if(exp%2n===1n)result=result*base%mod;exp/=2n;base=base*base%mod;}
+  return result;
+}
+function millerRabinBig(n){
+  if(n<2n)return false;
+  if(n===2n||n===3n||n===5n||n===7n)return true;
+  if(n%2n===0n)return false;
+  const witnesses=[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n];
+  let d=n-1n,r=0n;
+  while(d%2n===0n){d/=2n;r++;}
+  for(const a of witnesses){
+    if(a>=n)continue;
+    let x=modpow(a,d,n);
+    if(x===1n||x===n-1n)continue;
+    let ok=false;
+    for(let i=0n;i<r-1n;i++){x=modpow(x,2n,n);if(x===n-1n){ok=true;break;}}
+    if(!ok)return false;
+  }
+  return true;
+}
+function gcdBig(a,b){while(b){[a,b]=[b,a%b];}return a;}
+function pollardRho(n){
+  if(n%2n===0n)return 2n;
+  for(let ci=1n;ci<30n;ci++){
+    let x=2n,y=2n,c=ci,d=1n;
+    while(d===1n){x=(x*x+c)%n;y=(y*y+c)%n;y=(y*y+c)%n;d=gcdBig(x>y?x-y:y-x,n);}
+    if(d!==n)return d;
+  }
+  return n;
+}
+function factorizeBig(n){
+  if(n<=1n)return[];
+  if(millerRabinBig(n))return[n];
+  const smallPrimes=[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n,41n,43n,47n,53n,59n,61n,67n,71n,73n,79n,83n,89n,97n];
+  for(const p of smallPrimes){if(n%p===0n)return[...factorizeBig(p),...factorizeBig(n/p)].sort((a,b)=>a<b?-1:a>b?1:0);}
+  const d=pollardRho(n);
+  return[...factorizeBig(d),...factorizeBig(n/d)].sort((a,b)=>a<b?-1:a>b?1:0);
+}
+function doFactor(){
+  const raw=document.getElementById('factInput').value.trim().replace(/\s/g,'');
+  if(!raw){toast('Enter a number first');return;}
+  let n; try{n=BigInt(raw);}catch(e){toast('❌ Invalid integer');return;}
+  if(n<0n)n=-n;
+  if(n===0n){showFactOut('0','Zero has no prime factors','');return;}
+  if(n===1n){showFactOut('1','1 is neither prime nor composite','');return;}
+  const primes=factorizeBig(n);
+  const grouped=[]; let i=0;
+  while(i<primes.length){let cnt=0n,p=primes[i];while(i<primes.length&&primes[i]===p){cnt++;i++;}grouped.push([p,cnt]);}
+  const isPrime=primes.length===1;
+  const factStr=grouped.map(([p,e])=>e>1n?`${p}^${e}`:`${p}`).join(' × ');
+  let divisorStr='';
+  if(n<10000000n){
+    const divs=[];
+    for(let d=1n;d*d<=n;d++){if(n%d===0n){divs.push(d);if(d!==n/d)divs.push(n/d);}}
+    divs.sort((a,b)=>a<b?-1:1);
+    const sigma=divs.reduce((s,d)=>s+d,0n);
+    divisorStr=`\nAll ${divs.length} divisors:\n${divs.join(', ')}\n\nΣ divisors = ${sigma}`;
+  } else {
+    divisorStr=`\nNumber of divisors τ(n) = ${grouped.reduce((p,[,e])=>p*(e+1n),1n)}`;
+  }
+  showFactOut('FACTORIZATION',isPrime?`✅ ${n} is PRIME`:`${n}\n= ${factStr}`,isPrime?'':divisorStr);
+  addHist('factor('+raw+')',isPrime?'PRIME':factStr);
+}
+function doPrime(){
+  const raw=document.getElementById('factInput').value.trim().replace(/\s/g,'');
+  if(!raw){toast('Enter a number first');return;}
+  let n; try{n=BigInt(raw);}catch(e){toast('❌ Invalid integer');return;}
+  if(n<0n)n=-n;
+  const isPrime=millerRabinBig(n);
+  const verdict=isPrime?'✅ PRIME':'❌ COMPOSITE';
+  let note='';
+  if(!isPrime&&n>1n){
+    for(const p of[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n]){
+      if(n%p===0n){note=`Smallest factor: ${p}`;break;}
+    }
+    if(!note){const d=pollardRho(n);if(d!==n)note=`Factor found: ${d}`;}
+  }
+  showFactOut('PRIMALITY TEST (Miller-Rabin)',`${n}\n${verdict}`,note);
+  addHist('isPrime('+raw+')',verdict);
+}
+function doGCD(){
+  const raw=document.getElementById('factInput').value.trim();
+  const parts=raw.split(',').map(s=>s.trim());
+  if(parts.length<2){toast('Enter two numbers separated by comma');return;}
+  try{
+    const a=BigInt(parts[0]),b=BigInt(parts[1]);
+    const g=gcdBig(a<0n?-a:a,b<0n?-b:b);
+    const l=a===0n||b===0n?0n:(a/g)*(b<0n?-b:b);
+    showFactOut('GCD / LCM',`GCD(${a}, ${b}) = ${g}\nLCM(${a}, ${b}) = ${l<0n?-l:l}`,'');
+    addHist(`GCD(${a},${b})`,String(g));
+  }catch(e){toast('❌ Enter two valid integers');}
+}
+function doLCM(){doGCD();}
+function showFactOut(label,val,note){
+  document.getElementById('factOutLabel').textContent=label;
+  document.getElementById('factOutVal').textContent=val;
+  document.getElementById('factOutNote').textContent=note;
+  document.getElementById('factOut').style.display='block';
+}
+
+// ═══════════════ PARTITION p(n) ═══════════════
+// Exact partition table for n = 0..100 (precomputed via DP)
+const PART_EXACT = (function(){
+  const MAX = 100, dp = Array(MAX+1).fill(0n);
+  dp[0] = 1n;
+  for (let k = 1; k <= MAX; k++) {
+    for (let n = k; n <= MAX; n++) dp[n] += dp[n-k];
+  }
+  return dp;
+})();
+
+function pKp(k) {
+  const ta = document.getElementById('partInput');
+  if (k==='AC'){ta.value='';return;}
+  if (k==='⌫'){ta.value=ta.value.slice(0,-1);return;}
+  ta.value += k;
+}
+
+function doPartition() {
+  const raw = document.getElementById('partInput').value.trim();
+  if (!raw) { toast('Enter n first'); return; }
+  const n = parseInt(raw, 10);
+  if (isNaN(n) || n < 0) { toast('❌ Enter a non-negative integer'); return; }
+
+  let val = '', note = '', label = 'PARTITION p(n)';
+
+  if (n <= 100) {
+    // Exact via dynamic programming
+    const pn = PART_EXACT[n];
+    val = `p(${n}) = ${pn}`;
+    if (n <= 20) {
+      note = `✅ Exact value (computed by dynamic programming).\n\n` +
+             `p(n) = number of ways to write ${n} as an ordered sum of positive integers.\n\n` +
+             `Example: p(4) = 5 because:\n4 = 3+1 = 2+2 = 2+1+1 = 1+1+1+1`;
+    } else {
+      note = `✅ Exact value (n ≤ 100, DP table).\n\n` +
+             `Hardy-Ramanujan asymptotic ≈ ${hrFormula(n).toExponential(6)}`;
+    }
+    label = n <= 20 ? 'EXACT PARTITION p(' + n + ')' : 'EXACT PARTITION (DP) p(' + n + ')';
+  } else {
+    // Hardy-Ramanujan asymptotic formula
+    const approx = hrFormula(n);
+    val = `p(${n}) ≈ ${approx.toExponential(8)}`;
+    note = `⚠️ n > 100: Using Hardy-Ramanujan (1918) asymptotic formula:\n\n` +
+           `p(n) ≈ 1/(4n√3) × e^(π√(2n/3))\n\n` +
+           `This approximation improves as n grows.\n` +
+           `For n = ${n}: ≈ ${approx.toLocaleString('en',{maximumFractionDigits:0})}`;
+    label = 'ASYMPTOTIC PARTITION p(' + n + ')';
+  }
+
+  // Show all partitions for small n
+  if (n <= 10) {
+    const parts = listPartitions(n);
+    note += `\n\nAll ${parts.length} partition(s) of ${n}:\n` + parts.map(p=>p.join('+') || '∅').join('\n');
+  }
+
+  document.getElementById('partOutLabel').textContent = label;
+  document.getElementById('partOutVal').textContent = val;
+  document.getElementById('partOutNote').textContent = note;
+  document.getElementById('partOut').style.display = 'block';
+  addHist(`p(${n})`, n<=100 ? String(PART_EXACT[n]) : '≈'+hrFormula(n).toExponential(4));
+}
+
+function hrFormula(n) {
+  // p(n) ≈ 1/(4n√3) · exp(π · √(2n/3))
+  return (1 / (4 * n * Math.sqrt(3))) * Math.exp(Math.PI * Math.sqrt(2*n/3));
+}
+
+// Generate all integer partitions of n (only for n ≤ 10 — manageable)
+function listPartitions(n) {
+  const result = [];
+  function helper(remaining, maxPart, current) {
+    if (remaining === 0) { result.push([...current]); return; }
+    for (let i = Math.min(maxPart, remaining); i >= 1; i--) {
+      current.push(i);
+      helper(remaining - i, i, current);
+      current.pop();
+    }
+  }
+  helper(n, n, []);
+  return result;
+}
+
+function doPartitionList() {
+  // Show p(0)..p(20) table
+  const tbl = document.getElementById('partTable');
+  tbl.innerHTML = `<tr style="background:var(--card);">
+    <th style="padding:6px 10px;font-size:10px;color:var(--muted);text-align:left;border-bottom:1px solid var(--bord);">n</th>
+    <th style="padding:6px 10px;font-size:10px;color:var(--muted);text-align:right;border-bottom:1px solid var(--bord);">p(n) exact</th>
+  </tr>` +
+  Array.from({length:21},(_,i) =>
+    `<tr style="background:${i%2?'var(--card)':'var(--bg)'}">
+      <td style="padding:5px 10px;font-size:12px;color:var(--acc2);">p(${i})</td>
+      <td style="padding:5px 10px;font-size:12px;color:var(--acc3);text-align:right;">${PART_EXACT[i]}</td>
+    </tr>`
+  ).join('');
+  document.getElementById('partTableOut').style.display = 'block';
+}
+
+// ═══════════════ TABS ═══════════════
+function showTab(name) {
+  document.querySelectorAll('.ktab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.keypad').forEach(k=>k.classList.remove('on'));
+  document.getElementById('ktab-'+name).classList.add('on');
+  document.getElementById('kp-'+name).classList.add('on');
+  hideResultPanel();
+}
+function hideResultPanel(){document.getElementById('resultPanel').style.display='none';}
+
+// ═══════════════ TRIG ALL ═══════════════
+function calcAllTrig() {
+  if (!expr){toast('Enter a value first');return;}
+  let x; try{x=mathEval(expr);}catch(e){toast('❌ Invalid value');return;}
+  const fns=[
+    ['sin(x)',Math.sin(x)],['cos(x)',Math.cos(x)],['tan(x)',Math.tan(x)],
+    ['cot(x)',Math.cos(x)/Math.sin(x)],['sec(x)',1/Math.cos(x)],['csc(x)',1/Math.sin(x)],
+    ['asin(x)',Math.asin(x)],['acos(x)',Math.acos(x)],['atan(x)',Math.atan(x)],
+  ];
+  document.getElementById('trigAllGrid').innerHTML=fns.map(([l,v])=>
+    `<div class="r-cell"><div class="lbl">${l}</div><div class="val">${fmt(v)}</div></div>`).join('');
+  document.getElementById('trigAllOut').style.display='block';
+  addHist('allTrig('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
+}
+function calcAllHyp() {
+  if (!expr){toast('Enter a value first');return;}
+  let x; try{x=mathEval(expr);}catch(e){toast('❌ Invalid');return;}
+  const fns=[
+    ['sinh(x)',Math.sinh(x)],['cosh(x)',Math.cosh(x)],['tanh(x)',Math.tanh(x)],
+    ['coth(x)',x===0?Infinity:Math.cosh(x)/Math.sinh(x)],
+    ['sech(x)',1/Math.cosh(x)],['csch(x)',x===0?Infinity:1/Math.sinh(x)],
+  ];
+  document.getElementById('hypAllGrid').innerHTML=fns.map(([l,v])=>
+    `<div class="r-cell"><div class="lbl">${l}</div><div class="val">${fmt(v)}</div></div>`).join('');
+  document.getElementById('hypAllOut').style.display='block';
+  addHist('allHyp('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
+}
+function calcAllLog() {
+  if (!expr){toast('Enter a value first');return;}
+  // Auto-close any unclosed parentheses (e.g. user typed ln(5 without closing paren)
+  let safeExpr = expr;
+  let open = 0;
+  for (const ch of safeExpr) { if (ch==='(') open++; else if (ch===')') open--; }
+  if (open > 0) safeExpr += ')'.repeat(open);
+  // Reject if expr is JUST a bare function name with nothing inside yet
+  if (/^(ln|log10|log2|logb|exp|sqrt|cbrt|abs|floor|ceil|round|sign|fact|gamma)\($/.test(safeExpr.trim())) {
+    toast('⚠️ Enter a number inside the function first'); return;
+  }
+  let x; try{x=mathEval(safeExpr);}catch(e){toast('❌ Invalid expression');return;}
+  if (!isFinite(x)){toast('⚠️ Value must be a finite number');return;}
+  const fns=[
+    ['ln(x)',Math.log(x)],['log₁₀(x)',Math.log10(x)],['log₂(x)',Math.log2(x)],
+    ['exp(x)',Math.exp(x)],['√x',Math.sqrt(x)],['∛x',Math.cbrt(x)],
+    ['x²',x*x],['x³',x*x*x],['1/x',1/x],['|x|',Math.abs(x)],
+    ['x!',_fact(Math.round(x))],['Γ(x)',_gamma(x)],
+  ];
+  document.getElementById('logAllGrid').innerHTML=fns.map(([l,v])=>
+    `<div class="r-cell"><div class="lbl">${l}</div><div class="val">${fmt(v)}</div></div>`).join('');
+  document.getElementById('logAllOut').style.display='block';
+  addHist('allLog('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
+}
+
+// ═══════════════ BINOM EXPAND ═══════════════
+function calcBinomExpand() {
+  if (!expr){toast('Enter n first');return;}
+  let n; try{n=Math.round(mathEval(expr));}catch(e){toast('❌ Invalid n');return;}
+  if(n<0||n>20){toast('⚠️ n must be 0–20');return;}
+  const terms=Array.from({length:n+1},(_,k)=>{
+    const c=_comb(n,k),ap=n-k,bp=k;
+    let t=(c===1&&(ap||bp))?'':String(c);
+    if(ap>0)t+=ap===1?'a':'a^'+ap;
+    if(bp>0)t+=bp===1?'b':'b^'+bp;
+    return t||'1';
+  });
+  const lines=Array.from({length:n+1},(_,k)=>`  k=${k}: C(${n},${k})=${_comb(n,k)}  →  ${terms[k]}`);
+  document.getElementById('binomExpandVal').textContent=`(a+b)^${n} =\n${terms.join(' + ')}\n\nTerms:\n${lines.join('\n')}`;
+  document.getElementById('binomExpandOut').style.display='block';
+}
+
+// ═══════════════ CALCULUS ═══════════════
+function numDeriv(exprStr,x,order){
+  const h=1e-5;
+  if(order===0)return evalAt(exprStr,'x',x);
+  if(order===1)return(evalAt(exprStr,'x',x+h)-evalAt(exprStr,'x',x-h))/(2*h);
+  return(numDeriv(exprStr,x+h,order-1)-numDeriv(exprStr,x-h,order-1))/(2*h);
+}
+function numInteg(exprStr,a,b,n=2000){
+  if(n%2!==0)n++;
+  const h=(b-a)/n;
+  let s=evalAt(exprStr,'x',a)+evalAt(exprStr,'x',b);
+  for(let i=1;i<n;i++)s+=(i%2===0?2:4)*evalAt(exprStr,'x',a+i*h);
+  return s*h/3;
+}
+const INTEGRALS={
+  'x':'x^2/2+C','x^2':'x^3/3+C','x^3':'x^4/4+C','x^4':'x^5/5+C',
+  'sin(x)':'-cos(x)+C','cos(x)':'sin(x)+C','tan(x)':'-ln|cos(x)|+C',
+  'exp(x)':'exp(x)+C','ln(x)':'x*ln(x)-x+C','sqrt(x)':'(2/3)*x^(3/2)+C',
+  '1/x':'ln|x|+C','asin(x)':'x*asin(x)+sqrt(1-x^2)+C',
+  'acos(x)':'x*acos(x)-sqrt(1-x^2)+C','atan(x)':'x*atan(x)-ln(1+x^2)/2+C',
+};
+function showCalcOut(label,val,note,steps){
+  document.getElementById('calcOutLabel').textContent=label;
+  document.getElementById('calcOutVal').textContent=val;
+  document.getElementById('calcOutNote').textContent=note||'';
+  document.getElementById('calcSteps').innerHTML=(steps||[]).map(s=>
+    `<div style="background:var(--surf);border-left:3px solid var(--acc);padding:6px 10px;margin-bottom:4px;border-radius:0 6px 6px 0;font-size:11px;">${s}</div>`).join('');
+  document.getElementById('calcOut').style.display='block';
+}
+function doDiff(order){
+  if(!expr){toast('Enter a function first. e.g. sin(x)');return;}
+  const fnExpr=expr, pts=[-2,-1,0.5,1,2], lines=[], steps=[];
+  steps.push(`📊 Numerical values (central difference, h=0.00001):`);
+  pts.forEach(pt=>{
+    try{const v=numDeriv(fnExpr,pt,order);
+      if(isFinite(v)){lines.push(`x=${pt} → ${fmt(v,10)}`);steps.push(`x=${pt}  →  <b style="color:var(--acc3)">${fmt(v,10)}</b>`);}}
+    catch(e){}
+  });
+  const lbl=order===1?'d/dx':order===2?'d²/dx²':'d³/dx³';
+  showCalcOut(lbl+' RESULT',lines.join('\n'),'',steps);
+  addHist(lbl+'['+fnExpr+']',lines[0]||'?');
+}
+function doIndefinite(){
+  if(!expr){toast('Enter a function first');return;}
+  const fnExpr=expr, sym=INTEGRALS[fnExpr];
+  if(sym){showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx = ${sym}`,'✅ Exact symbolic result',[]);}
+  else{showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx\n⚠️ Not in symbolic table.`,'Use "∫ₐᵇ Definite" for numeric result.',[]);document.getElementById('defBoundsPanel').style.display='block';}
+  addHist('∫'+fnExpr+'dx',sym||'numeric');
+}
+function promptDefinite(){
+  if(!expr){toast('Enter a function first');return;}
+  document.getElementById('defBoundsPanel').style.display='block';
+  document.getElementById('defBoundsPanel').scrollIntoView({behavior:'smooth'});
+}
+function doDefinite(){
+  if(!expr){toast('Enter a function first');return;}
+  const fnExpr=expr;
+  const a=parseFloat(document.getElementById('defA').value);
+  const b=parseFloat(document.getElementById('defB').value);
+  if(isNaN(a)||isNaN(b)){toast('⚠️ Enter both bounds a and b');return;}
+  if(a===b){showCalcOut('∫ₐᵇ RESULT',`∫[${a},${a}] = 0`,'Same bounds → zero',[]);return;}
+  try{
+    const r=numInteg(fnExpr,a,b);
+    const steps=[`Function: ${fnExpr}`,`Bounds: a=${a}, b=${b}`,`Method: Simpson's Rule, 2000 intervals`,`Result: <b style="color:var(--acc3)">${fmt(r,12)}</b>`];
+    showCalcOut('∫ₐᵇ RESULT',`∫[${a} → ${b}] ${fnExpr} dx\n≈ ${fmt(r,12)}`,`Simpson's rule, 2000 intervals`,steps);
+    addHist(`∫[${a},${b}] ${fnExpr}dx`,fmt(r,12));
+  }catch(e){showCalcOut('∫ₐᵇ ERROR','❌ '+e.message,'Check your function and bounds',[]);}
+}
+function doTaylor(){
+  if(!expr){toast('Enter a function first. e.g. sin(x)');return;}
+  const fnExpr=expr, a=0, n=7, steps=[];
+  try{
+    const coeffs=[];
+    for(let k=0;k<n;k++){
+      try{const dk=numDeriv(fnExpr,a,k);const c=dk/_fact(k);coeffs.push(isFinite(c)?c:0);
+        if(isFinite(c)&&Math.abs(c)>1e-10)steps.push(`k=${k}: f^(${k})(0)/${k}! ≈ <b style="color:var(--acc3)">${fmt(c,5)}</b>`);}
+      catch(e){coeffs.push(0);}
+    }
+    const terms=coeffs.map((c,k)=>{
+      if(!isFinite(c)||Math.abs(c)<1e-10)return null;
+      const cs=parseFloat(c.toPrecision(4)).toString();
+      if(k===0)return cs;
+      return `(${cs})${k===1?'x':'x^'+k}`;
+    }).filter(Boolean);
+    const result=terms.length?`${fnExpr} ≈\n${terms.join('\n+ ')}\n+ O(x^${n})`:'All coefficients zero at x=0.';
+    showCalcOut('TAYLOR SERIES (around x=0)',result,'',steps);
+    addHist('Taylor('+fnExpr+')',terms[0]||'?');
+  }catch(e){showCalcOut('TAYLOR ERROR','❌ '+e.message,'',[]);}
+}
+
+// ═══════════════ MATRIX ═══════════════
+function buildMatUI(id){
+  const r=Math.min(parseInt(document.getElementById('mR'+id).value)||2,6);
+  const c=Math.min(parseInt(document.getElementById('mC'+id).value)||2,6);
+  const g=document.getElementById('matGrid'+id); g.innerHTML='';
+  const wrap=document.createElement('div');
+  wrap.style.cssText=`display:inline-grid;grid-template-columns:repeat(${c},46px);gap:3px;`;
+  for(let i=0;i<r;i++) for(let j=0;j<c;j++){
+    const inp=document.createElement('input');
+    inp.id=`m${id}_${i}_${j}`;inp.value=i===j?'1':'0';
+    inp.style.cssText='width:46px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px 3px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;';
+    wrap.appendChild(inp);
+  }
+  g.appendChild(wrap);
+}
+function getMat(id){
+  const r=Math.min(parseInt(document.getElementById('mR'+id).value)||2,6);
+  const c=Math.min(parseInt(document.getElementById('mC'+id).value)||2,6);
+  return Array.from({length:r},(_,i)=>Array.from({length:c},(_,j)=>parseFloat(document.getElementById(`m${id}_${i}_${j}`)?.value)||0));
+}
+function mStr(M){return M.map(r=>'['+r.map(v=>String(parseFloat(v.toPrecision(5))).padStart(10)).join(' ')+' ]').join('\n');}
+function mDet(M){
+  const n=M.length;
+  if(n===1)return M[0][0];
+  if(n===2)return M[0][0]*M[1][1]-M[0][1]*M[1][0];
+  let d=0;
+  for(let j=0;j<n;j++)d+=(j%2===0?1:-1)*M[0][j]*mDet(M.slice(1).map(r=>r.filter((_,c)=>c!==j)));
+  return d;
+}
+function mInv(M){
+  const n=M.length;
+  const aug=M.map((r,i)=>[...r,...Array.from({length:n},(_,j)=>i===j?1:0)]);
+  for(let col=0;col<n;col++){
+    let mx=col;
+    for(let r=col+1;r<n;r++)if(Math.abs(aug[r][col])>Math.abs(aug[mx][col]))mx=r;
+    [aug[col],aug[mx]]=[aug[mx],aug[col]];
+    if(Math.abs(aug[col][col])<1e-12)return null;
+    const pv=aug[col][col];aug[col]=aug[col].map(v=>v/pv);
+    for(let r=0;r<n;r++)if(r!==col){const f=aug[r][col];aug[r]=aug[r].map((v,j)=>v-f*aug[col][j]);}
+  }
+  return aug.map(r=>r.slice(n));
+}
+function matOp(op){
+  const A=getMat('A'),B=getMat('B');let res='',note='';
+  try{
+    if(op==='det')res=`det(A) = ${fmt(mDet(A),12)}`;
+    else if(op==='trace')res=`trace(A) = ${fmt(A.reduce((s,r,i)=>s+(r[i]||0),0))}`;
+    else if(op==='transpose')res='Aᵀ =\n'+mStr(A[0].map((_,ci)=>A.map(r=>r[ci])));
+    else if(op==='inv'){const inv=mInv(A);res=inv?'A⁻¹ =\n'+mStr(inv):'❌ Singular (no inverse)';}
+    else if(op==='add'){if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}res='A+B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v+B[i][j])));}
+    else if(op==='sub'){if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}res='A-B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v-B[i][j])));}
+    else if(op==='mul'){if(A[0].length!==B.length){toast('⚠️ A cols must = B rows');return;}res='A×B =\n'+mStr(A.map((r,i)=>B[0].map((_,j)=>r.reduce((s,_,k)=>s+A[i][k]*B[k][j],0))));}
+    else if(op==='eigen'){
+      if(A.length!==2){toast('⚠️ 2×2 only for eigenvalues');return;}
+      const[[a,b],[c,d]]=A,tr=a+d,dt=a*d-b*c,disc=tr*tr-4*dt;
+      if(disc<0){const re=tr/2,im=Math.sqrt(-disc)/2;res=`Complex:\nλ₁=${fmt(re)}+${fmt(im)}i\nλ₂=${fmt(re)}-${fmt(im)}i`;}
+      else res=`λ₁ = ${fmt((tr+Math.sqrt(disc))/2,10)}\nλ₂ = ${fmt((tr-Math.sqrt(disc))/2,10)}`;
+    }
+    else if(op==='rank'){
+      const M=A.map(r=>[...r]);let rank=0;
+      for(let col=0;col<M[0].length&&rank<M.length;col++){
+        let piv=-1;for(let r=rank;r<M.length;r++)if(Math.abs(M[r][col])>1e-10){piv=r;break;}
+        if(piv===-1)continue;[M[rank],M[piv]]=[M[piv],M[rank]];
+        const pv=M[rank][col];M[rank]=M[rank].map(v=>v/pv);
+        for(let r=0;r<M.length;r++)if(r!==rank){const f=M[r][col];M[r]=M[r].map((v,j)=>v-f*M[rank][j]);}
+        rank++;
+      }
+      res=`rank(A) = ${rank}`;
+    }
+    document.getElementById('matOutVal').textContent=res;
+    document.getElementById('matOutNote').textContent=note;
+    document.getElementById('matOut').style.display='block';
+    addHist(`Matrix ${op}`,res.split('\n')[0]);
+  }catch(e){document.getElementById('matOutVal').textContent='❌ '+e.message;document.getElementById('matOut').style.display='block';}
+}
+
+// ═══════════════ STATS ═══════════════
+function doStats(){
+  const raw=document.getElementById('statsInput').value;
+  const nums=raw.split(/[\s,]+/).map(Number).filter(n=>!isNaN(n)&&raw.trim()!=='');
+  if(nums.length<2){toast('⚠️ Enter at least 2 numbers');return;}
+  nums.sort((a,b)=>a-b);
+  const n=nums.length,sum=nums.reduce((a,b)=>a+b,0),mean=sum/n;
+  const med=n%2===0?(nums[n/2-1]+nums[n/2])/2:nums[Math.floor(n/2)];
+  const freq={};nums.forEach(x=>freq[x]=(freq[x]||0)+1);
+  const mxF=Math.max(...Object.values(freq));
+  const mode=Object.keys(freq).filter(k=>freq[k]===mxF).join(', ');
+  const vari=nums.reduce((a,x)=>a+(x-mean)**2,0)/n;
+  const std=Math.sqrt(vari);
+  const q1=nums[Math.floor(n*.25)],q3=nums[Math.floor(n*.75)];
+  const skew=std>0?nums.reduce((a,x)=>a+((x-mean)/std)**3,0)/n:0;
+  const rows=[
+    ['Count n',n],['Sum',fmt(sum)],['Mean μ',fmt(mean)],['Median',fmt(med)],
+    ['Mode',mode],['Std Dev σ',fmt(std)],['Variance σ²',fmt(vari)],
+    ['Min',nums[0]],['Max',nums[n-1]],['Range',fmt(nums[n-1]-nums[0])],
+    ['Q1 25%',fmt(q1)],['Q3 75%',fmt(q3)],['IQR',fmt(q3-q1)],['Skewness',fmt(skew)],
+  ];
+  document.getElementById('statsTbl').innerHTML=rows.map(([k,v])=>
+    `<tr><td style="padding:6px 8px;font-size:11px;color:var(--muted);border-bottom:1px solid var(--bord);">${k}</td>`+
+    `<td style="padding:6px 8px;font-size:12px;color:var(--acc3);font-weight:700;text-align:right;border-bottom:1px solid var(--bord);word-break:break-all;">${v}</td></tr>`
+  ).join('');
+  document.getElementById('statsOut').style.display='block';
+}
+
+// ═══════════════ UNITS ═══════════════
+const UDEFS={
+  length:{u:['mm','cm','m','km','inch','ft','yard','mile','nm'],b:[1e-3,1e-2,1,1e3,.0254,.3048,.9144,1609.344,1e-9]},
+  mass:{u:['mg','g','kg','ton','oz','lb'],b:[1e-6,1e-3,1,1e3,.028349,.453592]},
+  temp:{u:['°C','°F','K'],b:null},
+  speed:{u:['m/s','km/h','mph','knots','ft/s'],b:[1,.277778,.44704,.514444,.3048]},
+  area:{u:['mm²','cm²','m²','km²','in²','ft²','acre'],b:[1e-6,1e-4,1,1e6,6.4516e-4,.0929,4046.86]},
+  volume:{u:['ml','L','m³','gal','cup'],b:[1e-6,1e-3,1,.003785,2.366e-4]},
+  energy:{u:['J','kJ','cal','kcal','Wh','kWh','eV'],b:[1,1e3,4.184,4184,3600,3.6e6,1.602e-19]},
+  pressure:{u:['Pa','kPa','bar','atm','psi'],b:[1,1e3,1e5,101325,6894.76]},
+  time:{u:['ns','μs','ms','s','min','hr','day','week','year'],b:[1e-9,1e-6,1e-3,1,60,3600,86400,604800,3.156e7]},
+  data:{u:['bit','byte','KB','MB','GB','TB'],b:[.125,1,1024,1048576,1073741824,1.1e12]},
+};
+function buildUnitSels(){
+  const cat=document.getElementById('uCat').value;
+  const opts=UDEFS[cat].u.map((u,i)=>`<option value="${i}">${u}</option>`).join('');
+  document.getElementById('uFrom').innerHTML=opts;
+  document.getElementById('uTo').innerHTML=opts;
+  document.getElementById('uTo').selectedIndex=1;
+  uVal='0'; document.getElementById('uValDisplay').textContent='0';
+}
+function swapU(){const f=document.getElementById('uFrom'),t=document.getElementById('uTo');[f.value,t.value]=[t.value,f.value];}
+function uKp(k){
+  if(k==='AC'){uVal='0';}
+  else if(k==='⌫'){uVal=uVal.length>1?uVal.slice(0,-1):'0';}
+  else{if(uVal==='0'&&k!=='.'&&k!=='e')uVal=k;else uVal+=k;}
+  document.getElementById('uValDisplay').textContent=uVal;
+}
+function doConvert(){
+  const cat=document.getElementById('uCat').value;
+  const val=parseFloat(uVal);
+  if(isNaN(val)){toast('⚠️ Enter a value');return;}
+  const fi=parseInt(document.getElementById('uFrom').value);
+  const ti=parseInt(document.getElementById('uTo').value);
+  const units=UDEFS[cat].u;
+  let r;
+  if(cat==='temp'){
+    const toC=fi===0?v=>v:fi===1?v=>(v-32)*5/9:v=>v-273.15;
+    const frC=ti===0?v=>v:ti===1?v=>v*9/5+32:v=>v+273.15;
+    r=frC(toC(val));
+  } else {r=val*UDEFS[cat].b[fi]/UDEFS[cat].b[ti];}
+  const disp=(Math.abs(r)>1e12||(Math.abs(r)<1e-8&&r!==0))?r.toExponential(6):fmt(r,10);
+  document.getElementById('unitOutVal').textContent=`${val} ${units[fi]} = ${disp} ${units[ti]}`;
+  document.getElementById('unitOut').style.display='block';
+  addHist(`${val} ${units[fi]}→${units[ti]}`,disp);
+}
+
+// ═══════════════ HISTORY ═══════════════
+function addHist(expr,res){
+  histArr.unshift({expr,res,time:new Date().toLocaleTimeString()});
+  if(histArr.length>100)histArr.pop();
+  localStorage.setItem('jrc_hist',JSON.stringify(histArr));
+}
+function renderHist(){
+  const el=document.getElementById('histList');
+  if(!histArr.length){el.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">No history yet</div>';return;}
+  el.innerHTML=histArr.map((h,i)=>
+    `<div class="hist-item" onclick="loadHist(${i})">
+      <div class="hist-expr">${escHtml(h.expr)}</div>
+      <div class="hist-res">= ${escHtml(h.res)}</div>
+      <div class="hist-time">${h.time}</div>
+    </div>`).join('');
+}
+function loadHist(i){setDisplay(histArr[i].expr);closeHist();}
+function clearHist(){histArr=[];localStorage.removeItem('jrc_hist');renderHist();toast('🗑 Cleared');}
+function openHist(){renderHist();document.getElementById('histModal').classList.add('on');}
+function closeHist(){document.getElementById('histModal').classList.remove('on');}
+
+// ═══════════════ DONATE / PAYMENT FLOW ═══════════════
+function showDonate(){
+  goPayStep(0);
+  document.getElementById('donateModal').classList.add('on');
+}
+function closeDonate(){document.getElementById('donateModal').classList.remove('on');}
+
+function copyUPI(){
+  const txt = document.getElementById('upiQRText').textContent;
+  if (!txt) return;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(txt).then(()=>toast('📋 UPI link copied!')).catch(()=>toast('Copy failed'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    toast('📋 UPI link copied!');
+  }
+}
+
+function goPayStep(n){
+  document.querySelectorAll('.pay-step').forEach(s=>s.classList.remove('on'));
+  document.getElementById('payStep'+n).classList.add('on');
+}
+
+function pickD(el,amt){
+  document.querySelectorAll('#dAmts > div').forEach(d=>{d.style.borderColor='var(--bord)';d.style.color='';});
+  el.style.borderColor='var(--acc2)'; el.style.color='var(--acc2)';
+  donateAmt=amt;
+  document.getElementById('custD').style.display=amt==='x'?'block':'none';
+}
+
+function getFinalAmt(){
+  const amt=donateAmt==='x'?parseFloat(document.getElementById('custD').value):parseFloat(donateAmt);
+  return amt;
+}
+
+function goPayStep1(){
+  const amt=getFinalAmt();
+  if(isNaN(amt)||amt<=0){toast('⚠️ Select or enter a valid amount');return;}
+  document.getElementById('payAmtLabel').textContent='$'+amt.toFixed(2);
+  goPayStep(1);
+}
+
+function selMethod(el,method){
+  document.querySelectorAll('.pay-method-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  payMethod=method;
+  ['card','bank','paypal','crypto'].forEach(m=>{
+    const f=document.getElementById('field'+m.charAt(0).toUpperCase()+m.slice(1));
+    if(f) f.style.display=m===method?'block':'none';
+  });
+}
+
+function goPayStep2(){
+  const amt=getFinalAmt();
+  // Basic validation
+  if(payMethod==='card'){
+    const name=document.getElementById('cardName').value.trim();
+    const num=document.getElementById('cardNumber').value.replace(/\s/g,'');
+    const exp=document.getElementById('cardExp').value.trim();
+    const cvv=document.getElementById('cardCvv').value.trim();
+    if(!name){toast('⚠️ Enter cardholder name');return;}
+    if(num.length<15){toast('⚠️ Enter valid card number');return;}
+    if(!exp.match(/\d{2}\s*\/\s*\d{2}/)){toast('⚠️ Enter expiry MM/YY');return;}
+    if(cvv.length<3){toast('⚠️ Enter CVV');return;}
+    const last4=num.slice(-4);
+    document.getElementById('reviewMethod').textContent=`💳 Card ending ${last4}`;
+  } else if(payMethod==='bank'){
+    document.getElementById('reviewMethod').textContent='🏦 Bank Transfer';
+  } else if(payMethod==='paypal'){
+    document.getElementById('reviewMethod').textContent='🅿️ PayPal';
+  } else {
+    document.getElementById('reviewMethod').textContent='₿ Cryptocurrency';
+  }
+  document.getElementById('reviewAmt').textContent='$'+amt.toFixed(2);
+  goPayStep(2);
+}
+
+function doConfirmPay(){
+  const amt = getFinalAmt();
+  if(isNaN(amt)||amt<=0){toast('⚠️ Invalid amount');return;}
+
+  // ── REPLACE THIS LINE WITH YOUR OWN GPay/UPI ID ──
+  // Your GPay UPI ID looks like:  yourname@okicici  OR  yourphone@ybl  etc.
+  // You can find it in Google Pay → Profile → UPI ID
+  const UPI_ID = 'dhanasekarmahadevi@oksbi';           // <── EDIT THIS: your GPay UPI ID
+  const UPI_NAME = 'J+Idea';               // <── EDIT THIS: your display name
+
+  // Convert amount to INR (1 USD ≈ 83 INR — update rate as needed)
+  const INR_RATE = 83;
+  const amtINR = (amt * INR_RATE).toFixed(2);
+
+  // Build UPI deep-link (works with GPay, PhonePe, Paytm, any UPI app)
+  // Sender can use ANY bank account or UPI app — they just need UPI
+  const upiLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amtINR}&cu=INR&tn=Donation+to+J+Idea`;
+  // Google Pay specific deep-link (tez://)
+  const gpayLink = `tez://upi/pay?pa=${encodeURIComponent(UPI_ID)}&pn=${UPI_NAME}&am=${amtINR}&cu=INR&tn=Donation+to+J+Idea`;
+
+  // Show the payment panel with both links
+  document.getElementById('upiAmt').textContent = `₹${amtINR} (~$${amt.toFixed(2)})`;
+  document.getElementById('upiID').textContent = UPI_ID;
+  document.getElementById('gpayBtn').onclick = () => { window.location.href = gpayLink; };
+  document.getElementById('upiBtn').onclick  = () => { window.location.href = upiLink; };
+  document.getElementById('searchGpayBtn').onclick = () => {
+    window.open('https://pay.google.com/about/', '_blank');
+  };
+  document.getElementById('upiQRText').textContent = upiLink;
+  goPayStep(3);
+}
+
+// Card number formatter
+function fmtCard(el){
+  let v=el.value.replace(/\D/g,'').slice(0,16);
+  el.value=v.replace(/(.{4})/g,'$1 ').trim();
+}
+// Expiry formatter
+function fmtExp(el){
+  let v=el.value.replace(/\D/g,'').slice(0,4);
+  if(v.length>=3) v=v.slice(0,2)+' / '+v.slice(2);
+  el.value=v;
+}
+
+// ═══════════════ THEME ═══════════════
+function toggleTheme(){
+  const themes=[
+    {bg:'#0b0f1a',surf:'#111827',card:'#1a2235',bord:'#253050',text:'#e2e8f8',muted:'#4a5880'},
+    {bg:'#f0f4ff',surf:'#ffffff',card:'#f5f8ff',bord:'#d8e0f0',text:'#1a2040',muted:'#7a88b0'},
+    {bg:'#040e18',surf:'#071424',card:'#0b1c32',bord:'#142848',text:'#c8d8f0',muted:'#3a5878'},
+    {bg:'#050e06',surf:'#081408',card:'#0c1c10',bord:'#162818',text:'#c0e0c4',muted:'#3a6040'},
+  ];
+  const cur=parseInt(localStorage.getItem('jrc_theme')||'0');
+  const next=(cur+1)%themes.length;
+  const v=themes[next];
+  const r=document.documentElement.style;
+  Object.entries(v).forEach(([k,val])=>r.setProperty('--'+k,val));
+  localStorage.setItem('jrc_theme',String(next));
+  toast('🎨 Theme changed');
+}
+
+// ═══════════════ TOAST ═══════════════
+function toast(msg,dur=2200){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),dur);
+}
+
+// ═══════════════ INIT ═══════════════
+buildMatUI('A'); buildMatUI('B'); buildUnitSels(); renderConstList();
+
+// Restore theme
+(function(){
+  const savedT=parseInt(localStorage.getItem('jrc_theme')||'0');
+  if(savedT>0){
+    const themes=[null,
+      {bg:'#f0f4ff',surf:'#ffffff',card:'#f5f8ff',bord:'#d8e0f0',text:'#1a2040',muted:'#7a88b0'},
+      {bg:'#040e18',surf:'#071424',card:'#0b1c32',bord:'#142848',text:'#c8d8f0',muted:'#3a5878'},
+      {bg:'#050e06',surf:'#081408',card:'#0c1c10',bord:'#162818',text:'#c0e0c4',muted:'#3a6040'},
+    ];
+    const v=themes[savedT];
+    if(v){const r=document.documentElement.style;Object.entries(v).forEach(([k,val])=>r.setProperty('--'+k,val));}
+  }
+})();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Research Calculator — J Idea</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#0b0f1a;--surf:#111827;--card:#1a2235;--bord:#253050;
+  --text:#e2e8f8;--muted:#4a5880;--acc:#3b82f6;--acc2:#f97316;
+  --acc3:#22c55e;--acc4:#a855f7;--red:#ef4444;
+  --mono:'JetBrains Mono',monospace;--disp:'Syne',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow-x:hidden;}
+.hdr{background:var(--surf);border-bottom:2px solid var(--bord);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.logo{display:flex;align-items:center;gap:8px;}
+.logo-svg{width:38px;height:38px;}
+.logo-name{font-family:var(--disp);font-size:12px;font-weight:800;color:var(--acc);letter-spacing:1px;line-height:1.1;}
+.logo-sub{font-size:8px;color:var(--muted);letter-spacing:2px;}
+.hdr-right{display:flex;gap:6px;}
+.hbtn{background:var(--card);border:1px solid var(--bord);color:var(--text);padding:5px 10px;border-radius:6px;font-family:var(--mono);font-size:10px;cursor:pointer;}
+.hbtn.red{background:var(--acc2);border-color:var(--acc2);color:#fff;}
+.display-wrap{background:var(--surf);border-bottom:2px solid var(--bord);padding:10px 14px;}
+.display-hist{font-size:11px;color:var(--muted);min-height:18px;text-align:right;word-break:break-all;margin-bottom:2px;}
+.display-main{font-size:26px;color:var(--text);text-align:right;word-break:break-all;min-height:36px;line-height:1.2;font-family:var(--mono);}
+.display-result{font-size:18px;color:var(--acc3);text-align:right;word-break:break-all;min-height:24px;margin-top:4px;font-family:var(--mono);}
+.display-note{font-size:10px;color:var(--muted);text-align:right;min-height:14px;margin-top:2px;}
+.tab-row{display:flex;overflow-x:auto;background:var(--surf);border-bottom:1px solid var(--bord);scrollbar-width:none;padding:0 4px;}
+.tab-row::-webkit-scrollbar{display:none;}
+.ktab{padding:8px 12px;font-size:10px;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;letter-spacing:.5px;font-family:var(--mono);}
+.ktab.on{color:var(--acc);border-bottom-color:var(--acc);font-weight:700;}
+.keypad{display:none;padding:6px;background:var(--bg);}
+.keypad.on{display:block;}
+.kgrid{display:grid;gap:5px;}
+.k{background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:0;height:46px;font-family:var(--mono);font-size:13px;color:var(--text);cursor:pointer;transition:all .1s;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;user-select:none;}
+.k:active{transform:scale(.93);filter:brightness(.75);}
+.k.blue{background:var(--acc);color:#fff;border-color:var(--acc);}
+.k.orange{background:var(--acc2);color:#fff;border-color:var(--acc2);}
+.k.green{background:var(--acc3);color:#000;border-color:var(--acc3);}
+.k.purple{background:var(--acc4);color:#fff;border-color:var(--acc4);}
+.k.red{background:var(--red);color:#fff;border-color:var(--red);}
+.k.dark{background:var(--surf);color:var(--acc2);}
+.k.eq{background:var(--acc);color:#fff;font-weight:800;font-size:18px;height:56px;}
+.k.wide{grid-column:span 2;}
+.k.fn{font-size:11px;height:42px;}
+.result-panel{background:var(--surf);border-top:2px solid var(--bord);padding:10px 14px;display:none;}
+.r-label{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.r-val{font-size:14px;color:var(--acc3);word-break:break-all;white-space:pre-wrap;line-height:1.6;max-height:180px;overflow-y:auto;}
+.r-note{font-size:10px;color:var(--muted);margin-top:4px;white-space:pre-wrap;}
+.r-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.r-tag{background:rgba(59,130,246,.12);border:1px solid var(--acc);border-radius:4px;padding:2px 7px;font-size:11px;color:var(--acc);}
+.r-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;}
+.r-cell{background:var(--card);border:1px solid var(--bord);border-radius:7px;padding:8px;}
+.r-cell .lbl{font-size:9px;color:var(--muted);margin-bottom:3px;letter-spacing:1px;}
+.r-cell .val{font-size:13px;color:var(--acc3);word-break:break-all;}
+.toast{position:fixed;bottom:12px;left:50%;transform:translateX(-50%) translateY(30px);background:var(--acc);color:#fff;padding:7px 16px;border-radius:20px;font-size:11px;font-weight:700;opacity:0;transition:.3s;z-index:999;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;}
+.modal-bg.on{display:flex;}
+.modal{background:var(--surf);border-radius:16px 16px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:16px;}
+.modal-title{font-family:var(--disp);font-size:14px;font-weight:800;color:var(--acc);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+.hist-item{background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-bottom:6px;cursor:pointer;}
+.hist-item:active{opacity:.7;}
+.hist-expr{font-size:11px;color:var(--text);margin-bottom:2px;word-break:break-all;}
+.hist-res{font-size:13px;color:var(--acc3);font-weight:700;word-break:break-all;}
+.hist-time{font-size:9px;color:var(--muted);margin-top:2px;}
+.const-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.const-input{flex:1;background:var(--card);border:1px solid var(--bord);border-radius:6px;padding:6px 8px;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;}
+.const-input:focus{border-color:var(--acc);}
+.const-btn{background:var(--card);border:1px solid var(--bord);color:var(--acc2);padding:6px 8px;border-radius:6px;font-family:var(--mono);font-size:11px;cursor:pointer;white-space:nowrap;}
+/* Payment modal styles */
+.pay-step{display:none;}
+.pay-step.on{display:block;}
+.pay-input{width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px 12px;color:var(--text);font-family:var(--mono);font-size:14px;outline:none;margin-bottom:8px;transition:.2s;}
+.pay-input:focus{border-color:var(--acc);}
+.pay-row{display:flex;gap:8px;}
+.pay-row .pay-input{flex:1;}
+.pay-method{display:flex;gap:8px;margin-bottom:12px;}
+.pay-method-btn{flex:1;background:var(--card);border:2px solid var(--bord);border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;transition:.2s;}
+.pay-method-btn.sel{border-color:var(--acc);background:rgba(59,130,246,.1);}
+.pay-method-btn .pm-icon{font-size:20px;margin-bottom:4px;}
+.pay-method-btn .pm-label{font-size:9px;color:var(--muted);}
+.pay-security{font-size:9px;color:var(--muted);text-align:center;margin-top:10px;}
+.pay-progress{display:flex;gap:6px;margin-bottom:16px;}
+.pay-step-dot{flex:1;height:3px;border-radius:2px;background:var(--bord);transition:.3s;}
+.pay-step-dot.done{background:var(--acc3);}
+.pay-step-dot.active{background:var(--acc);}
+.success-anim{text-align:center;padding:20px 10px;}
+.success-anim .checkmark{font-size:60px;display:block;margin-bottom:12px;animation:pop .4s ease;}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">
+    <svg class="logo-svg" viewBox="0 0 38 38" fill="none">
+      <rect x="2" y="2" width="34" height="34" rx="7" fill="var(--card)" stroke="var(--acc)" stroke-width="1.5"/>
+      <rect x="6" y="6" width="26" height="9" rx="3" fill="var(--bg)"/>
+      <text x="19" y="14" text-anchor="middle" font-family="Syne" font-size="5.5" fill="var(--acc)" font-weight="800">J IDEA</text>
+      <circle cx="11" cy="23" r="2.2" fill="var(--acc2)"/>
+      <circle cx="19" cy="23" r="2.2" fill="var(--acc)"/>
+      <circle cx="27" cy="23" r="2.2" fill="var(--acc3)"/>
+      <rect x="7" y="29" width="7" height="3.5" rx="1.2" fill="var(--acc)"/>
+      <rect x="17" y="29" width="4" height="3.5" rx="1.2" fill="var(--card)" stroke="var(--acc)" stroke-width=".7"/>
+      <rect x="24" y="29" width="7" height="3.5" rx="1.2" fill="var(--acc2)"/>
+    </svg>
+    <div><div class="logo-name">RESEARCH CALC</div><div class="logo-sub">by J IDEA</div></div>
+  </div>
+  <div class="hdr-right">
+    <button class="hbtn" onclick="toggleTheme()">🌓</button>
+    <button class="hbtn" onclick="openHist()">📜 Hist</button>
+    <button class="hbtn red" onclick="showDonate()">Donation</button>
+  </div>
+</header>
+
+<div class="display-wrap">
+  <div class="display-hist" id="dHist"></div>
+  <div class="display-main" id="dMain">0</div>
+  <div class="display-result" id="dResult"></div>
+  <div class="display-note" id="dNote"></div>
+</div>
+
+<div class="tab-row">
+  <div class="ktab on"  id="ktab-basic"     onclick="showTab('basic')">🔢 Basic</div>
+  <div class="ktab"     id="ktab-trig"      onclick="showTab('trig')">📐 Trig</div>
+  <div class="ktab"     id="ktab-hyp"       onclick="showTab('hyp')">∞ Hyp</div>
+  <div class="ktab"     id="ktab-log"       onclick="showTab('log')">㏒ Log</div>
+  <div class="ktab"     id="ktab-combo"     onclick="showTab('combo')">🎲 Combo</div>
+  <div class="ktab"     id="ktab-sigma"     onclick="showTab('sigma')">Σ Sum</div>
+  <div class="ktab"     id="ktab-calc"      onclick="showTab('calc')">∂ Calc</div>
+  <div class="ktab"     id="ktab-const"     onclick="showTab('const')">π Const</div>
+  <div class="ktab"     id="ktab-matrix"    onclick="showTab('matrix')">⊞ Matrix</div>
+  <div class="ktab"     id="ktab-stats"     onclick="showTab('stats')">📊 Stats</div>
+  <div class="ktab"     id="ktab-units"     onclick="showTab('units')">⚖ Units</div>
+  <div class="ktab"     id="ktab-factor"    onclick="showTab('factor')">🔍 Factor</div>
+  <div class="ktab"     id="ktab-partition" onclick="showTab('partition')">🔣 Partition</div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── BASIC ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad on" id="kp-basic">
+  <div class="kgrid" style="grid-template-columns:repeat(4,1fr)">
+    <button class="k red wide" onclick="kp('AC')">AC</button>
+    <button class="k dark"     onclick="kp('⌫')">⌫</button>
+    <button class="k dark"     onclick="kp('(')">( )</button>
+
+    <button class="k blue"   onclick="kp('7')">7</button>
+    <button class="k blue"   onclick="kp('8')">8</button>
+    <button class="k blue"   onclick="kp('9')">9</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+
+    <button class="k blue"   onclick="kp('4')">4</button>
+    <button class="k blue"   onclick="kp('5')">5</button>
+    <button class="k blue"   onclick="kp('6')">6</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+
+    <button class="k blue"   onclick="kp('1')">1</button>
+    <button class="k blue"   onclick="kp('2')">2</button>
+    <button class="k blue"   onclick="kp('3')">3</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+
+    <button class="k blue"   onclick="kp('0')">0</button>
+    <button class="k blue"   onclick="kp('.')">.</button>
+    <button class="k dark"   onclick="kp('+/-')">±</button>
+    <button class="k orange" onclick="kp('+')">+</button>
+
+    <button class="k dark" onclick="kp('%')">%</button>
+    <button class="k dark" onclick="kp('^')">xⁿ</button>
+    <button class="k dark" onclick="kp('sqrt(')">√x</button>
+    <button class="k green wide eq" onclick="kp('=')">=</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── TRIG ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-trig">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap a function → enter number (radians) → tap =</div>
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+    <button class="k fn" onclick="kp('sin(')">sin( )</button>
+    <button class="k fn" onclick="kp('cos(')">cos( )</button>
+    <button class="k fn" onclick="kp('tan(')">tan( )</button>
+    <button class="k fn" onclick="kp('cot(')">cot( )</button>
+    <button class="k fn" onclick="kp('sec(')">sec( )</button>
+    <button class="k fn" onclick="kp('csc(')">csc( )</button>
+    <button class="k fn" onclick="kp('asin(')">asin( )</button>
+    <button class="k fn" onclick="kp('acos(')">acos( )</button>
+    <button class="k fn" onclick="kp('atan(')">atan( )</button>
+    <button class="k fn purple" onclick="kp('PI/')">π/x</button>
+    <button class="k fn purple" onclick="kp('PI')">π</button>
+    <button class="k fn purple" onclick="kp('*(PI/180)')">deg→rad</button>
+  </div>
+  <!-- Arithmetic row for trig -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k blue" onclick="kp('1')">1</button>
+    <button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button>
+    <button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k blue" onclick="kp('4')">4</button>
+    <button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button>
+    <button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('7')">7</button>
+    <button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button>
+    <button class="k dark"  onclick="kp('(')">( )</button>
+    <button class="k red"   onclick="kp('AC')">AC</button>
+    <button class="k blue"  onclick="kp('0')">0</button>
+    <button class="k dark"  onclick="kp(')')">)</button>
+    <button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+  <div id="trigAllOut" style="display:none;margin-top:8px;">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">All trig values for your last input:</div>
+    <div class="r-grid" id="trigAllGrid"></div>
+  </div>
+  <button class="k green fn" style="width:100%;margin-top:6px;" onclick="calcAllTrig()">📐 CALCULATE ALL TRIG VALUES AT ONCE</button>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── HYPERBOLIC ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-hyp">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap function → enter number → tap =</div>
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+    <button class="k fn purple" onclick="kp('sinh(')">sinh( )</button>
+    <button class="k fn purple" onclick="kp('cosh(')">cosh( )</button>
+    <button class="k fn purple" onclick="kp('tanh(')">tanh( )</button>
+    <button class="k fn purple" onclick="kp('coth(')">coth( )</button>
+    <button class="k fn purple" onclick="kp('sech(')">sech( )</button>
+    <button class="k fn purple" onclick="kp('csch(')">csch( )</button>
+  </div>
+  <!-- Arithmetic row for hyp -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button><button class="k dark"  onclick="kp('(')">( )</button>
+    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
+    <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+  <button class="k purple fn" style="width:100%;margin-top:6px;" onclick="calcAllHyp()">∞ CALCULATE ALL HYPERBOLIC AT ONCE</button>
+  <div id="hypAllOut" style="display:none;margin-top:8px;">
+    <div class="r-grid" id="hypAllGrid"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- ── LOG / EXP ── (FIXED) -->
 <!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-log">
   <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
