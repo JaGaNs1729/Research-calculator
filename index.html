@@ -264,50 +264,65 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
 
 <!-- ══════════════════════════════════════ -->
 <!-- ── LOG / EXP ── (FIXED) -->
-<!-- ══════════════════════════════════════ -->
-<div class="keypad" id="kp-log">
-  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
-    <button class="k fn" onclick="kp('ln(')">ln( )</button>
-    <button class="k fn" onclick="kp('log10(')">log₁₀</button>
-    <button class="k fn" onclick="kp('log2(')">log₂</button>
-    <button class="k fn" onclick="kp('exp(')">eˣ</button>
-    <button class="k fn" onclick="kp('sqrt(')">√x</button>
-    <button class="k fn" onclick="kp('cbrt(')">∛x</button>
-    <button class="k fn" onclick="kp('^2')">x²</button>
-    <button class="k fn" onclick="kp('^3')">x³</button>
-    <button class="k fn" onclick="kp('^0.5')">x^½</button>
-    <button class="k fn" onclick="kp('1/(')">1/x</button>
-    <button class="k fn" onclick="kp('abs(')">|x|</button>
-    <button class="k fn" onclick="kp('fact(')">x!</button>
-    <button class="k fn" onclick="kp('gamma(')">Γ(x)</button>
-    <button class="k fn" onclick="kp('floor(')">floor</button>
-    <button class="k fn" onclick="kp('ceil(')">ceil</button>
-    <button class="k fn" onclick="kp('round(')">round</button>
-    <button class="k fn" onclick="kp('sign(')">sign</button>
-    <button class="k fn" onclick="kp('logb(')">logₙ(x,n)</button>
-  </div>
-  <!-- Arithmetic operators row -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
-    <button class="k orange" onclick="kp('+')">+</button>
-    <button class="k orange" onclick="kp('−')">−</button>
-    <button class="k orange" onclick="kp('×')">×</button>
-    <button class="k orange" onclick="kp('÷')">÷</button>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
-    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
-    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp(',')">  ,  </button>
-    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
-    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('.')">.</button>
-    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
-    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
-    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
-    <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
-  </div>
-  <button class="k fn" style="width:100%;margin-top:6px;background:var(--acc);color:#fff;" onclick="calcAllLog()">㏒ CALCULATE ALL LOG/EXP VALUES AT ONCE</button>
-  <div id="logAllOut" style="display:none;margin-top:8px;"><div class="r-grid" id="logAllGrid"></div></div>
-</div>
+<!-- ══════════════════════════════════
+<!-- ══════════════════════════════════════ --><!-- ── LOG / EXP ── (FIXED & CLEAN) --><!-- ══════════════════════════════════════ --><div class="keypad" id="kp-log">  <!-- Function buttons -->  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)"><button class="k fn" onclick="kp('ln(')">ln( )</button>
+<button class="k fn" onclick="kp('log10(')">log₁₀</button>
+<button class="k fn" onclick="kp('log2(')">log₂</button>
 
-<!-- ══════════════════════════════════════ -->
+<button class="k fn" onclick="kp('exp(')">eˣ</button>
+<button class="k fn" onclick="kp('sqrt(')">√x</button>
+<button class="k fn" onclick="kp('cbrt(')">∛x</button>
+
+<button class="k fn" onclick="kp('^2')">x²</button>
+<button class="k fn" onclick="kp('^3')">x³</button>
+<button class="k fn" onclick="kp('^0.5')">x^½</button>
+
+<button class="k fn" onclick="kp('1/(')">1/x</button>
+<button class="k fn" onclick="kp('abs(')">|x|</button>
+<button class="k fn" onclick="kp('fact(')">x!</button>
+
+<button class="k fn" onclick="kp('gamma(')">Γ(x)</button>
+<button class="k fn" onclick="kp('floor(')">floor</button>
+<button class="k fn" onclick="kp('ceil(')">ceil</button>
+
+<button class="k fn" onclick="kp('round(')">round</button>
+<button class="k fn" onclick="kp('sign(')">sign</button>
+<button class="k fn" onclick="kp('logb(')">logₙ(x,n)</button>
+
+  </div>  <!-- Arithmetic operators -->  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('-')">−</button>
+    <button class="k orange" onclick="kp('*')">×</button>
+    <button class="k orange" onclick="kp('/')">÷</button>
+  </div>  <!-- Number keypad -->  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;"><button class="k blue" onclick="kp('1')">1</button>
+<button class="k blue" onclick="kp('2')">2</button>
+<button class="k blue" onclick="kp('3')">3</button>
+<button class="k dark" onclick="kp(',')">,</button>
+
+<button class="k blue" onclick="kp('4')">4</button>
+<button class="k blue" onclick="kp('5')">5</button>
+<button class="k blue" onclick="kp('6')">6</button>
+<button class="k dark" onclick="kp('.')">.</button>
+
+<button class="k blue" onclick="kp('7')">7</button>
+<button class="k blue" onclick="kp('8')">8</button>
+<button class="k blue" onclick="kp('9')">9</button>
+<button class="k dark" onclick="kp('⌫')">⌫</button>
+
+<button class="k red" onclick="kp('AC')">AC</button>
+<button class="k blue" onclick="kp('0')">0</button>
+<button class="k dark" onclick="kp(')')">)</button>
+<button class="k green eq" onclick="kp('=')">=</button>
+
+  </div>  <!-- Calculate all logs --><button class="k fn"
+style="width:100%;margin-top:6px;background:var(--acc);color:#fff;"
+onclick="calcAllLog()">
+㏒ CALCULATE ALL LOG / EXP VALUES AT ONCE
+</button>
+
+  <!-- Output -->  <div id="logAllOut" style="display:none;margin-top:8px;">
+    <div class="r-grid" id="logAllGrid"></div>
+  </div></div> ══════════════════════════════════════ -->
 <!-- ── COMBO ── -->
 <!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-combo">
