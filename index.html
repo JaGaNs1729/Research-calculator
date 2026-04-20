@@ -272,8 +272,86 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
 <!-- ── LOG / EXP ── -->
 <!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-log">
+
+  <!-- ── Taylor ln(x) block ── -->
+  <div style="background:var(--card);border:1px solid var(--acc);border-radius:10px;padding:10px;margin-bottom:8px;">
+    <div style="font-size:9px;color:var(--acc);letter-spacing:2px;margin-bottom:6px;">ln(x) — INFINITE TAYLOR SERIES (1000 terms)</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.5;">
+      ln(x) = 2·Σ [1/(2k+1) · ((x−1)/(x+1))^(2k+1)]  k=0,1,2,…
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:6px;">
+      <button class="k blue" onclick="lnKp('1')">1</button><button class="k blue" onclick="lnKp('2')">2</button>
+      <button class="k blue" onclick="lnKp('3')">3</button><button class="k dark" onclick="lnKp('⌫')">⌫</button>
+      <button class="k blue" onclick="lnKp('4')">4</button><button class="k blue" onclick="lnKp('5')">5</button>
+      <button class="k blue" onclick="lnKp('6')">6</button><button class="k dark" onclick="lnKp('.')">.</button>
+      <button class="k blue" onclick="lnKp('7')">7</button><button class="k blue" onclick="lnKp('8')">8</button>
+      <button class="k blue" onclick="lnKp('9')">9</button><button class="k red"  onclick="lnKp('AC')">AC</button>
+      <button class="k blue wide" onclick="lnKp('0')">0</button>
+      <button class="k dark" onclick="lnKp('e')">E</button>
+      <button class="k green eq" onclick="doTaylorLn()" style="height:46px;">=</button>
+    </div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;min-height:16px;" id="lnInputDisp">x = </div>
+    <div id="lnOut" style="display:none;margin-top:8px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">RESULT</div>
+      <div style="font-size:16px;color:var(--acc3);word-break:break-all;" id="lnResult"></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;white-space:pre-wrap;line-height:1.6;" id="lnNote"></div>
+    </div>
+  </div>
+
+  <!-- ── Taylor logₙ(x) block ── -->
+  <div style="background:var(--card);border:1px solid var(--acc4);border-radius:10px;padding:10px;margin-bottom:8px;">
+    <div style="font-size:9px;color:var(--acc4);letter-spacing:2px;margin-bottom:6px;">logₙ(x) — TAYLOR SERIES (1000 terms) via ln(x)/ln(n)</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.5;">
+      logₙ(x) = ln(x) / ln(n) — both computed by Taylor series
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:6px;">
+      <div style="flex:1;">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">x (number)</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','1')">1</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','2')">2</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','3')">3</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('x','⌫')">⌫</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','4')">4</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','5')">5</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','6')">6</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('x','.')">.</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','7')">7</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','8')">8</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','9')">9</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','0')">0</button>
+        </div>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:3px;" id="logbXDisp">x = </div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">n (base)</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','1')">1</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','2')">2</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','3')">3</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('n','⌫')">⌫</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','4')">4</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','5')">5</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','6')">6</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('n','.')">.</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','7')">7</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','8')">8</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','9')">9</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','0')">0</button>
+        </div>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:3px;" id="logbNDisp">n = </div>
+      </div>
+    </div>
+    <button class="k green fn" style="width:100%;" onclick="doTaylorLogb()">= CALCULATE logₙ(x)</button>
+    <div id="logbOut" style="display:none;margin-top:8px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">RESULT</div>
+      <div style="font-size:16px;color:var(--acc3);word-break:break-all;" id="logbResult"></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;white-space:pre-wrap;line-height:1.6;" id="logbNote"></div>
+    </div>
+  </div>
+
+  <!-- ── Other functions ── -->
   <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
-    <button class="k fn" onclick="kp('ln(')">ln( )</button>
     <button class="k fn" onclick="kp('log10(')">log₁₀</button>
     <button class="k fn" onclick="kp('log2(')">log₂</button>
     <button class="k fn" onclick="kp('exp(')">eˣ</button>
@@ -290,7 +368,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
     <button class="k fn" onclick="kp('ceil(')">ceil</button>
     <button class="k fn" onclick="kp('round(')">round</button>
     <button class="k fn" onclick="kp('sign(')">sign</button>
-    <button class="k fn" onclick="kp('logb(')">logₙ(x,n)</button>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
     <button class="k orange" onclick="kp('+')">+</button>
@@ -1296,6 +1373,89 @@ function calcAllHyp() {
   document.getElementById('hypAllOut').style.display='block';
   addHist('allHyp('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
 }
+// ═══════════════ TAYLOR ln(x) & logb(x,n) ═══════════════
+let lnVal = '';
+let logbXVal = '', logbNVal = '';
+
+function lnKp(k) {
+  if (k === 'AC') { lnVal = ''; }
+  else if (k === '⌫') { lnVal = lnVal.slice(0,-1); }
+  else { lnVal += k; }
+  document.getElementById('lnInputDisp').textContent = 'x = ' + (lnVal || '0');
+}
+function logbKp(field, k) {
+  if (field === 'x') {
+    if (k === '⌫') logbXVal = logbXVal.slice(0,-1);
+    else logbXVal += k;
+    document.getElementById('logbXDisp').textContent = 'x = ' + (logbXVal || '0');
+  } else {
+    if (k === '⌫') logbNVal = logbNVal.slice(0,-1);
+    else logbNVal += k;
+    document.getElementById('logbNDisp').textContent = 'n = ' + (logbNVal || '0');
+  }
+}
+
+// Core Taylor series: ln(x) = 2·Σ [1/(2k+1)]·u^(2k+1), u=(x-1)/(x+1)
+// Converges for ALL x > 0. Range-reduced for speed & precision.
+function _taylorLnCore(x) {
+  const u = (x - 1) / (x + 1);
+  const u2 = u * u;
+  let term = u, sum = 0;
+  for (let k = 0; k < 1000; k++) {
+    sum += term / (2 * k + 1);
+    term *= u2;
+    if (Math.abs(term) < 1e-17) break;
+  }
+  return 2 * sum;
+}
+function taylorLn(x) {
+  if (x <= 0) return NaN;
+  if (x === 1) return 0;
+  // Range reduce: x = y * 2^shift, 0.5 <= y < 2
+  let shift = 0, y = x;
+  while (y >= 2)  { y /= 2; shift++; }
+  while (y < 0.5) { y *= 2; shift--; }
+  const ln2 = _taylorLnCore(2);
+  return _taylorLnCore(y) + shift * ln2;
+}
+
+function doTaylorLn() {
+  if (!lnVal) { toast('Enter x first'); return; }
+  const x = parseFloat(lnVal);
+  if (isNaN(x) || x <= 0) { toast('⚠️ x must be > 0'); return; }
+  const result = taylorLn(x);
+  document.getElementById('lnResult').textContent = 'ln(' + x + ') = ' + result.toPrecision(15);
+  document.getElementById('lnNote').textContent =
+    'Series: 2·Σ [1/(2k+1)]·((x−1)/(x+1))^(2k+1)\n' +
+    'Terms: up to 1000, stops when |term| < 1e−17\n' +
+    'Result (15 sig. fig.): ' + result.toPrecision(15) + '\n' +
+    'JS Math.log cross-check: ' + Math.log(x) + '\n' +
+    'Δ error: ' + Math.abs(result - Math.log(x)).toExponential(3);
+  document.getElementById('lnOut').style.display = 'block';
+  setDisplay(String(result)); setResult(result.toPrecision(15));
+  addHist('taylorLn(' + x + ')', result.toPrecision(15));
+}
+
+function doTaylorLogb() {
+  if (!logbXVal) { toast('Enter x first'); return; }
+  if (!logbNVal) { toast('Enter base n first'); return; }
+  const x = parseFloat(logbXVal), n = parseFloat(logbNVal);
+  if (isNaN(x) || x <= 0) { toast('⚠️ x must be > 0'); return; }
+  if (isNaN(n) || n <= 0 || n === 1) { toast('⚠️ Base n must be > 0 and ≠ 1'); return; }
+  const lnX = taylorLn(x), lnN = taylorLn(n);
+  const result = lnX / lnN;
+  document.getElementById('logbResult').textContent = 'log' + n + '(' + x + ') = ' + result.toPrecision(15);
+  document.getElementById('logbNote').textContent =
+    'Formula: ln(x) / ln(n) — both via 1000-term Taylor series\n' +
+    'ln(' + x + ') = ' + lnX.toPrecision(15) + '\n' +
+    'ln(' + n + ') = ' + lnN.toPrecision(15) + '\n' +
+    'log' + n + '(' + x + ') = ' + result.toPrecision(15) + '\n' +
+    'JS cross-check: ' + (Math.log(x)/Math.log(n));
+  document.getElementById('logbOut').style.display = 'block';
+  setDisplay(String(result)); setResult(result.toPrecision(15));
+  addHist('log' + n + '(' + x + ')', result.toPrecision(15));
+}
+
 function calcAllLog() {
   if (!expr){toast('Enter a value first');return;}
   let safeExpr = expr;
@@ -1308,7 +1468,7 @@ function calcAllLog() {
   let x; try{x=mathEval(safeExpr);}catch(e){toast('❌ Invalid expression');return;}
   if (!isFinite(x)){toast('⚠️ Value must be a finite number');return;}
   const fns=[
-    ['ln(x)',Math.log(x)],['log₁₀(x)',Math.log10(x)],['log₂(x)',Math.log2(x)],
+    ['ln(x) Taylor',taylorLn(x)],['log₁₀(x)',taylorLn(x)/taylorLn(10)],['log₂(x)',taylorLn(x)/taylorLn(2)],
     ['exp(x)',Math.exp(x)],['√x',Math.sqrt(x)],['∛x',Math.cbrt(x)],
     ['x²',x*x],['x³',x*x*x],['1/x',1/x],['|x|',Math.abs(x)],
     ['x!',_fact(Math.round(x))],['Γ(x)',_gamma(x)],
@@ -1318,6 +1478,7 @@ function calcAllLog() {
   document.getElementById('logAllOut').style.display='block';
   addHist('allLog('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
 }
+
 
 function calcBinomExpand() {
   if (!expr){toast('Enter n first');return;}
