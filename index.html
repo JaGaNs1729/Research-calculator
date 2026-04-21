@@ -55,6 +55,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
 .r-cell{background:var(--card);border:1px solid var(--bord);border-radius:7px;padding:8px;}
 .r-cell .lbl{font-size:9px;color:var(--muted);margin-bottom:3px;letter-spacing:1px;}
 .r-cell .val{font-size:13px;color:var(--acc3);word-break:break-all;}
+.help-section{font-family:var(--disp);font-size:13px;font-weight:800;color:var(--acc);margin-bottom:8px;}
+.help-text{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:10px;}
+.help-table{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.help-row{display:flex;align-items:flex-start;gap:8px;background:var(--card);border:1px solid var(--bord);border-radius:7px;padding:7px 9px;}
+.help-key{font-size:10px;font-weight:700;color:var(--acc2);min-width:90px;flex-shrink:0;padding-top:1px;}
+.help-desc{font-size:10px;color:var(--text);line-height:1.5;}
+.help-example{font-size:10px;color:var(--acc3);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:6px;padding:7px 9px;margin-bottom:5px;line-height:1.6;}
+.hcontent{animation:fadein .2s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .toast{position:fixed;bottom:12px;left:50%;transform:translateX(-50%) translateY(30px);background:var(--acc);color:#fff;padding:7px 16px;border-radius:20px;font-size:11px;font-weight:700;opacity:0;transition:.3s;z-index:999;white-space:nowrap;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;}
@@ -111,6 +120,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   <div class="hdr-right">
     <button class="hbtn" onclick="toggleTheme()">🌓</button>
     <button class="hbtn" onclick="openHist()">📜 Hist</button>
+    <button class="hbtn" onclick="openHelp()" style="background:var(--acc4);border-color:var(--acc4);color:#fff;">❓ Help</button>
     <button class="hbtn red" onclick="showDonate()">Donation</button>
   </div>
 </header>
@@ -699,6 +709,234 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   <div class="r-note" id="rNote"></div>
   <div class="r-tags" id="rTags" style="display:none;"></div>
   <div class="r-grid" id="rGrid" style="display:none;"></div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="modal-bg" id="helpModal" onclick="if(event.target===this)closeHelp()">
+  <div class="modal">
+    <div class="modal-title">❓ Help — Research Calculator
+      <button class="hbtn" onclick="closeHelp()">✕</button>
+    </div>
+
+    <!-- Tab selector -->
+    <div style="display:flex;overflow-x:auto;gap:6px;margin-bottom:12px;scrollbar-width:none;padding-bottom:4px;">
+      <button class="hbtn" id="htab-basic"     onclick="showHTab('basic')"     style="white-space:nowrap;background:var(--acc);color:#fff;border-color:var(--acc);">🔢 Basic</button>
+      <button class="hbtn" id="htab-trig"      onclick="showHTab('trig')"      style="white-space:nowrap;">📐 Trig</button>
+      <button class="hbtn" id="htab-hyp"       onclick="showHTab('hyp')"       style="white-space:nowrap;">∞ Hyp</button>
+      <button class="hbtn" id="htab-log"       onclick="showHTab('log')"       style="white-space:nowrap;">㏒ Log</button>
+      <button class="hbtn" id="htab-combo"     onclick="showHTab('combo')"     style="white-space:nowrap;">🎲 Combo</button>
+      <button class="hbtn" id="htab-sigma"     onclick="showHTab('sigma')"     style="white-space:nowrap;">Σ Sum</button>
+      <button class="hbtn" id="htab-calc"      onclick="showHTab('calc')"      style="white-space:nowrap;">∂ Calc</button>
+      <button class="hbtn" id="htab-const"     onclick="showHTab('const')"     style="white-space:nowrap;">π Const</button>
+      <button class="hbtn" id="htab-matrix"    onclick="showHTab('matrix')"    style="white-space:nowrap;">⊞ Matrix</button>
+      <button class="hbtn" id="htab-stats"     onclick="showHTab('stats')"     style="white-space:nowrap;">📊 Stats</button>
+      <button class="hbtn" id="htab-units"     onclick="showHTab('units')"     style="white-space:nowrap;">⚖ Units</button>
+      <button class="hbtn" id="htab-factor"    onclick="showHTab('factor')"    style="white-space:nowrap;">🔍 Factor</button>
+      <button class="hbtn" id="htab-partition" onclick="showHTab('partition')"  style="white-space:nowrap;">🔣 Partition</button>
+    </div>
+
+    <!-- Help content panels -->
+    <div id="hcontent-basic" class="hcontent">
+      <div class="help-section">🔢 Basic Calculator</div>
+      <div class="help-text">Tap number buttons to build your expression. The display updates as you type.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">AC</span><span class="help-desc">Clear everything and start fresh</span></div>
+        <div class="help-row"><span class="help-key">⌫</span><span class="help-desc">Delete the last character typed</span></div>
+        <div class="help-row"><span class="help-key">( )</span><span class="help-desc">Open bracket — auto-adds × if needed (e.g. 5( → 5×()</span></div>
+        <div class="help-row"><span class="help-key">)</span><span class="help-desc">Close bracket</span></div>
+        <div class="help-row"><span class="help-key">±</span><span class="help-desc">Toggle positive / negative sign</span></div>
+        <div class="help-row"><span class="help-key">%</span><span class="help-desc">Percent — appends % to expression</span></div>
+        <div class="help-row"><span class="help-key">xⁿ</span><span class="help-desc">Power — tap number, then xⁿ, then exponent, then =</span></div>
+        <div class="help-row"><span class="help-key">√x</span><span class="help-desc">Square root — opens sqrt( for you</span></div>
+        <div class="help-row"><span class="help-key">=</span><span class="help-desc">Evaluate the expression and show the result</span></div>
+      </div>
+      <div class="help-example">Example: 3 × (4 + 5)² → tap 3 × ( 4 + 5 ) xⁿ 2 =  →  Result: 243</div>
+    </div>
+
+    <div id="hcontent-trig" class="hcontent" style="display:none;">
+      <div class="help-section">📐 Trigonometry</div>
+      <div class="help-text">All trig functions work in <b style="color:var(--acc2)">radians</b>. To convert degrees → tap your angle then the deg→rad button first.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">sin cos tan</span><span class="help-desc">Basic trig — tap function, enter number, tap =</span></div>
+        <div class="help-row"><span class="help-key">cot sec csc</span><span class="help-desc">Reciprocal trig functions (1/tan, 1/cos, 1/sin)</span></div>
+        <div class="help-row"><span class="help-key">asin acos atan</span><span class="help-desc">Inverse trig — returns angle in radians</span></div>
+        <div class="help-row"><span class="help-key">π/x</span><span class="help-desc">Divides π by your number — e.g. for π/4, π/6</span></div>
+        <div class="help-row"><span class="help-key">π</span><span class="help-desc">Inserts the value of π (3.14159…)</span></div>
+        <div class="help-row"><span class="help-key">deg→rad</span><span class="help-desc">Multiplies current value by π/180 to convert</span></div>
+        <div class="help-row"><span class="help-key">📐 All at once</span><span class="help-desc">Enter a value, then tap this to see all 9 trig results together</span></div>
+      </div>
+      <div class="help-example">Example: sin(30°) → tap 3 0 deg→rad = → then sin( [result] ) =</div>
+      <div class="help-example">Or: tap sin( → tap π/x → tap 6 → tap ) → tap = → Result: 0.5</div>
+    </div>
+
+    <div id="hcontent-hyp" class="hcontent" style="display:none;">
+      <div class="help-section">∞ Hyperbolic Functions</div>
+      <div class="help-text">Hyperbolic functions are analogs of trig functions based on the hyperbola.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">sinh(x)</span><span class="help-desc">(eˣ − e⁻ˣ) / 2</span></div>
+        <div class="help-row"><span class="help-key">cosh(x)</span><span class="help-desc">(eˣ + e⁻ˣ) / 2</span></div>
+        <div class="help-row"><span class="help-key">tanh(x)</span><span class="help-desc">sinh(x) / cosh(x)</span></div>
+        <div class="help-row"><span class="help-key">coth(x)</span><span class="help-desc">cosh(x) / sinh(x)  — undefined at x=0</span></div>
+        <div class="help-row"><span class="help-key">sech(x)</span><span class="help-desc">1 / cosh(x)</span></div>
+        <div class="help-row"><span class="help-key">csch(x)</span><span class="help-desc">1 / sinh(x)  — undefined at x=0</span></div>
+        <div class="help-row"><span class="help-key">∞ All at once</span><span class="help-desc">Enter value, tap to see all 6 hyperbolic results</span></div>
+      </div>
+      <div class="help-example">Example: cosh(2) → tap cosh( → 2 → ) → = → Result: 3.7621956…</div>
+    </div>
+
+    <div id="hcontent-log" class="hcontent" style="display:none;">
+      <div class="help-section">㏒ Logarithm & Exponential</div>
+      <div class="help-text">ln(x) and logₙ(x) use a <b style="color:var(--acc2)">1000-term Taylor series</b> for maximum precision — not JavaScript's built-in which can lose accuracy.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">ln(x) block</span><span class="help-desc">Enter x using its own keypad → tap = → get result to 15 sig. fig.</span></div>
+        <div class="help-row"><span class="help-key">logₙ(x) block</span><span class="help-desc">Enter x (number) and n (base) separately → tap Calculate</span></div>
+        <div class="help-row"><span class="help-key">log₁₀</span><span class="help-desc">Common log — also uses Taylor (ln x / ln 10)</span></div>
+        <div class="help-row"><span class="help-key">log₂</span><span class="help-desc">Binary log — Taylor (ln x / ln 2)</span></div>
+        <div class="help-row"><span class="help-key">eˣ</span><span class="help-desc">Exponential — tap exp(, enter x, close ), tap =</span></div>
+        <div class="help-row"><span class="help-key">√x  ∛x</span><span class="help-desc">Square root and cube root</span></div>
+        <div class="help-row"><span class="help-key">x²  x³  x^½</span><span class="help-desc">Powers — tap after entering your number</span></div>
+        <div class="help-row"><span class="help-key">1/x</span><span class="help-desc">Reciprocal — wraps expression in 1/(…)</span></div>
+        <div class="help-row"><span class="help-key">x!  Γ(x)</span><span class="help-desc">Factorial and Gamma function</span></div>
+        <div class="help-row"><span class="help-key">floor ceil round</span><span class="help-desc">Integer rounding functions</span></div>
+        <div class="help-row"><span class="help-key">㏒ All at once</span><span class="help-desc">Enter value in main display, tap to see all log/exp results</span></div>
+      </div>
+      <div class="help-example">Example: ln(7.389) → ln(x) block → tap 7 . 3 8 9 → = → ≈ 2.0000 (≈ ln(e²))</div>
+      <div class="help-example">Example: log₅(125) → logₙ block → x=125, n=5 → Calculate → Result: 3</div>
+    </div>
+
+    <div id="hcontent-combo" class="hcontent" style="display:none;">
+      <div class="help-section">🎲 Combinatorics</div>
+      <div class="help-text">For functions needing two inputs (n and r), enter them separated by a comma.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">P(n,r)</span><span class="help-desc">Permutations — ordered arrangements. Tap perm( → n , r ) =</span></div>
+        <div class="help-row"><span class="help-key">C(n,r)</span><span class="help-desc">Combinations — unordered selections. Tap comb( → n , r ) =</span></div>
+        <div class="help-row"><span class="help-key">binom(n,r)</span><span class="help-desc">Same as C(n,r) — binomial coefficient</span></div>
+        <div class="help-row"><span class="help-key">n!</span><span class="help-desc">Factorial — enter n then tap n!</span></div>
+        <div class="help-row"><span class="help-key">Γ(x)</span><span class="help-desc">Gamma function — generalizes factorial to non-integers</span></div>
+        <div class="help-row"><span class="help-key">Expand (a+b)ⁿ</span><span class="help-desc">Enter n (0–20), tap button — shows full binomial expansion</span></div>
+      </div>
+      <div class="help-example">Example: C(10,3) → tap comb( → 1 0 , 3 ) = → Result: 120</div>
+      <div class="help-example">Example: P(5,2) → tap perm( → 5 , 2 ) = → Result: 20</div>
+    </div>
+
+    <div id="hcontent-sigma" class="hcontent" style="display:none;">
+      <div class="help-section">Σ Summation & Product</div>
+      <div class="help-text">Use <b style="color:var(--acc2)">i</b> as the index variable. Provide expression, start value, and end value separated by commas.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">sigma(expr, from, to)</span><span class="help-desc">Σ — sums expr for i = from to to</span></div>
+        <div class="help-row"><span class="help-key">product(expr, from, to)</span><span class="help-desc">Π — multiplies expr for i = from to to</span></div>
+        <div class="help-row"><span class="help-key">i</span><span class="help-desc">Index variable button — inserts i into expression</span></div>
+      </div>
+      <div class="help-example">Example: Σ i² from 1 to 10 → tap sigma( → i ^ 2 , 1 , 10 ) → = → Result: 385</div>
+      <div class="help-example">Example: Π i from 1 to 5 → tap product( → i , 1 , 5 ) → = → Result: 120 (= 5!)</div>
+    </div>
+
+    <div id="hcontent-calc" class="hcontent" style="display:none;">
+      <div class="help-section">∂ Calculus</div>
+      <div class="help-text">Type your function using <b style="color:var(--acc2)">x</b> as the variable, then tap the operation you want.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">d/dx (1st)</span><span class="help-desc">First derivative — numerical values at x = −2, −1, 0.5, 1, 2</span></div>
+        <div class="help-row"><span class="help-key">d²/dx²</span><span class="help-desc">Second derivative (numerical)</span></div>
+        <div class="help-row"><span class="help-key">d³/dx³</span><span class="help-desc">Third derivative (numerical)</span></div>
+        <div class="help-row"><span class="help-key">∫ Indefinite</span><span class="help-desc">Symbolic antiderivative — checks built-in table of common forms</span></div>
+        <div class="help-row"><span class="help-key">∫ₐᵇ Definite</span><span class="help-desc">Numerical integration via Simpson's rule (2000 intervals) — enter bounds a and b</span></div>
+        <div class="help-row"><span class="help-key">Taylor Series</span><span class="help-desc">Taylor expansion around x=0 up to 7th order — shows all coefficients</span></div>
+      </div>
+      <div class="help-example">Example: d/dx of x³ → tap x ^ 3 → tap d/dx (1st) → shows values at test points</div>
+      <div class="help-example">Example: ∫ sin(x) from 0 to π → tap sin(x) → tap ∫ₐᵇ → enter a=0, b=3.14159 → Result: ≈ 2</div>
+    </div>
+
+    <div id="hcontent-const" class="hcontent" style="display:none;">
+      <div class="help-section">π Constants</div>
+      <div class="help-text">All constants are editable. You can change names, values, or add your own. They are saved automatically.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">INSERT</span><span class="help-desc">Paste the constant's value into the main expression</span></div>
+        <div class="help-row"><span class="help-key">Name field</span><span class="help-desc">Short variable name — used to identify the constant</span></div>
+        <div class="help-row"><span class="help-key">Value field</span><span class="help-desc">The numeric value — supports scientific notation (e.g. 6.674e-11)</span></div>
+        <div class="help-row"><span class="help-key">+ ADD CUSTOM</span><span class="help-desc">Add your own constant with any name and value</span></div>
+        <div class="help-row"><span class="help-key">↺ Reset</span><span class="help-desc">Restore all constants to factory defaults</span></div>
+      </div>
+      <div class="help-example">Built-in: π, e, φ (golden ratio), ℏ (Planck), kB (Boltzmann), G (gravity), c (light speed), Nₐ (Avogadro), R (gas), ε₀, mₚ, mₑ, σ</div>
+    </div>
+
+    <div id="hcontent-matrix" class="hcontent" style="display:none;">
+      <div class="help-section">⊞ Matrix Operations</div>
+      <div class="help-text">Set rows × cols for Matrix A and B, fill in the cells, then tap an operation.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">det(A)</span><span class="help-desc">Determinant of matrix A (any square size)</span></div>
+        <div class="help-row"><span class="help-key">A⁻¹</span><span class="help-desc">Inverse of A — shows error if A is singular</span></div>
+        <div class="help-row"><span class="help-key">Aᵀ</span><span class="help-desc">Transpose — flips rows and columns</span></div>
+        <div class="help-row"><span class="help-key">trace(A)</span><span class="help-desc">Sum of diagonal elements</span></div>
+        <div class="help-row"><span class="help-key">rank(A)</span><span class="help-desc">Rank via Gaussian elimination</span></div>
+        <div class="help-row"><span class="help-key">eigenval(A)</span><span class="help-desc">Eigenvalues — 2×2 matrices only (real or complex)</span></div>
+        <div class="help-row"><span class="help-key">A + B / A − B</span><span class="help-desc">Element-wise add/subtract — A and B must be same size</span></div>
+        <div class="help-row"><span class="help-key">A × B</span><span class="help-desc">Matrix multiplication — A cols must equal B rows</span></div>
+      </div>
+      <div class="help-example">Example: det of 2×2 → set A to 2×2 → fill values → tap det(A)</div>
+    </div>
+
+    <div id="hcontent-stats" class="hcontent" style="display:none;">
+      <div class="help-section">📊 Statistics</div>
+      <div class="help-text">Type or paste your numbers into the text area separated by commas or spaces, then tap Analyze.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">Count, Sum</span><span class="help-desc">Basic totals</span></div>
+        <div class="help-row"><span class="help-key">Mean μ</span><span class="help-desc">Arithmetic average</span></div>
+        <div class="help-row"><span class="help-key">Median</span><span class="help-desc">Middle value when sorted</span></div>
+        <div class="help-row"><span class="help-key">Mode</span><span class="help-desc">Most frequent value(s)</span></div>
+        <div class="help-row"><span class="help-key">Std Dev σ</span><span class="help-desc">Population standard deviation</span></div>
+        <div class="help-row"><span class="help-key">Variance σ²</span><span class="help-desc">Square of std deviation</span></div>
+        <div class="help-row"><span class="help-key">Q1, Q3, IQR</span><span class="help-desc">Quartiles and interquartile range</span></div>
+        <div class="help-row"><span class="help-key">Skewness</span><span class="help-desc">Measure of distribution asymmetry</span></div>
+      </div>
+      <div class="help-example">Example: type  4, 8, 15, 16, 23, 42  → tap Analyze → see all 14 statistics instantly</div>
+    </div>
+
+    <div id="hcontent-units" class="hcontent" style="display:none;">
+      <div class="help-section">⚖ Unit Conversion</div>
+      <div class="help-text">Select category → pick From and To units → enter value using the keypad → tap =</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">Length</span><span class="help-desc">mm, cm, m, km, inch, ft, yard, mile, nm</span></div>
+        <div class="help-row"><span class="help-key">Mass</span><span class="help-desc">mg, g, kg, ton, oz, lb</span></div>
+        <div class="help-row"><span class="help-key">Temperature</span><span class="help-desc">°C, °F, K — uses correct offset formulas</span></div>
+        <div class="help-row"><span class="help-key">Speed</span><span class="help-desc">m/s, km/h, mph, knots, ft/s</span></div>
+        <div class="help-row"><span class="help-key">Area</span><span class="help-desc">mm², cm², m², km², in², ft², acre</span></div>
+        <div class="help-row"><span class="help-key">Volume</span><span class="help-desc">ml, L, m³, gal, cup</span></div>
+        <div class="help-row"><span class="help-key">Energy</span><span class="help-desc">J, kJ, cal, kcal, Wh, kWh, eV</span></div>
+        <div class="help-row"><span class="help-key">Pressure</span><span class="help-desc">Pa, kPa, bar, atm, psi</span></div>
+        <div class="help-row"><span class="help-key">Time</span><span class="help-desc">ns, μs, ms, s, min, hr, day, week, year</span></div>
+        <div class="help-row"><span class="help-key">Data</span><span class="help-desc">bit, byte, KB, MB, GB, TB</span></div>
+        <div class="help-row"><span class="help-key">⇅ Swap</span><span class="help-desc">Quickly swap From and To units</span></div>
+      </div>
+      <div class="help-example">Example: 100°F to °C → select Temp → From °F, To °C → tap 1 0 0 → = → Result: 37.78°C</div>
+    </div>
+
+    <div id="hcontent-factor" class="hcontent" style="display:none;">
+      <div class="help-section">🔍 Factorization & Primality</div>
+      <div class="help-text">Supports very large integers using BigInt — no size limit for primality testing. Uses Miller-Rabin algorithm.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">🔍 FACTORIZE</span><span class="help-desc">Prime factorization — shows all prime factors with exponents, all divisors (for n &lt; 10M), and σ(n)</span></div>
+        <div class="help-row"><span class="help-key">🔬 PRIMALITY TEST</span><span class="help-desc">Miller-Rabin probabilistic test — deterministic for numbers up to 3.3×10²⁴</span></div>
+        <div class="help-row"><span class="help-key">GCD (n,m)</span><span class="help-desc">Greatest common divisor — enter two numbers separated by comma</span></div>
+        <div class="help-row"><span class="help-key">LCM (n,m)</span><span class="help-desc">Least common multiple — same input format as GCD</span></div>
+      </div>
+      <div class="help-example">Example: factor 360 → tap 3 6 0 → FACTORIZE → Result: 2³ × 3² × 5</div>
+      <div class="help-example">Example: GCD of 48 and 18 → tap 4 8 , 1 8 → GCD → Result: 6</div>
+    </div>
+
+    <div id="hcontent-partition" class="hcontent" style="display:none;">
+      <div class="help-section">🔣 Integer Partition p(n)</div>
+      <div class="help-text">p(n) counts the number of ways to write n as a sum of positive integers (order doesn't matter).</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">n ≤ 100</span><span class="help-desc">Exact result via dynamic programming table</span></div>
+        <div class="help-row"><span class="help-key">n &gt; 100</span><span class="help-desc">Hardy-Ramanujan asymptotic formula: p(n) ≈ 1/(4n√3) · e^(π√(2n/3))</span></div>
+        <div class="help-row"><span class="help-key">n ≤ 10</span><span class="help-desc">Also lists ALL individual partitions explicitly</span></div>
+        <div class="help-row"><span class="help-key">Table button</span><span class="help-desc">Shows exact p(0) through p(20) in a table</span></div>
+      </div>
+      <div class="help-example">Example: p(5) → tap 5 → Calculate → Result: 7</div>
+      <div class="help-example">The 7 partitions of 5: 5 | 4+1 | 3+2 | 3+1+1 | 2+2+1 | 2+1+1+1 | 1+1+1+1+1</div>
+    </div>
+
+  </div>
 </div>
 
 <!-- HISTORY MODAL -->
@@ -1750,6 +1988,18 @@ function renderHist(){
 }
 function loadHist(i){setDisplay(histArr[i].expr);closeHist();}
 function clearHist(){histArr=[];localStorage.removeItem('jrc_hist');renderHist();toast('🗑 Cleared');}
+function openHelp(){document.getElementById('helpModal').classList.add('on');showHTab('basic');}
+function closeHelp(){document.getElementById('helpModal').classList.remove('on');}
+function showHTab(name){
+  document.querySelectorAll('.hcontent').forEach(el=>el.style.display='none');
+  document.querySelectorAll('[id^="htab-"]').forEach(btn=>{
+    btn.style.background='var(--card)';btn.style.color='var(--text)';btn.style.borderColor='var(--bord)';
+  });
+  document.getElementById('hcontent-'+name).style.display='block';
+  const btn=document.getElementById('htab-'+name);
+  btn.style.background='var(--acc)';btn.style.color='#fff';btn.style.borderColor='var(--acc)';
+}
+
 function openHist(){renderHist();document.getElementById('histModal').classList.add('on');}
 function closeHist(){document.getElementById('histModal').classList.remove('on');}
 
