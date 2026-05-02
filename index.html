@@ -1,3 +1,5 @@
+
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -149,110 +151,246 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   <div class="ktab"     id="ktab-partition" onclick="showTab('partition')">🔣 Partition</div>
 </div>
 
-<!-- ========== BASIC ========== -->
+<!-- ══════════════════════════════════════ -->
+<!-- ── BASIC ── -->
+<!-- ══════════════════════════════════════ -->
 <div class="keypad on" id="kp-basic">
   <div class="kgrid" style="grid-template-columns:repeat(4,1fr)">
+
+    <!-- Row 1: AC, (, ), ⌫ -->
     <button class="k red"    onclick="kp('AC')">AC</button>
     <button class="k dark"   onclick="kp('(')"> ( </button>
     <button class="k dark"   onclick="kp(')')"> ) </button>
     <button class="k dark"   onclick="kp('⌫')">⌫</button>
-    <button class="k blue"   onclick="kp('7')">7</button><button class="k blue"   onclick="kp('8')">8</button>
-    <button class="k blue"   onclick="kp('9')">9</button><button class="k orange" onclick="kp('÷')">÷</button>
-    <button class="k blue"   onclick="kp('4')">4</button><button class="k blue"   onclick="kp('5')">5</button>
-    <button class="k blue"   onclick="kp('6')">6</button><button class="k orange" onclick="kp('×')">×</button>
-    <button class="k blue"   onclick="kp('1')">1</button><button class="k blue"   onclick="kp('2')">2</button>
-    <button class="k blue"   onclick="kp('3')">3</button><button class="k orange" onclick="kp('−')">−</button>
-    <button class="k blue"   onclick="kp('0')">0</button><button class="k blue"   onclick="kp('.')">.</button>
-    <button class="k dark"   onclick="kp('+/-')">±</button><button class="k orange" onclick="kp('+')">+</button>
-    <button class="k dark"   onclick="kp('%')">%</button><button class="k dark"   onclick="kp('^')">xⁿ</button>
+
+    <!-- Row 2: 7 8 9 ÷ -->
+    <button class="k blue"   onclick="kp('7')">7</button>
+    <button class="k blue"   onclick="kp('8')">8</button>
+    <button class="k blue"   onclick="kp('9')">9</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+
+    <!-- Row 3: 4 5 6 × -->
+    <button class="k blue"   onclick="kp('4')">4</button>
+    <button class="k blue"   onclick="kp('5')">5</button>
+    <button class="k blue"   onclick="kp('6')">6</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+
+    <!-- Row 4: 1 2 3 − -->
+    <button class="k blue"   onclick="kp('1')">1</button>
+    <button class="k blue"   onclick="kp('2')">2</button>
+    <button class="k blue"   onclick="kp('3')">3</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+
+    <!-- Row 5: 0 . ± + -->
+    <button class="k blue"   onclick="kp('0')">0</button>
+    <button class="k blue"   onclick="kp('.')">.</button>
+    <button class="k dark"   onclick="kp('+/-')">±</button>
+    <button class="k orange" onclick="kp('+')">+</button>
+
+    <!-- Row 6: % xⁿ √x = (wide) -->
+    <button class="k dark"   onclick="kp('%')">%</button>
+    <button class="k dark"   onclick="kp('^')">xⁿ</button>
     <button class="k dark"   onclick="kp('sqrt(')">√x</button>
     <button class="k green eq" onclick="kp('=')">=</button>
+
   </div>
-  <div style="font-size:9px;color:var(--acc2);text-align:center;margin-top:6px;">⚡ fact(n) supports n ≤ 100,000 exact integer (BigInt)</div>
 </div>
 
-<!-- ========== TRIG ========== -->
+<!-- ══════════════════════════════════════ -->
+<!-- ── TRIG ── -->
+<!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-trig">
   <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap a function → enter number (radians) → tap =</div>
   <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
-    <button class="k fn" onclick="kp('sin(')">sin( )</button><button class="k fn" onclick="kp('cos(')">cos( )</button>
-    <button class="k fn" onclick="kp('tan(')">tan( )</button><button class="k fn" onclick="kp('cot(')">cot( )</button>
-    <button class="k fn" onclick="kp('sec(')">sec( )</button><button class="k fn" onclick="kp('csc(')">csc( )</button>
-    <button class="k fn" onclick="kp('asin(')">asin( )</button><button class="k fn" onclick="kp('acos(')">acos( )</button>
+    <button class="k fn" onclick="kp('sin(')">sin( )</button>
+    <button class="k fn" onclick="kp('cos(')">cos( )</button>
+    <button class="k fn" onclick="kp('tan(')">tan( )</button>
+    <button class="k fn" onclick="kp('cot(')">cot( )</button>
+    <button class="k fn" onclick="kp('sec(')">sec( )</button>
+    <button class="k fn" onclick="kp('csc(')">csc( )</button>
+    <button class="k fn" onclick="kp('asin(')">asin( )</button>
+    <button class="k fn" onclick="kp('acos(')">acos( )</button>
     <button class="k fn" onclick="kp('atan(')">atan( )</button>
-    <button class="k fn purple" onclick="kp('PI/')">π/x</button><button class="k fn purple" onclick="kp('PI')">π</button>
+    <button class="k fn purple" onclick="kp('PI/')">π/x</button>
+    <button class="k fn purple" onclick="kp('PI')">π</button>
     <button class="k fn purple" onclick="kp('*(PI/180)')">deg→rad</button>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
-    <button class="k orange" onclick="kp('+')">+</button><button class="k orange" onclick="kp('−')">−</button>
-    <button class="k orange" onclick="kp('×')">×</button><button class="k orange" onclick="kp('÷')">÷</button>
-    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
-    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('⌫')">⌫</button>
-    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
-    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('.')">.</button>
-    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
-    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('(')">( )</button>
-    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
-    <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
   </div>
-  <div id="trigAllOut" style="display:none;margin-top:8px;"><div class="r-grid" id="trigAllGrid"></div></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k blue" onclick="kp('1')">1</button>
+    <button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button>
+    <button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k blue" onclick="kp('4')">4</button>
+    <button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button>
+    <button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('7')">7</button>
+    <button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button>
+    <button class="k dark"  onclick="kp('(')">( )</button>
+    <button class="k red"   onclick="kp('AC')">AC</button>
+    <button class="k blue"  onclick="kp('0')">0</button>
+    <button class="k dark"  onclick="kp(')')">)</button>
+    <button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+  <div id="trigAllOut" style="display:none;margin-top:8px;">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">All trig values for your last input:</div>
+    <div class="r-grid" id="trigAllGrid"></div>
+  </div>
   <button class="k green fn" style="width:100%;margin-top:6px;" onclick="calcAllTrig()">📐 CALCULATE ALL TRIG VALUES AT ONCE</button>
 </div>
 
-<!-- ========== HYPERBOLIC ========== -->
+<!-- ══════════════════════════════════════ -->
+<!-- ── HYPERBOLIC ── -->
+<!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-hyp">
-  <div class="kgrid" style="grid-template-columns:repeat(3,1fr);margin-bottom:5px;">
-    <button class="k fn" onclick="kp('sinh(')">sinh( )</button><button class="k fn" onclick="kp('cosh(')">cosh( )</button>
-    <button class="k fn" onclick="kp('tanh(')">tanh( )</button><button class="k fn" onclick="kp('coth(')">coth( )</button>
-    <button class="k fn" onclick="kp('sech(')">sech( )</button><button class="k fn" onclick="kp('csch(')">csch( )</button>
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap function → enter number → tap =</div>
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+    <button class="k fn purple" onclick="kp('sinh(')">sinh( )</button>
+    <button class="k fn purple" onclick="kp('cosh(')">cosh( )</button>
+    <button class="k fn purple" onclick="kp('tanh(')">tanh( )</button>
+    <button class="k fn purple" onclick="kp('coth(')">coth( )</button>
+    <button class="k fn purple" onclick="kp('sech(')">sech( )</button>
+    <button class="k fn purple" onclick="kp('csch(')">csch( )</button>
   </div>
-  <div class="kgrid" style="grid-template-columns:repeat(4,1fr);">
-    <button class="k orange" onclick="kp('+')">+</button><button class="k orange" onclick="kp('−')">−</button>
-    <button class="k orange" onclick="kp('×')">×</button><button class="k orange" onclick="kp('÷')">÷</button>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
     <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
     <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('⌫')">⌫</button>
     <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
     <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('.')">.</button>
     <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
-    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('(')">( )</button>
+    <button class="k blue" onclick="kp('9')">9</button><button class="k dark"  onclick="kp('(')">( )</button>
     <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
     <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
   </div>
-  <button class="k purple fn" style="width:100%;margin-top:6px;" onclick="calcAllHyp()">∞ ALL HYPERBOLIC</button>
-  <div id="hypAllOut" style="display:none;"><div class="r-grid" id="hypAllGrid"></div></div>
+  <button class="k purple fn" style="width:100%;margin-top:6px;" onclick="calcAllHyp()">∞ CALCULATE ALL HYPERBOLIC AT ONCE</button>
+  <div id="hypAllOut" style="display:none;margin-top:8px;">
+    <div class="r-grid" id="hypAllGrid"></div>
+  </div>
 </div>
 
-<!-- ========== LOG / EXP ========== -->
+<!-- ══════════════════════════════════════ -->
+<!-- ── LOG / EXP ── -->
+<!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-log">
+
+  <!-- ── Taylor ln(x) block ── -->
   <div style="background:var(--card);border:1px solid var(--acc);border-radius:10px;padding:10px;margin-bottom:8px;">
-    <div style="font-size:9px;color:var(--acc);letter-spacing:2px;">ln(x) — TAYLOR SERIES (1000 terms)</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:6px 0;">
+    <div style="font-size:9px;color:var(--acc);letter-spacing:2px;margin-bottom:6px;">ln(x) — INFINITE TAYLOR SERIES (1000 terms)</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.5;">
+      ln(x) = 2·Σ [1/(2k+1) · ((x−1)/(x+1))^(2k+1)]  k=0,1,2,…
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:6px;">
       <button class="k blue" onclick="lnKp('1')">1</button><button class="k blue" onclick="lnKp('2')">2</button>
       <button class="k blue" onclick="lnKp('3')">3</button><button class="k dark" onclick="lnKp('⌫')">⌫</button>
       <button class="k blue" onclick="lnKp('4')">4</button><button class="k blue" onclick="lnKp('5')">5</button>
       <button class="k blue" onclick="lnKp('6')">6</button><button class="k dark" onclick="lnKp('.')">.</button>
       <button class="k blue" onclick="lnKp('7')">7</button><button class="k blue" onclick="lnKp('8')">8</button>
       <button class="k blue" onclick="lnKp('9')">9</button><button class="k red"  onclick="lnKp('AC')">AC</button>
-      <button class="k blue wide" onclick="lnKp('0')">0</button><button class="k dark" onclick="lnKp('e')">E</button>
-      <button class="k green eq" onclick="doTaylorLn()">=</button>
+      <button class="k blue wide" onclick="lnKp('0')">0</button>
+      <button class="k dark" onclick="lnKp('e')">E</button>
+      <button class="k green eq" onclick="doTaylorLn()" style="height:46px;">=</button>
     </div>
-    <div id="lnOut" style="display:none;"><div id="lnResult" style="color:var(--acc3);"></div><div id="lnNote" style="font-size:10px;"></div></div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;min-height:16px;" id="lnInputDisp">x = </div>
+    <div id="lnOut" style="display:none;margin-top:8px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">RESULT</div>
+      <div style="font-size:16px;color:var(--acc3);word-break:break-all;" id="lnResult"></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;white-space:pre-wrap;line-height:1.6;" id="lnNote"></div>
+    </div>
   </div>
+
+  <!-- ── Taylor logₙ(x) block ── -->
+  <div style="background:var(--card);border:1px solid var(--acc4);border-radius:10px;padding:10px;margin-bottom:8px;">
+    <div style="font-size:9px;color:var(--acc4);letter-spacing:2px;margin-bottom:6px;">logₙ(x) — TAYLOR SERIES (1000 terms) via ln(x)/ln(n)</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;line-height:1.5;">
+      logₙ(x) = ln(x) / ln(n) — both computed by Taylor series
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:6px;">
+      <div style="flex:1;">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">x (number)</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','1')">1</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','2')">2</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','3')">3</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('x','⌫')">⌫</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','4')">4</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','5')">5</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','6')">6</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('x','.')">.</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','7')">7</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','8')">8</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','9')">9</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('x','0')">0</button>
+        </div>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:3px;" id="logbXDisp">x = </div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">n (base)</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','1')">1</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','2')">2</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','3')">3</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('n','⌫')">⌫</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','4')">4</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','5')">5</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','6')">6</button>
+          <button class="k dark" style="height:38px;font-size:12px;" onclick="logbKp('n','.')">.</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','7')">7</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','8')">8</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','9')">9</button>
+          <button class="k blue" style="height:38px;font-size:12px;" onclick="logbKp('n','0')">0</button>
+        </div>
+        <div style="font-size:10px;color:var(--muted);text-align:center;margin-top:3px;" id="logbNDisp">n = </div>
+      </div>
+    </div>
+    <button class="k green fn" style="width:100%;" onclick="doTaylorLogb()">= CALCULATE logₙ(x)</button>
+    <div id="logbOut" style="display:none;margin-top:8px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">RESULT</div>
+      <div style="font-size:16px;color:var(--acc3);word-break:break-all;" id="logbResult"></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;white-space:pre-wrap;line-height:1.6;" id="logbNote"></div>
+    </div>
+  </div>
+
+  <!-- ── Other functions ── -->
   <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
-    <button class="k fn" onclick="kp('log10(')">log₁₀</button><button class="k fn" onclick="kp('log2(')">log₂</button>
-    <button class="k fn" onclick="kp('exp(')">eˣ</button><button class="k fn" onclick="kp('sqrt(')">√x</button>
-    <button class="k fn" onclick="kp('cbrt(')">∛x</button><button class="k fn" onclick="kp('^2')">x²</button>
-    <button class="k fn" onclick="kp('^3')">x³</button><button class="k fn" onclick="kp('^0.5')">x^½</button>
-    <button class="k fn" onclick="kp('1/(')">1/x</button><button class="k fn" onclick="kp('abs(')">|x|</button>
-    <button class="k fn" onclick="kp('fact(')">x!</button><button class="k fn" onclick="kp('gamma(')">Γ(x)</button>
-    <button class="k fn" onclick="kp('floor(')">floor</button><button class="k fn" onclick="kp('ceil(')">ceil</button>
-    <button class="k fn" onclick="kp('round(')">round</button><button class="k fn" onclick="kp('sign(')">sign</button>
+    <button class="k fn" onclick="kp('log10(')">log₁₀</button>
+    <button class="k fn" onclick="kp('log2(')">log₂</button>
+    <button class="k fn" onclick="kp('exp(')">eˣ</button>
+    <button class="k fn" onclick="kp('sqrt(')">√x</button>
+    <button class="k fn" onclick="kp('cbrt(')">∛x</button>
+    <button class="k fn" onclick="kp('^2')">x²</button>
+    <button class="k fn" onclick="kp('^3')">x³</button>
+    <button class="k fn" onclick="kp('^0.5')">x^½</button>
+    <button class="k fn" onclick="kp('1/(')">1/x</button>
+    <button class="k fn" onclick="kp('abs(')">|x|</button>
+    <button class="k fn" onclick="kp('fact(')">x!</button>
+    <button class="k fn" onclick="kp('gamma(')">Γ(x)</button>
+    <button class="k fn" onclick="kp('floor(')">floor</button>
+    <button class="k fn" onclick="kp('ceil(')">ceil</button>
+    <button class="k fn" onclick="kp('round(')">round</button>
+    <button class="k fn" onclick="kp('sign(')">sign</button>
   </div>
-  <div class="kgrid" style="grid-template-columns:repeat(4,1fr);margin-top:5px;">
-    <button class="k orange" onclick="kp('+')">+</button><button class="k orange" onclick="kp('−')">−</button>
-    <button class="k orange" onclick="kp('×')">×</button><button class="k orange" onclick="kp('÷')">÷</button>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
     <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
-    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp(',')">,</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp(',')">  ,  </button>
     <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
     <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('.')">.</button>
     <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
@@ -260,47 +398,68 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
     <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
     <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
   </div>
-  <button class="k fn green" style="width:100%;margin-top:6px;" onclick="calcAllLog()">㏒ ALL LOG/EXP VALUES</button>
-  <div id="logAllOut" style="display:none;"><div class="r-grid" id="logAllGrid"></div></div>
+  <button class="k fn" style="width:100%;margin-top:6px;background:var(--acc);color:#fff;" onclick="calcAllLog()">㏒ CALCULATE ALL LOG/EXP VALUES AT ONCE</button>
+  <div id="logAllOut" style="display:none;margin-top:8px;"><div class="r-grid" id="logAllGrid"></div></div>
 </div>
 
-<!-- ========== COMBO ========== -->
+<!-- ══════════════════════════════════════ -->
+<!-- ── COMBO ── -->
+<!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-combo">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Enter n then tap function. Use comma for two inputs (n,r).</div>
   <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
-    <button class="k fn orange" onclick="kp('perm(')">P(n,r)</button><button class="k fn orange" onclick="kp('comb(')">C(n,r)</button>
-    <button class="k fn orange" onclick="kp('binom(')">binom(n,r)</button><button class="k fn orange" onclick="kp('fact(')">n!</button>
-    <button class="k fn orange" onclick="kp('gamma(')">Γ(x)</button><button class="k fn orange" onclick="calcBinomExpand()">Expand (a+b)ⁿ</button>
+    <button class="k fn orange" onclick="kp('perm(')">P(n,r)</button>
+    <button class="k fn orange" onclick="kp('comb(')">C(n,r)</button>
+    <button class="k fn orange" onclick="kp('binom(')">binom(n,r)</button>
+    <button class="k fn orange" onclick="kp('fact(')">n!</button>
+    <button class="k fn orange" onclick="kp('gamma(')">Γ(x)</button>
+    <button class="k fn orange" onclick="calcBinomExpand()">Expand (a+b)ⁿ</button>
   </div>
-  <div class="kgrid" style="grid-template-columns:repeat(4,1fr);margin-top:5px;">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
     <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
-    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp(',')">,</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp(',')">  ,  </button>
     <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
     <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('.')">.</button>
     <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
     <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
     <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
     <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
-    <button class="k orange" onclick="kp('+')">+</button><button class="k orange" onclick="kp('−')">−</button>
-    <button class="k orange" onclick="kp('×')">×</button><button class="k orange" onclick="kp('÷')">÷</button>
   </div>
-  <div id="binomExpandOut" style="display:none;margin-top:8px;"><div class="r-val" id="binomExpandVal"></div></div>
+  <div id="binomExpandOut" style="display:none;margin-top:8px;">
+    <div class="r-val" id="binomExpandVal" style="font-size:11px;white-space:pre;background:var(--card);padding:10px;border-radius:8px;overflow-y:auto;max-height:160px;"></div>
+  </div>
 </div>
 
-<!-- ========== SIGMA ========== -->
+<!-- ══════════════════════════════════════ -->
+<!-- ── SIGMA ── -->
+<!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-sigma">
-  <div style="font-size:10px;color:var(--muted);">sigma(expr, from, to) · i as index</div>
-  <div class="kgrid" style="grid-template-columns:repeat(3,1fr);margin-top:5px;">
-    <button class="k fn purple" onclick="kp('sigma(')">Σ sigma</button><button class="k fn purple" onclick="kp('product(')">Π product</button>
-    <button class="k fn purple" onclick="kp('i')">i (index)</button><button class="k fn purple" onclick="kp(',')">,</button>
-    <button class="k fn purple" onclick="kp('^')">^</button><button class="k fn purple" onclick="kp('*')">×</button>
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 4px;">sigma(expr, from, to) — use i as index<br>e.g. sigma(i^2, 1, 10)</div>
+  <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
+    <button class="k fn purple" onclick="kp('sigma(')">Σ sigma(expr,from,to)</button>
+    <button class="k fn purple" onclick="kp('product(')">Π product(expr,from,to)</button>
+    <button class="k fn purple" onclick="kp('i')">i (index)</button>
+    <button class="k fn purple" onclick="kp(',')">  ,  </button>
+    <button class="k fn purple" onclick="kp('^')">^</button>
+    <button class="k fn purple" onclick="kp('*')">×</button>
   </div>
-  <div class="kgrid" style="grid-template-columns:repeat(4,1fr);margin-top:5px;">
-    <button class="k orange" onclick="kp('+')">+</button><button class="k orange" onclick="kp('−')">−</button>
-    <button class="k orange" onclick="kp('÷')">÷</button><button class="k dark"   onclick="kp('(')">( )</button>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+    <button class="k dark"   onclick="kp('(')">( )</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:5px;">
     <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
     <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('.')">.</button>
     <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
-    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('-')">-</button>
+    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('-')">−</button>
     <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
     <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
     <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
@@ -308,17 +467,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   </div>
 </div>
 
-<!-- ========== CALC ========== -->
+<!-- ══════════════════════════════════════ -->
+<!-- ── CALCULUS ── -->
+<!-- ══════════════════════════════════════ -->
 <div class="keypad" id="kp-calc">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 4px;">Type expression then press DIFF or INTEG or TAYLOR</div>
   <div class="kgrid" style="grid-template-columns:repeat(3,1fr);margin-bottom:5px;">
-    <button class="k fn" onclick="kp('sin(')">sin(x)</button><button class="k fn" onclick="kp('cos(')">cos(x)</button>
-    <button class="k fn" onclick="kp('tan(')">tan(x)</button><button class="k fn" onclick="kp('exp(')">exp(x)</button>
-    <button class="k fn" onclick="kp('ln(')">ln(x)</button><button class="k fn" onclick="kp('sqrt(')">√(x)</button>
-    <button class="k fn" onclick="kp('x')">x</button><button class="k fn" onclick="kp('^')">^</button>
-    <button class="k fn" onclick="kp('*')">×</button><button class="k fn" onclick="kp('+')">+</button>
-    <button class="k fn" onclick="kp('-')">-</button><button class="k fn" onclick="kp('/')">÷</button>
+    <button class="k fn" onclick="kp('sin(')">sin(x)</button>
+    <button class="k fn" onclick="kp('cos(')">cos(x)</button>
+    <button class="k fn" onclick="kp('tan(')">tan(x)</button>
+    <button class="k fn" onclick="kp('exp(')">exp(x)</button>
+    <button class="k fn" onclick="kp('ln(')">ln(x)</button>
+    <button class="k fn" onclick="kp('sqrt(')">√(x)</button>
+    <button class="k fn" onclick="kp('x')">x</button>
+    <button class="k fn" onclick="kp('^')">^</button>
+    <button class="k fn" onclick="kp('*')">×</button>
+    <button class="k fn" onclick="kp('+')">+</button>
+    <button class="k fn" onclick="kp('-')">−</button>
+    <button class="k fn" onclick="kp('/')">÷</button>
   </div>
-  <div class="kgrid" style="grid-template-columns:repeat(4,1fr);">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
     <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
     <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('.')">.</button>
     <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
@@ -329,34 +497,605 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
     <button class="k dark" onclick="kp(')')">)</button><button class="k green eq" onclick="kp('=')">=</button>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:6px;">
-    <button class="k fn orange" onclick="doDiff(1)">d/dx</button><button class="k fn orange" onclick="doDiff(2)">d²/dx²</button>
-    <button class="k fn orange" onclick="doDiff(3)">d³/dx³</button><button class="k fn purple" onclick="doIndefinite()">∫ Indef</button>
-    <button class="k fn purple" onclick="promptDefinite()">∫ₐᵇ Def</button><button class="k fn green"  onclick="doTaylor()">Taylor</button>
+    <button class="k fn orange" onclick="doDiff(1)">d/dx (1st)</button>
+    <button class="k fn orange" onclick="doDiff(2)">d²/dx² (2nd)</button>
+    <button class="k fn orange" onclick="doDiff(3)">d³/dx³ (3rd)</button>
+    <button class="k fn purple" onclick="doIndefinite()">∫ Indefinite</button>
+    <button class="k fn purple" onclick="promptDefinite()">∫ₐᵇ Definite</button>
+    <button class="k fn green"  onclick="doTaylor()">Taylor Series</button>
   </div>
-  <div id="calcOut" style="display:none;margin-top:8px;"><div id="calcOutVal" class="r-val"></div><div id="calcOutNote" class="r-note"></div></div>
-  <div id="defBoundsPanel" style="display:none;margin-top:6px;"><input id="defA" placeholder="a"><input id="defB" placeholder="b"><button onclick="doDefinite()">= ∫</button></div>
+  <div id="calcOut" style="display:none;margin-top:8px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;" id="calcOutLabel">RESULT</div>
+      <div class="r-val" id="calcOutVal" style="font-size:13px;white-space:pre;"></div>
+      <div class="r-note" id="calcOutNote"></div>
+      <div id="calcSteps" style="margin-top:6px;"></div>
+    </div>
+  </div>
+  <div id="defBoundsPanel" style="display:none;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-top:6px;">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Enter bounds for definite integral:</div>
+    <div style="display:flex;gap:6px;">
+      <input id="defA" style="flex:1;background:var(--surf);border:1px solid var(--bord);border-radius:6px;padding:8px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;" placeholder="Lower a" type="number">
+      <input id="defB" style="flex:1;background:var(--surf);border:1px solid var(--bord);border-radius:6px;padding:8px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;" placeholder="Upper b" type="number">
+    </div>
+    <button class="k green fn" style="width:100%;margin-top:6px;" onclick="doDefinite()">= CALCULATE ∫ₐᵇ</button>
+  </div>
 </div>
 
-<!-- ========== CONSTANTS ========== -->
-<div class="keypad" id="kp-const"><div id="constList"></div><button class="k fn green" onclick="addCustomConst()">+ ADD CONST</button><button class="k fn dark" onclick="resetConsts()">↺ Reset</button></div>
+<!-- ══════════════════════════════════════ -->
+<!-- ── CONSTANTS (EDITABLE) ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-const">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Tap INSERT to put constant in expression. You can edit any value or name.</div>
+  <div id="constList"></div>
+  <button class="k fn green" style="width:100%;margin-top:6px;" onclick="addCustomConst()">+ ADD CUSTOM CONSTANT</button>
+  <button class="k fn dark"  style="width:100%;margin-top:4px;" onclick="resetConsts()">↺ Reset to Defaults</button>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px;">
+    <button class="k orange" onclick="kp('+')">+</button>
+    <button class="k orange" onclick="kp('−')">−</button>
+    <button class="k orange" onclick="kp('×')">×</button>
+    <button class="k orange" onclick="kp('÷')">÷</button>
+    <button class="k blue" onclick="kp('1')">1</button><button class="k blue" onclick="kp('2')">2</button>
+    <button class="k blue" onclick="kp('3')">3</button><button class="k dark" onclick="kp('.')">.</button>
+    <button class="k blue" onclick="kp('4')">4</button><button class="k blue" onclick="kp('5')">5</button>
+    <button class="k blue" onclick="kp('6')">6</button><button class="k dark" onclick="kp('^')">^</button>
+    <button class="k blue" onclick="kp('7')">7</button><button class="k blue" onclick="kp('8')">8</button>
+    <button class="k blue" onclick="kp('9')">9</button><button class="k dark" onclick="kp('⌫')">⌫</button>
+    <button class="k red"  onclick="kp('AC')">AC</button><button class="k blue" onclick="kp('0')">0</button>
+    <button class="k dark" onclick="kp('(')">( )</button><button class="k green eq" onclick="kp('=')">=</button>
+  </div>
+</div>
 
-<!-- ========== MATRIX ========== -->
-<div class="keypad" id="kp-matrix"><div style="display:flex;gap:6px;"><div><div>Matrix A</div><input id="mRA" value="2" oninput="buildMatUI('A')"><input id="mCA" value="2" oninput="buildMatUI('A')"><div id="matGridA"></div></div><div><div>Matrix B</div><input id="mRB" value="2" oninput="buildMatUI('B')"><input id="mCB" value="2" oninput="buildMatUI('B')"><div id="matGridB"></div></div></div><div class="kgrid" style="grid-template-columns:repeat(3,1fr);margin-top:6px;"><button class="k fn" onclick="matOp('det')">det(A)</button><button class="k fn" onclick="matOp('inv')">A⁻¹</button><button class="k fn" onclick="matOp('transpose')">Aᵀ</button><button class="k fn" onclick="matOp('trace')">trace</button><button class="k fn" onclick="matOp('rank')">rank</button><button class="k fn" onclick="matOp('eigen')">eigenval</button><button class="k fn" onclick="matOp('add')">A+B</button><button class="k fn" onclick="matOp('mul')">A×B</button><button class="k fn" onclick="matOp('sub')">A-B</button></div><div id="matOut" style="display:none;"></div></div>
+<!-- ══════════════════════════════════════ -->
+<!-- ── MATRIX ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-matrix">
+  <div style="display:flex;gap:8px;margin-bottom:6px;">
+    <div style="flex:1">
+      <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">MATRIX A — Rows × Cols</div>
+      <div style="display:flex;gap:4px;">
+        <input id="mRA" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('A')">
+        <span style="color:var(--muted);padding:5px 2px;font-size:12px;">×</span>
+        <input id="mCA" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('A')">
+      </div>
+      <div style="overflow-x:auto;margin-top:4px;" id="matGridA"></div>
+    </div>
+    <div style="flex:1">
+      <div style="font-size:9px;color:var(--muted);margin-bottom:3px;">MATRIX B — Rows × Cols</div>
+      <div style="display:flex;gap:4px;">
+        <input id="mRB" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('B')">
+        <span style="color:var(--muted);padding:5px 2px;font-size:12px;">×</span>
+        <input id="mCB" value="2" type="number" min="1" max="6" style="width:44px;background:var(--card);border:1px solid var(--bord);border-radius:5px;padding:5px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;text-align:center;" oninput="buildMatUI('B')">
+      </div>
+      <div style="overflow-x:auto;margin-top:4px;" id="matGridB"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;">
+    <button class="k fn blue" onclick="matOp('det')">det(A)</button>
+    <button class="k fn blue" onclick="matOp('inv')">A⁻¹</button>
+    <button class="k fn blue" onclick="matOp('transpose')">Aᵀ</button>
+    <button class="k fn blue" onclick="matOp('trace')">trace(A)</button>
+    <button class="k fn blue" onclick="matOp('rank')">rank(A)</button>
+    <button class="k fn blue" onclick="matOp('eigen')">eigenval(A)</button>
+    <button class="k fn orange" onclick="matOp('add')">A + B</button>
+    <button class="k fn orange" onclick="matOp('mul')">A × B</button>
+    <button class="k fn orange" onclick="matOp('sub')">A − B</button>
+  </div>
+  <div id="matOut" style="display:none;margin-top:8px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div class="r-val" id="matOutVal" style="font-size:12px;white-space:pre;"></div>
+      <div class="r-note" id="matOutNote"></div>
+    </div>
+  </div>
+</div>
 
-<!-- ========== STATS ========== -->
-<div class="keypad" id="kp-stats"><textarea id="statsInput" placeholder="numbers, e.g. 4,8,15,16,23,42"></textarea><button class="k fn blue" onclick="doStats()">ANALYZE</button><div id="statsOut" style="display:none;"><table id="statsTbl"></table></div></div>
+<!-- ══════════════════════════════════════ -->
+<!-- ── STATS ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-stats">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Enter numbers (comma or space separated), then tap ANALYZE.</div>
+  <textarea id="statsInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;color:var(--text);font-family:var(--mono);font-size:13px;resize:vertical;min-height:60px;outline:none;margin-bottom:6px;" placeholder="e.g.  4, 8, 15, 16, 23, 42"></textarea>
+  <button class="k blue fn" style="width:100%;margin-bottom:6px;" onclick="doStats()">📊 ANALYZE DATASET</button>
+  <div id="statsOut" style="display:none;">
+    <table style="width:100%;border-collapse:collapse;" id="statsTbl"><table>
+  </div>
+</div>
 
-<!-- ========== UNITS ========== -->
-<div class="keypad" id="kp-units"><select id="uCat" onchange="buildUnitSels()"><option value="length">Length</option><option value="mass">Mass</option><option value="temp">Temperature</option><option value="speed">Speed</option><option value="area">Area</option><option value="volume">Volume</option><option value="energy">Energy</option><option value="pressure">Pressure</option><option value="time">Time</option><option value="data">Data</option></select><div><select id="uFrom"></select><button onclick="swapU()">⇅</button><select id="uTo"></select></div><div class="kgrid" style="grid-template-columns:repeat(4,1fr);"><button class="k blue" onclick="uKp('1')">1</button><button class="k blue" onclick="uKp('2')">2</button><button class="k blue" onclick="uKp('3')">3</button><button class="k dark" onclick="uKp('⌫')">⌫</button><button class="k blue" onclick="uKp('4')">4</button><button class="k blue" onclick="uKp('5')">5</button><button class="k blue" onclick="uKp('6')">6</button><button class="k dark" onclick="uKp('.')">.</button><button class="k blue" onclick="uKp('7')">7</button><button class="k blue" onclick="uKp('8')">8</button><button class="k blue" onclick="uKp('9')">9</button><button class="k dark" onclick="uKp('-')">-</button><button class="k red"  onclick="uKp('AC')">AC</button><button class="k blue" onclick="uKp('0')">0</button><button class="k dark" onclick="uKp('e')">E</button><button class="k green eq" onclick="doConvert()">=</button></div><div id="unitOut" style="display:none;"></div></div>
+<!-- ══════════════════════════════════════ -->
+<!-- ── UNITS ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-units">
+  <select id="uCat" onchange="buildUnitSels()" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:9px;color:var(--text);font-family:var(--mono);font-size:12px;outline:none;margin-bottom:6px;">
+    <option value="length">Length</option><option value="mass">Mass</option>
+    <option value="temp">Temperature</option><option value="speed">Speed</option>
+    <option value="area">Area</option><option value="volume">Volume</option>
+    <option value="energy">Energy</option><option value="pressure">Pressure</option>
+    <option value="time">Time</option><option value="data">Data (bytes)</option>
+  </select>
+  <div style="display:flex;gap:6px;margin-bottom:6px;">
+    <select id="uFrom" style="flex:1;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:8px;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;"></select>
+    <button class="k fn dark" style="width:40px;flex-shrink:0;" onclick="swapU()">⇅</button>
+    <select id="uTo"   style="flex:1;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:8px;color:var(--text);font-family:var(--mono);font-size:11px;outline:none;"></select>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+    <button class="k blue" onclick="uKp('1')">1</button><button class="k blue" onclick="uKp('2')">2</button>
+    <button class="k blue" onclick="uKp('3')">3</button><button class="k dark" onclick="uKp('⌫')">⌫</button>
+    <button class="k blue" onclick="uKp('4')">4</button><button class="k blue" onclick="uKp('5')">5</button>
+    <button class="k blue" onclick="uKp('6')">6</button><button class="k dark" onclick="uKp('.')">.</button>
+    <button class="k blue" onclick="uKp('7')">7</button><button class="k blue" onclick="uKp('8')">8</button>
+    <button class="k blue" onclick="uKp('9')">9</button><button class="k dark" onclick="uKp('-')">−</button>
+    <button class="k red"  onclick="uKp('AC')">AC</button><button class="k blue" onclick="uKp('0')">0</button>
+    <button class="k dark" onclick="uKp('e')">E</button><button class="k green eq" onclick="doConvert()">=</button>
+  </div>
+  <div style="font-size:13px;color:var(--muted);min-height:20px;text-align:center;margin-bottom:4px;" id="uValDisplay">0</div>
+  <div id="unitOut" style="display:none;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;text-align:center;">
+      <div class="r-val" id="unitOutVal" style="font-size:16px;"></div>
+    </div>
+  </div>
+</div>
 
-<!-- ========== FACTOR ========== -->
-<div class="keypad" id="kp-factor"><textarea id="factInput" placeholder="integer (up to 100 digits)"></textarea><div class="kgrid" style="grid-template-columns:repeat(4,1fr);"><button class="k blue" onclick="fKp('1')">1</button><button class="k blue" onclick="fKp('2')">2</button><button class="k blue" onclick="fKp('3')">3</button><button class="k dark" onclick="fKp('⌫')">⌫</button><button class="k blue" onclick="fKp('4')">4</button><button class="k blue" onclick="fKp('5')">5</button><button class="k blue" onclick="fKp('6')">6</button><button class="k dark" onclick="fKp(',')">,</button><button class="k blue" onclick="fKp('7')">7</button><button class="k blue" onclick="fKp('8')">8</button><button class="k blue" onclick="fKp('9')">9</button><button class="k red"  onclick="fKp('AC')">AC</button><button class="k blue wide" onclick="fKp('0')">0</button><button class="k dark" onclick="fKp('-')">-</button><button class="k green" onclick="doFactor()">GO</button></div><div><button class="k fn orange" onclick="doFactor()">🔍 FACTORIZE</button><button class="k fn green" onclick="doPrime()">🔬 PRIMALITY</button><button class="k fn purple" onclick="doGCD()">GCD</button><button class="k fn purple" onclick="doLCM()">LCM</button></div><div id="factOut" style="display:none;"></div></div>
+<!-- ══════════════════════════════════════ -->
+<!-- ── FACTOR / PRIMALITY ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-factor">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">Enter any integer (up to ~20 digits) then tap FACTORIZE.<br>Supports BigInt — no size limit for primality.</div>
+  <textarea id="factInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;color:var(--text);font-family:var(--mono);font-size:14px;resize:none;height:52px;outline:none;margin-bottom:6px;" placeholder="e.g. 12345678901234567890"></textarea>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+    <button class="k blue" onclick="fKp('1')">1</button><button class="k blue" onclick="fKp('2')">2</button>
+    <button class="k blue" onclick="fKp('3')">3</button><button class="k dark" onclick="fKp('⌫')">⌫</button>
+    <button class="k blue" onclick="fKp('4')">4</button><button class="k blue" onclick="fKp('5')">5</button>
+    <button class="k blue" onclick="fKp('6')">6</button><button class="k dark" onclick="fKp(',')">  ,  </button>
+    <button class="k blue" onclick="fKp('7')">7</button><button class="k blue" onclick="fKp('8')">8</button>
+    <button class="k blue" onclick="fKp('9')">9</button><button class="k red"  onclick="fKp('AC')">AC</button>
+    <button class="k blue wide" onclick="fKp('0')">0</button>
+    <button class="k dark" onclick="fKp('-')">−</button>
+    <button class="k green" onclick="doFactor()">GO</button>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:6px;">
+    <button class="k fn orange" onclick="doFactor()">🔍 FACTORIZE</button>
+    <button class="k fn green"  onclick="doPrime()">🔬 PRIMALITY TEST</button>
+    <button class="k fn purple" onclick="doGCD()">GCD (n,m)</button>
+    <button class="k fn purple" onclick="doLCM()">LCM (n,m)</button>
+  </div>
+  <div id="factOut" style="display:none;margin-top:4px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:6px;" id="factOutLabel">RESULT</div>
+      <div class="r-val" id="factOutVal" style="font-size:13px;white-space:pre-wrap;word-break:break-all;"></div>
+      <div class="r-note" id="factOutNote" style="margin-top:6px;"></div>
+    </div>
+  </div>
+</div>
 
-<!-- ========== PARTITION ========== -->
-<div class="keypad" id="kp-partition"><textarea id="partInput" placeholder="n (e.g. 15, 100)"></textarea><div class="kgrid" style="grid-template-columns:repeat(4,1fr);"><button class="k blue" onclick="pKp('1')">1</button><button class="k blue" onclick="pKp('2')">2</button><button class="k blue" onclick="pKp('3')">3</button><button class="k dark" onclick="pKp('⌫')">⌫</button><button class="k blue" onclick="pKp('4')">4</button><button class="k blue" onclick="pKp('5')">5</button><button class="k blue" onclick="pKp('6')">6</button><button class="k dark" onclick="pKp('0')">0</button><button class="k blue" onclick="pKp('7')">7</button><button class="k blue" onclick="pKp('8')">8</button><button class="k blue" onclick="pKp('9')">9</button><button class="k red"  onclick="pKp('AC')">AC</button><button class="k green wide eq" onclick="doPartition()">🔣 p(n)</button><button class="k orange" onclick="doPartitionList()">Table</button></div><div id="partOut" style="display:none;"></div><div id="partTableOut" style="display:none;"><table id="partTable"></table></div></div>
+<!-- ══════════════════════════════════════ -->
+<!-- ── PARTITION ── -->
+<!-- ══════════════════════════════════════ -->
+<div class="keypad" id="kp-partition">
+  <div style="font-size:10px;color:var(--muted);padding:4px 2px 6px;">
+    <b style="color:var(--acc)">Integer Partition p(n)</b>: Number of ways to write n as sum of positive integers.<br>
+    n ≤ 100: exact table. n &gt; 100: Hardy-Ramanujan asymptotic formula.
+  </div>
+  <textarea id="partInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;color:var(--text);font-family:var(--mono);font-size:16px;resize:none;height:52px;outline:none;margin-bottom:6px;text-align:right;" placeholder="Enter n (e.g. 15 or 100)"></textarea>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px;">
+    <button class="k blue" onclick="pKp('1')">1</button><button class="k blue" onclick="pKp('2')">2</button>
+    <button class="k blue" onclick="pKp('3')">3</button><button class="k dark" onclick="pKp('⌫')">⌫</button>
+    <button class="k blue" onclick="pKp('4')">4</button><button class="k blue" onclick="pKp('5')">5</button>
+    <button class="k blue" onclick="pKp('6')">6</button><button class="k dark" onclick="pKp('0')">0</button>
+    <button class="k blue" onclick="pKp('7')">7</button><button class="k blue" onclick="pKp('8')">8</button>
+    <button class="k blue" onclick="pKp('9')">9</button><button class="k red"  onclick="pKp('AC')">AC</button>
+    <button class="k green wide eq fn" style="height:46px;grid-column:span 3;" onclick="doPartition()">🔣 CALCULATE p(n)</button>
+    <button class="k orange fn" onclick="doPartitionList()">Table</button>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-bottom:6px;">
+    <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:6px;">HARDY-RAMANUJAN ASYMPTOTIC FORMULA</div>
+    <div style="font-size:11px;color:var(--acc3);text-align:center;padding:6px 0;line-height:1.8;">
+      p(n) ≈ <span style="color:var(--acc2)">1/(4n√3)</span> · e<sup style="color:var(--acc)">π√(2n/3)</sup>
+    </div>
+    <div style="font-size:9px;color:var(--muted);text-align:center;">Used automatically when n &gt; 100</div>
+  </div>
+  <div id="partOut" style="display:none;margin-top:6px;">
+    <div style="background:var(--card);border:1px solid var(--acc);border-radius:8px;padding:10px;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:6px;" id="partOutLabel">RESULT</div>
+      <div class="r-val" id="partOutVal" style="font-size:15px;word-break:break-all;white-space:pre-wrap;"></div>
+      <div class="r-note" id="partOutNote" style="margin-top:6px;white-space:pre-wrap;"></div>
+    </div>
+  </div>
+  <div id="partTableOut" style="display:none;margin-top:6px;">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Exact partition values p(0)…p(20):</div>
+    <table id="partTable" style="width:100%;border-collapse:collapse;font-size:12px;"></table>
+  </div>
+</div>
 
-<div id="histModal" class="modal-bg" onclick="if(event.target===this)closeHist()"><div class="modal"><div class="modal-title">📜 History <button class="hbtn" onclick="clearHist()">Clear</button><button class="hbtn" onclick="closeHist()">✕</button></div><div id="histList"></div></div></div>
-<div id="toast" class="toast"></div>
+<div class="result-panel" id="resultPanel">
+  <div class="r-label" id="rLabel">Result</div>
+  <div class="r-val" id="rVal"></div>
+  <div class="r-note" id="rNote"></div>
+  <div class="r-tags" id="rTags" style="display:none;"></div>
+  <div class="r-grid" id="rGrid" style="display:none;"></div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="modal-bg" id="helpModal" onclick="if(event.target===this)closeHelp()">
+  <div class="modal">
+    <div class="modal-title">❓ Help — Research Calculator
+      <button class="hbtn" onclick="closeHelp()">✕</button>
+    </div>
+
+    <!-- Tab selector -->
+    <div style="display:flex;overflow-x:auto;gap:6px;margin-bottom:12px;scrollbar-width:none;padding-bottom:4px;">
+      <button class="hbtn" id="htab-basic"     onclick="showHTab('basic')"     style="white-space:nowrap;background:var(--acc);color:#fff;border-color:var(--acc);">🔢 Basic</button>
+      <button class="hbtn" id="htab-trig"      onclick="showHTab('trig')"      style="white-space:nowrap;">📐 Trig</button>
+      <button class="hbtn" id="htab-hyp"       onclick="showHTab('hyp')"       style="white-space:nowrap;">∞ Hyp</button>
+      <button class="hbtn" id="htab-log"       onclick="showHTab('log')"       style="white-space:nowrap;">㏒ Log</button>
+      <button class="hbtn" id="htab-combo"     onclick="showHTab('combo')"     style="white-space:nowrap;">🎲 Combo</button>
+      <button class="hbtn" id="htab-sigma"     onclick="showHTab('sigma')"     style="white-space:nowrap;">Σ Sum</button>
+      <button class="hbtn" id="htab-calc"      onclick="showHTab('calc')"      style="white-space:nowrap;">∂ Calc</button>
+      <button class="hbtn" id="htab-const"     onclick="showHTab('const')"     style="white-space:nowrap;">π Const</button>
+      <button class="hbtn" id="htab-matrix"    onclick="showHTab('matrix')"    style="white-space:nowrap;">⊞ Matrix</button>
+      <button class="hbtn" id="htab-stats"     onclick="showHTab('stats')"     style="white-space:nowrap;">📊 Stats</button>
+      <button class="hbtn" id="htab-units"     onclick="showHTab('units')"     style="white-space:nowrap;">⚖ Units</button>
+      <button class="hbtn" id="htab-factor"    onclick="showHTab('factor')"    style="white-space:nowrap;">🔍 Factor</button>
+      <button class="hbtn" id="htab-partition" onclick="showHTab('partition')"  style="white-space:nowrap;">🔣 Partition</button>
+    </div>
+
+    <!-- Help content panels -->
+    <div id="hcontent-basic" class="hcontent">
+      <div class="help-section">🔢 Basic Calculator</div>
+      <div class="help-text">Tap number buttons to build your expression. The display updates as you type.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">AC</span><span class="help-desc">Clear everything and start fresh</span></div>
+        <div class="help-row"><span class="help-key">⌫</span><span class="help-desc">Delete the last character typed</span></div>
+        <div class="help-row"><span class="help-key">( )</span><span class="help-desc">Open bracket — auto-adds × if needed (e.g. 5( → 5×()</span></div>
+        <div class="help-row"><span class="help-key">)</span><span class="help-desc">Close bracket</span></div>
+        <div class="help-row"><span class="help-key">±</span><span class="help-desc">Toggle positive / negative sign</span></div>
+        <div class="help-row"><span class="help-key">%</span><span class="help-desc">Percent — appends % to expression</span></div>
+        <div class="help-row"><span class="help-key">xⁿ</span><span class="help-desc">Power — tap number, then xⁿ, then exponent, then =</span></div>
+        <div class="help-row"><span class="help-key">√x</span><span class="help-desc">Square root — opens sqrt( for you</span></div>
+        <div class="help-row"><span class="help-key">=</span><span class="help-desc">Evaluate the expression and show the result</span></div>
+      </div>
+      <div class="help-example">Example: 3 × (4 + 5)² → tap 3 × ( 4 + 5 ) xⁿ 2 =  →  Result: 243</div>
+    </div>
+
+    <div id="hcontent-trig" class="hcontent" style="display:none;">
+      <div class="help-section">📐 Trigonometry</div>
+      <div class="help-text">All trig functions work in <b style="color:var(--acc2)">radians</b>. To convert degrees → tap your angle then the deg→rad button first.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">sin cos tan</span><span class="help-desc">Basic trig — tap function, enter number, tap =</span></div>
+        <div class="help-row"><span class="help-key">cot sec csc</span><span class="help-desc">Reciprocal trig functions (1/tan, 1/cos, 1/sin)</span></div>
+        <div class="help-row"><span class="help-key">asin acos atan</span><span class="help-desc">Inverse trig — returns angle in radians</span></div>
+        <div class="help-row"><span class="help-key">π/x</span><span class="help-desc">Divides π by your number — e.g. for π/4, π/6</span></div>
+        <div class="help-row"><span class="help-key">π</span><span class="help-desc">Inserts the value of π (3.14159…)</span></div>
+        <div class="help-row"><span class="help-key">deg→rad</span><span class="help-desc">Multiplies current value by π/180 to convert</span></div>
+        <div class="help-row"><span class="help-key">📐 All at once</span><span class="help-desc">Enter a value, then tap this to see all 9 trig results together</span></div>
+      </div>
+      <div class="help-example">Example: sin(30°) → tap 3 0 deg→rad = → then sin( [result] ) =</div>
+      <div class="help-example">Or: tap sin( → tap π/x → tap 6 → tap ) → tap = → Result: 0.5</div>
+    </div>
+
+    <div id="hcontent-hyp" class="hcontent" style="display:none;">
+      <div class="help-section">∞ Hyperbolic Functions</div>
+      <div class="help-text">Hyperbolic functions are analogs of trig functions based on the hyperbola.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">sinh(x)</span><span class="help-desc">(eˣ − e⁻ˣ) / 2</span></div>
+        <div class="help-row"><span class="help-key">cosh(x)</span><span class="help-desc">(eˣ + e⁻ˣ) / 2</span></div>
+        <div class="help-row"><span class="help-key">tanh(x)</span><span class="help-desc">sinh(x) / cosh(x)</span></div>
+        <div class="help-row"><span class="help-key">coth(x)</span><span class="help-desc">cosh(x) / sinh(x)  — undefined at x=0</span></div>
+        <div class="help-row"><span class="help-key">sech(x)</span><span class="help-desc">1 / cosh(x)</span></div>
+        <div class="help-row"><span class="help-key">csch(x)</span><span class="help-desc">1 / sinh(x)  — undefined at x=0</span></div>
+        <div class="help-row"><span class="help-key">∞ All at once</span><span class="help-desc">Enter value, tap to see all 6 hyperbolic results</span></div>
+      </div>
+      <div class="help-example">Example: cosh(2) → tap cosh( → 2 → ) → = → Result: 3.7621956…</div>
+    </div>
+
+    <div id="hcontent-log" class="hcontent" style="display:none;">
+      <div class="help-section">㏒ Logarithm & Exponential</div>
+      <div class="help-text">ln(x) and logₙ(x) use a <b style="color:var(--acc2)">1000-term Taylor series</b> for maximum precision — not JavaScript's built-in which can lose accuracy.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">ln(x) block</span><span class="help-desc">Enter x using its own keypad → tap = → get result to 15 sig. fig.</span></div>
+        <div class="help-row"><span class="help-key">logₙ(x) block</span><span class="help-desc">Enter x (number) and n (base) separately → tap Calculate</span></div>
+        <div class="help-row"><span class="help-key">log₁₀</span><span class="help-desc">Common log — also uses Taylor (ln x / ln 10)</span></div>
+        <div class="help-row"><span class="help-key">log₂</span><span class="help-desc">Binary log — Taylor (ln x / ln 2)</span></div>
+        <div class="help-row"><span class="help-key">eˣ</span><span class="help-desc">Exponential — tap exp(, enter x, close ), tap =</span></div>
+        <div class="help-row"><span class="help-key">√x  ∛x</span><span class="help-desc">Square root and cube root</span></div>
+        <div class="help-row"><span class="help-key">x²  x³  x^½</span><span class="help-desc">Powers — tap after entering your number</span></div>
+        <div class="help-row"><span class="help-key">1/x</span><span class="help-desc">Reciprocal — wraps expression in 1/(…)</span></div>
+        <div class="help-row"><span class="help-key">x!  Γ(x)</span><span class="help-desc">Factorial and Gamma function</span></div>
+        <div class="help-row"><span class="help-key">floor ceil round</span><span class="help-desc">Integer rounding functions</span></div>
+        <div class="help-row"><span class="help-key">㏒ All at once</span><span class="help-desc">Enter value in main display, tap to see all log/exp results</span></div>
+      </div>
+      <div class="help-example">Example: ln(7.389) → ln(x) block → tap 7 . 3 8 9 → = → ≈ 2.0000 (≈ ln(e²))</div>
+      <div class="help-example">Example: log₅(125) → logₙ block → x=125, n=5 → Calculate → Result: 3</div>
+    </div>
+
+    <div id="hcontent-combo" class="hcontent" style="display:none;">
+      <div class="help-section">🎲 Combinatorics</div>
+      <div class="help-text">For functions needing two inputs (n and r), enter them separated by a comma.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">P(n,r)</span><span class="help-desc">Permutations — ordered arrangements. Tap perm( → n , r ) =</span></div>
+        <div class="help-row"><span class="help-key">C(n,r)</span><span class="help-desc">Combinations — unordered selections. Tap comb( → n , r ) =</span></div>
+        <div class="help-row"><span class="help-key">binom(n,r)</span><span class="help-desc">Same as C(n,r) — binomial coefficient</span></div>
+        <div class="help-row"><span class="help-key">n!</span><span class="help-desc">Factorial — enter n then tap n!</span></div>
+        <div class="help-row"><span class="help-key">Γ(x)</span><span class="help-desc">Gamma function — generalizes factorial to non-integers</span></div>
+        <div class="help-row"><span class="help-key">Expand (a+b)ⁿ</span><span class="help-desc">Enter n (0–20), tap button — shows full binomial expansion</span></div>
+      </div>
+      <div class="help-example">Example: C(10,3) → tap comb( → 1 0 , 3 ) = → Result: 120</div>
+      <div class="help-example">Example: P(5,2) → tap perm( → 5 , 2 ) = → Result: 20</div>
+    </div>
+
+    <div id="hcontent-sigma" class="hcontent" style="display:none;">
+      <div class="help-section">Σ Summation & Product</div>
+      <div class="help-text">Use <b style="color:var(--acc2)">i</b> as the index variable. Provide expression, start value, and end value separated by commas.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">sigma(expr, from, to)</span><span class="help-desc">Σ — sums expr for i = from to to</span></div>
+        <div class="help-row"><span class="help-key">product(expr, from, to)</span><span class="help-desc">Π — multiplies expr for i = from to to</span></div>
+        <div class="help-row"><span class="help-key">i</span><span class="help-desc">Index variable button — inserts i into expression</span></div>
+      </div>
+      <div class="help-example">Example: Σ i² from 1 to 10 → tap sigma( → i ^ 2 , 1 , 10 ) → = → Result: 385</div>
+      <div class="help-example">Example: Π i from 1 to 5 → tap product( → i , 1 , 5 ) → = → Result: 120 (= 5!)</div>
+    </div>
+
+    <div id="hcontent-calc" class="hcontent" style="display:none;">
+      <div class="help-section">∂ Calculus</div>
+      <div class="help-text">Type your function using <b style="color:var(--acc2)">x</b> as the variable, then tap the operation you want.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">d/dx (1st)</span><span class="help-desc">First derivative — numerical values at x = −2, −1, 0.5, 1, 2</span></div>
+        <div class="help-row"><span class="help-key">d²/dx²</span><span class="help-desc">Second derivative (numerical)</span></div>
+        <div class="help-row"><span class="help-key">d³/dx³</span><span class="help-desc">Third derivative (numerical)</span></div>
+        <div class="help-row"><span class="help-key">∫ Indefinite</span><span class="help-desc">Symbolic antiderivative — checks built-in table of common forms</span></div>
+        <div class="help-row"><span class="help-key">∫ₐᵇ Definite</span><span class="help-desc">Numerical integration via Simpson's rule (2000 intervals) — enter bounds a and b</span></div>
+        <div class="help-row"><span class="help-key">Taylor Series</span><span class="help-desc">Taylor expansion around x=0 up to 7th order — shows all coefficients</span></div>
+      </div>
+      <div class="help-example">Example: d/dx of x³ → tap x ^ 3 → tap d/dx (1st) → shows values at test points</div>
+      <div class="help-example">Example: ∫ sin(x) from 0 to π → tap sin(x) → tap ∫ₐᵇ → enter a=0, b=3.14159 → Result: ≈ 2</div>
+    </div>
+
+    <div id="hcontent-const" class="hcontent" style="display:none;">
+      <div class="help-section">π Constants</div>
+      <div class="help-text">All constants are editable. You can change names, values, or add your own. They are saved automatically.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">INSERT</span><span class="help-desc">Paste the constant's value into the main expression</span></div>
+        <div class="help-row"><span class="help-key">Name field</span><span class="help-desc">Short variable name — used to identify the constant</span></div>
+        <div class="help-row"><span class="help-key">Value field</span><span class="help-desc">The numeric value — supports scientific notation (e.g. 6.674e-11)</span></div>
+        <div class="help-row"><span class="help-key">+ ADD CUSTOM</span><span class="help-desc">Add your own constant with any name and value</span></div>
+        <div class="help-row"><span class="help-key">↺ Reset</span><span class="help-desc">Restore all constants to factory defaults</span></div>
+      </div>
+      <div class="help-example">Built-in: π, e, φ (golden ratio), ℏ (Planck), kB (Boltzmann), G (gravity), c (light speed), Nₐ (Avogadro), R (gas), ε₀, mₚ, mₑ, σ</div>
+    </div>
+
+    <div id="hcontent-matrix" class="hcontent" style="display:none;">
+      <div class="help-section">⊞ Matrix Operations</div>
+      <div class="help-text">Set rows × cols for Matrix A and B, fill in the cells, then tap an operation.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">det(A)</span><span class="help-desc">Determinant of matrix A (any square size)</span></div>
+        <div class="help-row"><span class="help-key">A⁻¹</span><span class="help-desc">Inverse of A — shows error if A is singular</span></div>
+        <div class="help-row"><span class="help-key">Aᵀ</span><span class="help-desc">Transpose — flips rows and columns</span></div>
+        <div class="help-row"><span class="help-key">trace(A)</span><span class="help-desc">Sum of diagonal elements</span></div>
+        <div class="help-row"><span class="help-key">rank(A)</span><span class="help-desc">Rank via Gaussian elimination</span></div>
+        <div class="help-row"><span class="help-key">eigenval(A)</span><span class="help-desc">Eigenvalues — 2×2 matrices only (real or complex)</span></div>
+        <div class="help-row"><span class="help-key">A + B / A − B</span><span class="help-desc">Element-wise add/subtract — A and B must be same size</span></div>
+        <div class="help-row"><span class="help-key">A × B</span><span class="help-desc">Matrix multiplication — A cols must equal B rows</span></div>
+      </div>
+      <div class="help-example">Example: det of 2×2 → set A to 2×2 → fill values → tap det(A)</div>
+    </div>
+
+    <div id="hcontent-stats" class="hcontent" style="display:none;">
+      <div class="help-section">📊 Statistics</div>
+      <div class="help-text">Type or paste your numbers into the text area separated by commas or spaces, then tap Analyze.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">Count, Sum</span><span class="help-desc">Basic totals</span></div>
+        <div class="help-row"><span class="help-key">Mean μ</span><span class="help-desc">Arithmetic average</span></div>
+        <div class="help-row"><span class="help-key">Median</span><span class="help-desc">Middle value when sorted</span></div>
+        <div class="help-row"><span class="help-key">Mode</span><span class="help-desc">Most frequent value(s)</span></div>
+        <div class="help-row"><span class="help-key">Std Dev σ</span><span class="help-desc">Population standard deviation</span></div>
+        <div class="help-row"><span class="help-key">Variance σ²</span><span class="help-desc">Square of std deviation</span></div>
+        <div class="help-row"><span class="help-key">Q1, Q3, IQR</span><span class="help-desc">Quartiles and interquartile range</span></div>
+        <div class="help-row"><span class="help-key">Skewness</span><span class="help-desc">Measure of distribution asymmetry</span></div>
+      </div>
+      <div class="help-example">Example: type  4, 8, 15, 16, 23, 42  → tap Analyze → see all 14 statistics instantly</div>
+    </div>
+
+    <div id="hcontent-units" class="hcontent" style="display:none;">
+      <div class="help-section">⚖ Unit Conversion</div>
+      <div class="help-text">Select category → pick From and To units → enter value using the keypad → tap =</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">Length</span><span class="help-desc">mm, cm, m, km, inch, ft, yard, mile, nm</span></div>
+        <div class="help-row"><span class="help-key">Mass</span><span class="help-desc">mg, g, kg, ton, oz, lb</span></div>
+        <div class="help-row"><span class="help-key">Temperature</span><span class="help-desc">°C, °F, K — uses correct offset formulas</span></div>
+        <div class="help-row"><span class="help-key">Speed</span><span class="help-desc">m/s, km/h, mph, knots, ft/s</span></div>
+        <div class="help-row"><span class="help-key">Area</span><span class="help-desc">mm², cm², m², km², in², ft², acre</span></div>
+        <div class="help-row"><span class="help-key">Volume</span><span class="help-desc">ml, L, m³, gal, cup</span></div>
+        <div class="help-row"><span class="help-key">Energy</span><span class="help-desc">J, kJ, cal, kcal, Wh, kWh, eV</span></div>
+        <div class="help-row"><span class="help-key">Pressure</span><span class="help-desc">Pa, kPa, bar, atm, psi</span></div>
+        <div class="help-row"><span class="help-key">Time</span><span class="help-desc">ns, μs, ms, s, min, hr, day, week, year</span></div>
+        <div class="help-row"><span class="help-key">Data</span><span class="help-desc">bit, byte, KB, MB, GB, TB</span></div>
+        <div class="help-row"><span class="help-key">⇅ Swap</span><span class="help-desc">Quickly swap From and To units</span></div>
+      </div>
+      <div class="help-example">Example: 100°F to °C → select Temp → From °F, To °C → tap 1 0 0 → = → Result: 37.78°C</div>
+    </div>
+
+    <div id="hcontent-factor" class="hcontent" style="display:none;">
+      <div class="help-section">🔍 Factorization & Primality</div>
+      <div class="help-text">Supports very large integers using BigInt — no size limit for primality testing. Uses Miller-Rabin algorithm.</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">🔍 FACTORIZE</span><span class="help-desc">Prime factorization — shows all prime factors with exponents, all divisors (for n &lt; 10M), and σ(n)</span></div>
+        <div class="help-row"><span class="help-key">🔬 PRIMALITY TEST</span><span class="help-desc">Miller-Rabin probabilistic test — deterministic for numbers up to 3.3×10²⁴</span></div>
+        <div class="help-row"><span class="help-key">GCD (n,m)</span><span class="help-desc">Greatest common divisor — enter two numbers separated by comma</span></div>
+        <div class="help-row"><span class="help-key">LCM (n,m)</span><span class="help-desc">Least common multiple — same input format as GCD</span></div>
+      </div>
+      <div class="help-example">Example: factor 360 → tap 3 6 0 → FACTORIZE → Result: 2³ × 3² × 5</div>
+      <div class="help-example">Example: GCD of 48 and 18 → tap 4 8 , 1 8 → GCD → Result: 6</div>
+    </div>
+
+    <div id="hcontent-partition" class="hcontent" style="display:none;">
+      <div class="help-section">🔣 Integer Partition p(n)</div>
+      <div class="help-text">p(n) counts the number of ways to write n as a sum of positive integers (order doesn't matter).</div>
+      <div class="help-table">
+        <div class="help-row"><span class="help-key">n ≤ 100</span><span class="help-desc">Exact result via dynamic programming table</span></div>
+        <div class="help-row"><span class="help-key">n &gt; 100</span><span class="help-desc">Hardy-Ramanujan asymptotic formula: p(n) ≈ 1/(4n√3) · e^(π√(2n/3))</span></div>
+        <div class="help-row"><span class="help-key">n ≤ 10</span><span class="help-desc">Also lists ALL individual partitions explicitly</span></div>
+        <div class="help-row"><span class="help-key">Table button</span><span class="help-desc">Shows exact p(0) through p(20) in a table</span></div>
+      </div>
+      <div class="help-example">Example: p(5) → tap 5 → Calculate → Result: 7</div>
+      <div class="help-example">The 7 partitions of 5: 5 | 4+1 | 3+2 | 3+1+1 | 2+2+1 | 2+1+1+1 | 1+1+1+1+1</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HISTORY MODAL -->
+<div class="modal-bg" id="histModal" onclick="if(event.target===this)closeHist()">
+  <div class="modal">
+    <div class="modal-title">📜 History
+      <div style="display:flex;gap:8px;">
+        <button class="hbtn" onclick="clearHist()">🗑 Clear</button>
+        <button class="hbtn" onclick="closeHist()">✕</button>
+      </div>
+    </div>
+    <div id="histList"><div style="color:var(--muted);text-align:center;padding:20px;font-size:12px;">No history yet</div></div>
+  </div>
+</div>
+
+<!-- DONATE MODAL -->
+<div class="modal-bg" id="donateModal" onclick="if(event.target===this)closeDonate()">
+  <div class="modal">
+    <div class="modal-title">❤️ Support J Idea <button class="hbtn" onclick="closeDonate()">✕</button></div>
+
+    <div class="pay-step on" id="payStep0">
+      <div class="pay-progress">
+        <div class="pay-step-dot active" id="pd0"></div>
+        <div class="pay-step-dot" id="pd1"></div>
+        <div class="pay-step-dot" id="pd2"></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6;">Research Calculator is free forever. If it helped your research, consider a donation!</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;" id="dAmts">
+        <div onclick="pickD(this,'1')"  style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$1</div><div style="font-size:9px;color:var(--muted);">Coffee</div></div>
+        <div onclick="pickD(this,'5')"  style="background:var(--card);border:2px solid var(--acc2);border-radius:8px;padding:10px;text-align:center;cursor:pointer;color:var(--acc2);"><div style="font-size:16px;font-weight:700;">$5</div><div style="font-size:9px;">Lunch</div></div>
+        <div onclick="pickD(this,'10')" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$10</div><div style="font-size:9px;color:var(--muted);">Support</div></div>
+        <div onclick="pickD(this,'25')" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$25</div><div style="font-size:9px;color:var(--muted);">Generous</div></div>
+        <div onclick="pickD(this,'50')" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;font-weight:700;">$50</div><div style="font-size:9px;color:var(--muted);">Hero</div></div>
+        <div onclick="pickD(this,'x')"  style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:10px;text-align:center;cursor:pointer;"><div style="font-size:16px;">✏️</div><div style="font-size:9px;color:var(--muted);">Custom</div></div>
+      </div>
+      <input id="custD" type="number" placeholder="Custom amount (USD)..." style="display:none;width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:9px;color:var(--text);font-family:var(--mono);font-size:13px;outline:none;margin-bottom:8px;">
+      <button class="k orange fn" style="width:100%;" onclick="goPayStep1()">CONTINUE TO PAYMENT →</button>
+    </div>
+
+    <div class="pay-step" id="payStep1">
+      <div class="pay-progress">
+        <div class="pay-step-dot done"   id="pd0b"></div>
+        <div class="pay-step-dot active" id="pd1b"></div>
+        <div class="pay-step-dot"        id="pd2b"></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">Amount: <span style="color:var(--acc3);font-weight:700;" id="payAmtLabel">$5</span></div>
+      <div style="font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:6px;">PAYMENT METHOD</div>
+      <div class="pay-method" id="payMethodRow">
+        <div class="pay-method-btn sel" onclick="selMethod(this,'card')" data-method="card">
+          <div class="pm-icon">💳</div><div class="pm-label">Card</div>
+        </div>
+        <div class="pay-method-btn" onclick="selMethod(this,'bank')" data-method="bank">
+          <div class="pm-icon">🏦</div><div class="pm-label">Bank Transfer</div>
+        </div>
+        <div class="pay-method-btn" onclick="selMethod(this,'paypal')" data-method="paypal">
+          <div class="pm-icon">🅿️</div><div class="pm-label">PayPal</div>
+        </div>
+        <div class="pay-method-btn" onclick="selMethod(this,'crypto')" data-method="crypto">
+          <div class="pm-icon">₿</div><div class="pm-label">Crypto</div>
+        </div>
+      </div>
+      <div id="methodFields">
+        <div id="fieldCard">
+          <input class="pay-input" id="cardName"   placeholder="Cardholder name" type="text" autocomplete="cc-name">
+          <input class="pay-input" id="cardNumber" placeholder="1234  5678  9012  3456" type="tel" maxlength="19" autocomplete="cc-number" oninput="fmtCard(this)">
+          <div class="pay-row">
+            <input class="pay-input" id="cardExp"  placeholder="MM / YY" type="tel" maxlength="7" autocomplete="cc-exp" oninput="fmtExp(this)">
+            <input class="pay-input" id="cardCvv"  placeholder="CVV" type="tel" maxlength="4" autocomplete="cc-csc">
+          </div>
+        </div>
+        <div id="fieldBank" style="display:none;">
+          <input class="pay-input" placeholder="Account holder name" type="text">
+          <input class="pay-input" placeholder="Bank routing number (9 digits)" type="tel" maxlength="9">
+          <input class="pay-input" placeholder="Account number" type="tel" maxlength="17">
+          <select class="pay-input" style="height:44px;"><option>Checking</option><option>Savings</option></select>
+        </div>
+        <div id="fieldPaypal" style="display:none;">
+          <input class="pay-input" placeholder="PayPal email address" type="email">
+          <div style="font-size:10px;color:var(--muted);text-align:center;padding:6px;">You will be redirected to PayPal to authorize the payment securely.</div>
+        </div>
+        <div id="fieldCrypto" style="display:none;">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Select currency:</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;">
+            <div onclick="this.parentNode.querySelectorAll('div').forEach(d=>d.style.borderColor='var(--bord)');this.style.borderColor='var(--acc)'" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:12px;">₿ BTC</div>
+            <div onclick="this.parentNode.querySelectorAll('div').forEach(d=>d.style.borderColor='var(--bord)');this.style.borderColor='var(--acc)'" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:12px;">Ξ ETH</div>
+            <div onclick="this.parentNode.querySelectorAll('div').forEach(d=>d.style.borderColor='var(--bord)');this.style.borderColor='var(--acc)'" style="background:var(--card);border:2px solid var(--bord);border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:12px;">◎ SOL</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;text-align:center;font-size:10px;color:var(--muted);">Wallet address will appear after confirmation →</div>
+        </div>
+      </div>
+      <button class="k green fn" style="width:100%;margin-top:10px;" onclick="goPayStep2()">REVIEW PAYMENT →</button>
+      <button class="k fn dark"  style="width:100%;margin-top:6px;" onclick="goPayStep(0)">← Back</button>
+      <div class="pay-security">🔒 256-bit SSL encrypted · Your data is never stored</div>
+    </div>
+
+    <div class="pay-step" id="payStep2">
+      <div class="pay-progress">
+        <div class="pay-step-dot done"></div>
+        <div class="pay-step-dot done"></div>
+        <div class="pay-step-dot active"></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">Please review your payment details:</div>
+      <div style="background:var(--card);border:1px solid var(--bord);border-radius:10px;padding:12px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:11px;color:var(--muted);">Donation to J Idea</span>
+          <span style="font-size:16px;font-weight:700;color:var(--acc3);" id="reviewAmt">$5.00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:10px;color:var(--muted);">Payment method</span>
+          <span style="font-size:11px;color:var(--text);" id="reviewMethod">💳 Card ending ****</span>
+        </div>
+        <div style="border-top:1px solid var(--bord);margin:8px 0;"></div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="font-size:11px;color:var(--muted);">Processing fee</span>
+          <span style="font-size:11px;color:var(--muted);">$0.00 (we cover it)</span>
+        </div>
+      </div>
+      <button class="k orange fn" style="width:100%;height:52px;font-size:14px;" onclick="doConfirmPay()">❤️ CONFIRM &amp; PAY NOW</button>
+      <button class="k fn dark"   style="width:100%;margin-top:6px;" onclick="goPayStep(1)">← Back</button>
+      <div class="pay-security">🔒 You authorize a one-time charge. No subscription.</div>
+    </div>
+
+    <div class="pay-step" id="payStep3">
+      <div style="text-align:center;padding:4px 0 12px;">
+        <div style="font-size:28px;margin-bottom:6px;">💚</div>
+        <div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--acc3);margin-bottom:4px;">Pay via Google Pay / UPI</div>
+        <div style="font-size:11px;color:var(--muted);">Amount: <span style="color:var(--acc2);font-weight:700;" id="upiAmt">₹415</span></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;">UPI ID: <span style="color:var(--text);font-weight:700;" id="upiID">jidea@okaxis</span></div>
+      </div>
+      <button id="gpayBtn" class="k fn green" style="width:100%;height:52px;font-size:14px;margin-bottom:8px;background:#1a73e8;border-color:#1a73e8;color:#fff;">
+        📲 Open Google Pay App
+      </button>
+      <button id="upiBtn" class="k fn orange" style="width:100%;height:46px;font-size:13px;margin-bottom:8px;">
+        🏦 Pay with Any UPI App (PhonePe / Paytm / Bank)
+      </button>
+      <button id="searchGpayBtn" class="k fn dark" style="width:100%;height:42px;font-size:12px;margin-bottom:10px;">
+        🔍 Search / Open Google Pay Website
+      </button>
+      <div style="background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;margin-bottom:10px;">
+        <div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">UPI PAYMENT LINK (copy &amp; paste in any UPI app)</div>
+        <div id="upiQRText" style="font-size:9px;color:var(--acc3);word-break:break-all;line-height:1.5;user-select:all;cursor:text;"></div>
+        <button class="k fn dark" style="width:100%;margin-top:6px;height:34px;font-size:10px;" onclick="copyUPI()">📋 Copy UPI Link</button>
+      </div>
+      <div style="font-size:9px;color:var(--muted);text-align:center;line-height:1.6;margin-bottom:10px;">
+        ✅ Sender can use <b>any bank account</b>, any UPI app, any currency.<br>
+        ✅ Your UPI ID is safe — only you receive money, nothing personal leaks.<br>
+        ✅ Works worldwide via Google Pay, PhonePe, Paytm, BHIM, bank apps.
+      </div>
+      <button class="k fn dark" style="width:100%;margin-bottom:4px;" onclick="goPayStep(2)">← Back</button>
+      <button class="k fn green" style="width:100%;" onclick="closeDonate()">🎉 Done · Close</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 'use strict';
@@ -389,7 +1128,7 @@ function saveConsts() { localStorage.setItem('jrc_consts', JSON.stringify(userCo
 function resetConsts() {
   if (!confirm('Reset all constants to defaults?')) return;
   userConsts = DEFAULT_CONSTS.map(c => ({...c}));
-  saveConsts(); renderConstList(); toast('↺ Constants reset');
+  saveConsts(); renderConstList(); toast('Constants reset');
 }
 function renderConstList() {
   const el = document.getElementById('constList');
@@ -406,8 +1145,8 @@ function renderConstList() {
 function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function insertConst(i) {
   const c = userConsts[i];
-  if (!c.value) { toast('⚠️ Constant has no value'); return; }
-  setDisplay(expr + c.value); toast(`✅ ${c.name} = ${c.value}`);
+  if (!c.value) { toast('Constant has no value'); return; }
+  setDisplay(expr + c.value); toast(`Inserted ${c.name} = ${c.value}`);
 }
 function addCustomConst() {
   userConsts.push({ label:'— Custom', name:'MY'+Date.now().toString().slice(-4), value:'' });
@@ -589,7 +1328,7 @@ function evalAt(exprStr, varName, val) {
   return mathEval(subbed);
 }
 
-// -------------------- High-Precision Big Integer Factorial Engine --------------------
+// -------------------- High Precision Big Integer Factorial Engine --------------------
 let _bigFactCache = new Map();
 let _maxFactComputed = 0n;
 let _cachedFactValue = 1n;
@@ -677,6 +1416,7 @@ function superPerm(n, r) {
     }
 }
 
+// Global replacements
 const _fact = superFactorial;
 const _comb = superComb;
 const _perm = superPerm;
@@ -724,7 +1464,7 @@ function calculate() {
     }
     setResult(disp, note);
     addHist(expr, typeof rawRes==='bigint' ? rawRes.toString().slice(0,80)+(rawRes.toString().length>80?'…':'') : fmt(rawRes,10));
-  } catch(e) { setResult('','❌ Expression error'); addHist(expr, 'ERROR'); }
+  } catch(e) { setResult('','❌ Expression error / invalid'); addHist(expr, 'ERROR'); }
 }
 
 function fKp(k) {
@@ -776,7 +1516,7 @@ function factorizeBig(n){
 function doFactor(){
   const raw=document.getElementById('factInput').value.trim().replace(/\s/g,'');
   if(!raw){toast('Enter a number first');return;}
-  let n; try{n=BigInt(raw);}catch(e){toast('❌ Invalid integer');return;}
+  let n; try{n=BigInt(raw);}catch(e){toast('Invalid integer');return;}
   if(n<0n)n=-n;
   if(n===0n){showFactOut('0','Zero has no prime factors','');return;}
   if(n===1n){showFactOut('1','1 is neither prime nor composite','');return;}
@@ -795,16 +1535,16 @@ function doFactor(){
   } else {
     divisorStr=`\nNumber of divisors τ(n) = ${grouped.reduce((p,[,e])=>p*(e+1n),1n)}`;
   }
-  showFactOut('FACTORIZATION',isPrime?`✅ ${n} is PRIME`:`${n}\n= ${factStr}`,isPrime?'':divisorStr);
+  showFactOut('FACTORIZATION',isPrime?`${n} is PRIME`:`${n}\n= ${factStr}`,isPrime?'':divisorStr);
   addHist('factor('+raw+')',isPrime?'PRIME':factStr);
 }
 function doPrime(){
   const raw=document.getElementById('factInput').value.trim().replace(/\s/g,'');
   if(!raw){toast('Enter a number first');return;}
-  let n; try{n=BigInt(raw);}catch(e){toast('❌ Invalid integer');return;}
+  let n; try{n=BigInt(raw);}catch(e){toast('Invalid integer');return;}
   if(n<0n)n=-n;
   const isPrime=millerRabinBig(n);
-  const verdict=isPrime?'✅ PRIME':'❌ COMPOSITE';
+  const verdict=isPrime?'PRIME':'COMPOSITE';
   let note='';
   if(!isPrime&&n>1n){
     for(const p of[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n]){
@@ -825,7 +1565,7 @@ function doGCD(){
     const l=a===0n||b===0n?0n:(a/g)*(b<0n?-b:b);
     showFactOut('GCD / LCM',`GCD(${a}, ${b}) = ${g}\nLCM(${a}, ${b}) = ${l<0n?-l:l}`,'');
     addHist(`GCD(${a},${b})`,String(g));
-  }catch(e){toast('❌ Enter two valid integers');}
+  }catch(e){toast('Enter two valid integers');}
 }
 function doLCM(){doGCD();}
 function showFactOut(label,val,note){
@@ -854,25 +1594,26 @@ function doPartition() {
   const raw = document.getElementById('partInput').value.trim();
   if (!raw) { toast('Enter n first'); return; }
   const n = parseInt(raw, 10);
-  if (isNaN(n) || n < 0) { toast('❌ Enter a non-negative integer'); return; }
+  if (isNaN(n) || n < 0) { toast('Enter a non-negative integer'); return; }
   let val = '', note = '', label = 'PARTITION p(n)';
   if (n <= 100) {
     const pn = PART_EXACT[n];
     val = `p(${n}) = ${pn}`;
     if (n <= 20) {
-      note = `✅ Exact value (computed by dynamic programming).\n\n` +
-             `p(n) = number of ways to write ${n} as sum of positive integers.\n\n` +
+      note = `Exact value (computed by dynamic programming).\n\n` +
+             `p(n) = number of ways to write ${n} as an ordered sum of positive integers.\n\n` +
              `Example: p(4) = 5 because:\n4 = 3+1 = 2+2 = 2+1+1 = 1+1+1+1`;
     } else {
-      note = `✅ Exact value (n ≤ 100, DP table).\n\n` +
+      note = `Exact value (n ≤ 100, DP table).\n\n` +
              `Hardy-Ramanujan asymptotic ≈ ${hrFormula(n).toExponential(6)}`;
     }
     label = n <= 20 ? 'EXACT PARTITION p(' + n + ')' : 'EXACT PARTITION (DP) p(' + n + ')';
   } else {
     const approx = hrFormula(n);
     val = `p(${n}) ≈ ${approx.toExponential(8)}`;
-    note = `⚠️ n > 100: Using Hardy-Ramanujan (1918) asymptotic formula:\n\n` +
+    note = `n > 100: Using Hardy-Ramanujan (1918) asymptotic formula:\n\n` +
            `p(n) ≈ 1/(4n√3) × e^(π√(2n/3))\n\n` +
+           `This approximation improves as n grows.\n` +
            `For n = ${n}: ≈ ${approx.toLocaleString('en',{maximumFractionDigits:0})}`;
     label = 'ASYMPTOTIC PARTITION p(' + n + ')';
   }
@@ -912,7 +1653,7 @@ function doPartitionList() {
     `<tr style="background:${i%2?'var(--card)':'var(--bg)'}">
       <td style="padding:5px 10px;font-size:12px;color:var(--acc2);">p(${i})</td>
       <td style="padding:5px 10px;font-size:12px;color:var(--acc3);text-align:right;">${PART_EXACT[i]}</td>
-    </tr>`
+    </table>`
   ).join('');
   document.getElementById('partTableOut').style.display = 'block';
 }
@@ -928,7 +1669,7 @@ function hideResultPanel(){document.getElementById('resultPanel').style.display=
 
 function calcAllTrig() {
   if (!expr){toast('Enter a value first');return;}
-  let x; try{x=mathEval(expr);}catch(e){toast('❌ Invalid value');return;}
+  let x; try{x=mathEval(expr);}catch(e){toast('Invalid value');return;}
   const fns=[
     ['sin(x)',Math.sin(x)],['cos(x)',Math.cos(x)],['tan(x)',Math.tan(x)],
     ['cot(x)',Math.cos(x)/Math.sin(x)],['sec(x)',1/Math.cos(x)],['csc(x)',1/Math.sin(x)],
@@ -941,7 +1682,7 @@ function calcAllTrig() {
 }
 function calcAllHyp() {
   if (!expr){toast('Enter a value first');return;}
-  let x; try{x=mathEval(expr);}catch(e){toast('❌ Invalid');return;}
+  let x; try{x=mathEval(expr);}catch(e){toast('Invalid');return;}
   const fns=[
     ['sinh(x)',Math.sinh(x)],['cosh(x)',Math.cosh(x)],['tanh(x)',Math.tanh(x)],
     ['coth(x)',x===0?Infinity:Math.cosh(x)/Math.sinh(x)],
@@ -997,7 +1738,7 @@ function taylorLn(x) {
 function doTaylorLn() {
   if (!lnVal) { toast('Enter x first'); return; }
   const x = parseFloat(lnVal);
-  if (isNaN(x) || x <= 0) { toast('⚠️ x must be > 0'); return; }
+  if (isNaN(x) || x <= 0) { toast('x must be > 0'); return; }
   const result = taylorLn(x);
   document.getElementById('lnResult').textContent = 'ln(' + x + ') = ' + result.toPrecision(15);
   document.getElementById('lnNote').textContent =
@@ -1015,8 +1756,8 @@ function doTaylorLogb() {
   if (!logbXVal) { toast('Enter x first'); return; }
   if (!logbNVal) { toast('Enter base n first'); return; }
   const x = parseFloat(logbXVal), n = parseFloat(logbNVal);
-  if (isNaN(x) || x <= 0) { toast('⚠️ x must be > 0'); return; }
-  if (isNaN(n) || n <= 0 || n === 1) { toast('⚠️ Base n must be > 0 and ≠ 1'); return; }
+  if (isNaN(x) || x <= 0) { toast('x must be > 0'); return; }
+  if (isNaN(n) || n <= 0 || n === 1) { toast('Base n must be > 0 and ≠ 1'); return; }
   const lnX = taylorLn(x), lnN = taylorLn(n);
   const result = lnX / lnN;
   document.getElementById('logbResult').textContent = 'log' + n + '(' + x + ') = ' + result.toPrecision(15);
@@ -1038,10 +1779,10 @@ function calcAllLog() {
   for (const ch of safeExpr) { if (ch==='(') open++; else if (ch===')') open--; }
   if (open > 0) safeExpr += ')'.repeat(open);
   if (/^(ln|log10|log2|logb|exp|sqrt|cbrt|abs|floor|ceil|round|sign|fact|gamma)\($/.test(safeExpr.trim())) {
-    toast('⚠️ Enter a number inside the function first'); return;
+    toast('Enter a number inside the function first'); return;
   }
-  let x; try{x=mathEval(safeExpr);}catch(e){toast('❌ Invalid expression');return;}
-  if (!isFinite(x)){toast('⚠️ Value must be a finite number');return;}
+  let x; try{x=mathEval(safeExpr);}catch(e){toast('Invalid expression');return;}
+  if (!isFinite(x)){toast('Value must be a finite number');return;}
   const fns=[
     ['ln(x) Taylor',taylorLn(x)],['log₁₀(x)',taylorLn(x)/taylorLn(10)],['log₂(x)',taylorLn(x)/taylorLn(2)],
     ['exp(x)',Math.exp(x)],['√x',Math.sqrt(x)],['∛x',Math.cbrt(x)],
@@ -1056,8 +1797,8 @@ function calcAllLog() {
 
 function calcBinomExpand() {
   if (!expr){toast('Enter n first');return;}
-  let n; try{n=Math.round(mathEval(expr));}catch(e){toast('❌ Invalid n');return;}
-  if(n<0||n>20){toast('⚠️ n must be 0–20');return;}
+  let n; try{n=Math.round(mathEval(expr));}catch(e){toast('Invalid n');return;}
+  if(n<0||n>20){toast('n must be 0–20');return;}
   const terms=Array.from({length:n+1},(_,k)=>{
     const c=_comb(n,k),ap=n-k,bp=k;
     let t=(c===1&&(ap||bp))?'':String(c);
@@ -1101,7 +1842,7 @@ function showCalcOut(label,val,note,steps){
 function doDiff(order){
   if(!expr){toast('Enter a function first. e.g. sin(x)');return;}
   const fnExpr=expr, pts=[-2,-1,0.5,1,2], lines=[], steps=[];
-  steps.push(`📊 Numerical values (central difference, h=0.00001):`);
+  steps.push(`Numerical values (central difference, h=0.00001):`);
   pts.forEach(pt=>{
     try{const v=numDeriv(fnExpr,pt,order);
       if(isFinite(v)){lines.push(`x=${pt} → ${fmt(v,10)}`);steps.push(`x=${pt}  →  <b style="color:var(--acc3)">${fmt(v,10)}</b>`);}}
@@ -1114,8 +1855,8 @@ function doDiff(order){
 function doIndefinite(){
   if(!expr){toast('Enter a function first');return;}
   const fnExpr=expr, sym=INTEGRALS[fnExpr];
-  if(sym){showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx = ${sym}`,'✅ Exact symbolic result',[]);}
-  else{showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx\n⚠️ Not in symbolic table.`,'Use "∫ₐᵇ Definite" for numeric result.',[]);document.getElementById('defBoundsPanel').style.display='block';}
+  if(sym){showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx = ${sym}`,'Exact symbolic result',[]);}
+  else{showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx\nNot in symbolic table.`,'Use "∫ₐᵇ Definite" for numeric result.',[]);document.getElementById('defBoundsPanel').style.display='block';}
   addHist('∫'+fnExpr+'dx',sym||'numeric');
 }
 function promptDefinite(){
@@ -1128,7 +1869,7 @@ function doDefinite(){
   const fnExpr=expr;
   const a=parseFloat(document.getElementById('defA').value);
   const b=parseFloat(document.getElementById('defB').value);
-  if(isNaN(a)||isNaN(b)){toast('⚠️ Enter both bounds a and b');return;}
+  if(isNaN(a)||isNaN(b)){toast('Enter both bounds a and b');return;}
   if(a===b){showCalcOut('∫ₐᵇ RESULT',`∫[${a},${a}] = 0`,'Same bounds → zero',[]);return;}
   try{
     const r=numInteg(fnExpr,a,b);
@@ -1206,12 +1947,12 @@ function matOp(op){
     if(op==='det')res=`det(A) = ${fmt(mDet(A),12)}`;
     else if(op==='trace')res=`trace(A) = ${fmt(A.reduce((s,r,i)=>s+(r[i]||0),0))}`;
     else if(op==='transpose')res='Aᵀ =\n'+mStr(A[0].map((_,ci)=>A.map(r=>r[ci])));
-    else if(op==='inv'){const inv=mInv(A);res=inv?'A⁻¹ =\n'+mStr(inv):'❌ Singular (no inverse)';}
-    else if(op==='add'){if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}res='A+B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v+B[i][j])));}
-    else if(op==='sub'){if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}res='A-B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v-B[i][j])));}
-    else if(op==='mul'){if(A[0].length!==B.length){toast('⚠️ A cols must = B rows');return;}res='A×B =\n'+mStr(A.map((r,i)=>B[0].map((_,j)=>r.reduce((s,_,k)=>s+A[i][k]*B[k][j],0))));}
+    else if(op==='inv'){const inv=mInv(A);res=inv?'A⁻¹ =\n'+mStr(inv):'Singular (no inverse)';}
+    else if(op==='add'){if(A.length!==B.length||A[0].length!==B[0].length){toast('Dimensions must match');return;}res='A+B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v+B[i][j])));}
+    else if(op==='sub'){if(A.length!==B.length||A[0].length!==B[0].length){toast('Dimensions must match');return;}res='A-B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v-B[i][j])));}
+    else if(op==='mul'){if(A[0].length!==B.length){toast('A cols must = B rows');return;}res='A×B =\n'+mStr(A.map((r,i)=>B[0].map((_,j)=>r.reduce((s,_,k)=>s+A[i][k]*B[k][j],0))));}
     else if(op==='eigen'){
-      if(A.length!==2){toast('⚠️ 2×2 only for eigenvalues');return;}
+      if(A.length!==2){toast('2×2 only for eigenvalues');return;}
       const[[a,b],[c,d]]=A,tr=a+d,dt=a*d-b*c,disc=tr*tr-4*dt;
       if(disc<0){const re=tr/2,im=Math.sqrt(-disc)/2;res=`Complex:\nλ₁=${fmt(re)}+${fmt(im)}i\nλ₂=${fmt(re)}-${fmt(im)}i`;}
       else res=`λ₁ = ${fmt((tr+Math.sqrt(disc))/2,10)}\nλ₂ = ${fmt((tr-Math.sqrt(disc))/2,10)}`;
@@ -1237,7 +1978,7 @@ function matOp(op){
 function doStats(){
   const raw=document.getElementById('statsInput').value;
   const nums=raw.split(/[\s,]+/).map(Number).filter(n=>!isNaN(n)&&raw.trim()!=='');
-  if(nums.length<2){toast('⚠️ Enter at least 2 numbers');return;}
+  if(nums.length<2){toast('Enter at least 2 numbers');return;}
   nums.sort((a,b)=>a-b);
   const n=nums.length,sum=nums.reduce((a,b)=>a+b,0),mean=sum/n;
   const med=n%2===0?(nums[n/2-1]+nums[n/2])/2:nums[Math.floor(n/2)];
@@ -1291,7 +2032,7 @@ function uKp(k){
 function doConvert(){
   const cat=document.getElementById('uCat').value;
   const val=parseFloat(uVal);
-  if(isNaN(val)){toast('⚠️ Enter a value');return;}
+  if(isNaN(val)){toast('Enter a value');return;}
   const fi=parseInt(document.getElementById('uFrom').value);
   const ti=parseInt(document.getElementById('uTo').value);
   const units=UDEFS[cat].u;
@@ -1323,7 +2064,7 @@ function renderHist(){
     </div>`).join('');
 }
 function loadHist(i){setDisplay(histArr[i].expr);closeHist();}
-function clearHist(){histArr=[];localStorage.removeItem('jrc_hist');renderHist();toast('🗑 Cleared');}
+function clearHist(){histArr=[];localStorage.removeItem('jrc_hist');renderHist();toast('Cleared');}
 function openHelp(){document.getElementById('helpModal').classList.add('on');showHTab('basic');}
 function closeHelp(){document.getElementById('helpModal').classList.remove('on');}
 function showHTab(name){
@@ -1349,12 +2090,12 @@ function copyUPI(){
   const txt = document.getElementById('upiQRText').textContent;
   if (!txt) return;
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(txt).then(()=>toast('📋 UPI link copied!')).catch(()=>toast('Copy failed'));
+    navigator.clipboard.writeText(txt).then(()=>toast('UPI link copied!')).catch(()=>toast('Copy failed'));
   } else {
     const ta = document.createElement('textarea');
     ta.value = txt; document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
-    toast('📋 UPI link copied!');
+    toast('UPI link copied!');
   }
 }
 
@@ -1374,7 +2115,7 @@ function getFinalAmt(){
 }
 function goPayStep1(){
   const amt=getFinalAmt();
-  if(isNaN(amt)||amt<=0){toast('⚠️ Select or enter a valid amount');return;}
+  if(isNaN(amt)||amt<=0){toast('Select or enter a valid amount');return;}
   document.getElementById('payAmtLabel').textContent='$'+amt.toFixed(2);
   goPayStep(1);
 }
@@ -1394,25 +2135,25 @@ function goPayStep2(){
     const num=document.getElementById('cardNumber').value.replace(/\s/g,'');
     const exp=document.getElementById('cardExp').value.trim();
     const cvv=document.getElementById('cardCvv').value.trim();
-    if(!name){toast('⚠️ Enter cardholder name');return;}
-    if(num.length<15){toast('⚠️ Enter valid card number');return;}
-    if(!exp.match(/\d{2}\s*\/\s*\d{2}/)){toast('⚠️ Enter expiry MM/YY');return;}
-    if(cvv.length<3){toast('⚠️ Enter CVV');return;}
+    if(!name){toast('Enter cardholder name');return;}
+    if(num.length<15){toast('Enter valid card number');return;}
+    if(!exp.match(/\d{2}\s*\/\s*\d{2}/)){toast('Enter expiry MM/YY');return;}
+    if(cvv.length<3){toast('Enter CVV');return;}
     const last4=num.slice(-4);
-    document.getElementById('reviewMethod').textContent=`💳 Card ending ${last4}`;
+    document.getElementById('reviewMethod').textContent=`Card ending ${last4}`;
   } else if(payMethod==='bank'){
-    document.getElementById('reviewMethod').textContent='🏦 Bank Transfer';
+    document.getElementById('reviewMethod').textContent='Bank Transfer';
   } else if(payMethod==='paypal'){
-    document.getElementById('reviewMethod').textContent='🅿️ PayPal';
+    document.getElementById('reviewMethod').textContent='PayPal';
   } else {
-    document.getElementById('reviewMethod').textContent='₿ Cryptocurrency';
+    document.getElementById('reviewMethod').textContent='Cryptocurrency';
   }
   document.getElementById('reviewAmt').textContent='$'+amt.toFixed(2);
   goPayStep(2);
 }
 function doConfirmPay(){
   const amt = getFinalAmt();
-  if(isNaN(amt)||amt<=0){toast('⚠️ Invalid amount');return;}
+  if(isNaN(amt)||amt<=0){toast('Invalid amount');return;}
   const UPI_ID = 'dhanasekarmahadevi@oksbi';
   const UPI_NAME = 'J+Idea';
   const INR_RATE = 83;
@@ -1452,7 +2193,7 @@ function toggleTheme(){
   const r=document.documentElement.style;
   Object.entries(v).forEach(([k,val])=>r.setProperty('--'+k,val));
   localStorage.setItem('jrc_theme',String(next));
-  toast('🎨 Theme changed');
+  toast('Theme changed');
 }
 
 function toast(msg,dur=2200){
@@ -1476,8 +2217,6 @@ buildMatUI('A'); buildMatUI('B'); buildUnitSels(); renderConstList();
   }
 })();
 </script>
-<!-- ========== HELP MODAL (fully english content – truncated for brevity but same as original) ========== -->
-<div class="modal-bg" id="helpModal" onclick="if(event.target===this)closeHelp()"><div class="modal"><div class="modal-title">❓ Help — Research Calculator<button class="hbtn" onclick="closeHelp()">✕</button></div><div style="font-size:11px;color:var(--text);padding:8px;"><b>Basic usage:</b> Tap number/operator buttons, then =. <b>fact(n)</b> supports huge integers (n ≤ 100,000 exact digits). All other functions as standard.<br><br>Full documentation available in the original help panels (all English).</div></div></div>
 </body>
 </html>
 ```
