@@ -1,12 +1,9 @@
-
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Research Calculator — J Idea | High Precision Edition</title>
+<title>Research Calculator — J Idea</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -597,7 +594,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
   <textarea id="statsInput" style="width:100%;background:var(--card);border:1px solid var(--bord);border-radius:8px;padding:10px;color:var(--text);font-family:var(--mono);font-size:13px;resize:vertical;min-height:60px;outline:none;margin-bottom:6px;" placeholder="e.g.  4, 8, 15, 16, 23, 42"></textarea>
   <button class="k blue fn" style="width:100%;margin-bottom:6px;" onclick="doStats()">📊 ANALYZE DATASET</button>
   <div id="statsOut" style="display:none;">
-    <table style="width:100%;border-collapse:collapse;" id="statsTbl"><table>
+    <table style="width:100%;border-collapse:collapse;" id="statsTbl"></table>
   </div>
 </div>
 
@@ -1128,7 +1125,7 @@ function saveConsts() { localStorage.setItem('jrc_consts', JSON.stringify(userCo
 function resetConsts() {
   if (!confirm('Reset all constants to defaults?')) return;
   userConsts = DEFAULT_CONSTS.map(c => ({...c}));
-  saveConsts(); renderConstList(); toast('Constants reset');
+  saveConsts(); renderConstList(); toast('↺ Constants reset');
 }
 function renderConstList() {
   const el = document.getElementById('constList');
@@ -1145,8 +1142,8 @@ function renderConstList() {
 function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function insertConst(i) {
   const c = userConsts[i];
-  if (!c.value) { toast('Constant has no value'); return; }
-  setDisplay(expr + c.value); toast(`Inserted ${c.name} = ${c.value}`);
+  if (!c.value) { toast('⚠️ Constant has no value'); return; }
+  setDisplay(expr + c.value); toast(`✅ ${c.name} = ${c.value}`);
 }
 function addCustomConst() {
   userConsts.push({ label:'— Custom', name:'MY'+Date.now().toString().slice(-4), value:'' });
@@ -1328,143 +1325,64 @@ function evalAt(exprStr, varName, val) {
   return mathEval(subbed);
 }
 
-// -------------------- High Precision Big Integer Factorial Engine --------------------
-let _bigFactCache = new Map();
-let _maxFactComputed = 0n;
-let _cachedFactValue = 1n;
-
-function computeFactorialBig(n) {
-    if (typeof n !== 'bigint') n = BigInt(n);
-    if (n < 0n) return 0n;
-    if (n === 0n || n === 1n) return 1n;
-    if (_bigFactCache.has(n)) return _bigFactCache.get(n);
-    let start = 1n;
-    let result = 1n;
-    if (_maxFactComputed > 0n && n > _maxFactComputed) {
-        start = _maxFactComputed + 1n;
-        result = _cachedFactValue;
-    }
-    for (let i = start; i <= n; i++) {
-        result *= i;
-    }
-    _bigFactCache.set(n, result);
-    if (n > _maxFactComputed) {
-        _maxFactComputed = n;
-        _cachedFactValue = result;
-    }
-    return result;
+function _fact(n) {
+  n = Math.round(n);
+  if (n < 0) return NaN;
+  if (n <= 1) return 1;
+  if (n > 170) return Infinity;
+  let r = 1; for (let i = 2; i <= n; i++) r *= i; return r;
 }
-
-function superFactorial(n) {
-    let num = Number(n);
-    if (isNaN(num) || !Number.isInteger(num) || num < 0) return NaN;
-    if (num <= 170) {
-        let r = 1;
-        for (let i = 2; i <= num; i++) r *= i;
-        return r;
-    } else {
-        if (num > 100000) console.warn("Factorial >100k: extremely large digit length");
-        return computeFactorialBig(BigInt(num));
-    }
-}
-
-function combBig(n, r) {
-    let nBig = BigInt(n), rBig = BigInt(r);
-    if (rBig < 0n || rBig > nBig) return 0n;
-    let k = rBig > nBig - rBig ? nBig - rBig : rBig;
-    let res = 1n;
-    for (let i = 0n; i < k; i++) {
-        res = res * (nBig - i) / (i + 1n);
-    }
-    return res;
-}
-function permBig(n, r) {
-    let nBig = BigInt(n), rBig = BigInt(r);
-    if (rBig < 0n || rBig > nBig) return 0n;
-    let res = 1n;
-    for (let i = 0n; i < rBig; i++) {
-        res *= (nBig - i);
-    }
-    return res;
-}
-
-function superComb(n, r) {
-    let nNum = Number(n), rNum = Number(r);
-    if (isNaN(nNum) || isNaN(rNum) || !Number.isInteger(nNum) || !Number.isInteger(rNum)) return NaN;
-    if (rNum < 0 || rNum > nNum) return 0;
-    if (nNum <= 170) {
-        let rr = Math.min(rNum, nNum - rNum);
-        let res = 1;
-        for (let i = 0; i < rr; i++) {
-            res = res * (nNum - i) / (i + 1);
-        }
-        return Math.round(res);
-    } else {
-        return combBig(nNum, rNum);
-    }
-}
-function superPerm(n, r) {
-    let nNum = Number(n), rNum = Number(r);
-    if (isNaN(nNum) || isNaN(rNum) || !Number.isInteger(nNum) || !Number.isInteger(rNum)) return NaN;
-    if (rNum < 0 || rNum > nNum) return 0;
-    if (nNum <= 170) {
-        let res = 1;
-        for (let i = 0; i < rNum; i++) res *= (nNum - i);
-        return res;
-    } else {
-        return permBig(nNum, rNum);
-    }
-}
-
-// Global replacements
-const _fact = superFactorial;
-const _comb = superComb;
-const _perm = superPerm;
 function _gamma(x) {
   if (x <= 0 && Number.isInteger(x)) return Infinity;
   if (x < .5) return Math.PI / (Math.sin(Math.PI*x) * _gamma(1-x));
   x -= 1;
-  const c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,
-    -176.61502916214059,12.507343278686905,-0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  const c=[.99999999999980993,676.5203681218851,-1259.1392167224028,771.32342877765313,
+    -176.61502916214059,12.507343278686905,-.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
   let a = c[0]; for (let i=1;i<9;i++) a += c[i]/(x+i);
   const t = x + 7.5;
-  return Math.sqrt(2*Math.PI) * Math.pow(t,x+0.5) * Math.exp(-t) * a;
+  return Math.sqrt(2*Math.PI) * Math.pow(t,x+.5) * Math.exp(-t) * a;
 }
-
-function _sigma(exStr,from,to) { let s=0; for(let i=Math.ceil(from);i<=Math.floor(to);i++) try{s+=evalAt(exStr,'i',i);}catch(e){} return s; }
-function _prod(exStr,from,to){ let p=1; for(let i=Math.ceil(from);i<=Math.floor(to);i++) try{p*=evalAt(exStr,'i',i);}catch(e){} return p; }
-
-function fmt(v, maxPrec=12) {
-    if (v === undefined || v === null) return 'NaN';
-    if (typeof v === 'bigint') {
-        let str = v.toString();
-        if (str.length <= 60) return str;
-        return str.slice(0, 50) + '… (total ' + str.length + ' digits)';
-    }
-    if (typeof v === 'number') {
-        if (!isFinite(v)) return v>0?'∞':'NaN';
-        return parseFloat(v.toPrecision(maxPrec)).toString();
-    }
-    return String(v);
+function _comb(n,r) {
+  n=Math.round(n); r=Math.round(r);
+  if (r<0||r>n) return 0; if (r===0||r===n) return 1;
+  r = Math.min(r,n-r); let res=1;
+  for (let i=0;i<r;i++){res*=(n-i);res/=(i+1);} return Math.round(res);
+}
+function _perm(n,r) { return _comb(n,r)*_fact(r); }
+function _sigma(exStr,from,to) {
+  let s=0;
+  for (let i=Math.ceil(from);i<=Math.floor(to);i++) try{s+=evalAt(exStr,'i',i);}catch(e){}
+  return s;
+}
+function _prod(exStr,from,to) {
+  let p=1;
+  for (let i=Math.ceil(from);i<=Math.floor(to);i++) try{p*=evalAt(exStr,'i',i);}catch(e){}
+  return p;
+}
+function fmt(v, d=10) {
+  if (v===undefined||v===null) return 'undefined';
+  if (typeof v==='string') return v;
+  if (!isFinite(v)) return v>0?'∞':isNaN(v)?'NaN':'-∞';
+  return parseFloat(v.toPrecision(d)).toString();
 }
 
 function calculate() {
   if (!expr) return;
   setHist(expr + ' =');
   try {
-    let rawRes = mathEval(expr);
-    let disp, note = '';
-    if (typeof rawRes === 'bigint') {
-        disp = fmt(rawRes);
-        note = `✔ Exact integer (${rawRes.toString().length} digits) | high precision mode`;
-    } else {
-        if (isNaN(rawRes) || !isFinite(rawRes)) throw new Error('Invalid');
-        disp = fmt(rawRes, 12);
-        if (Math.abs(rawRes) > 1e15 || (Math.abs(rawRes) < 1e-9 && rawRes !== 0)) note = '≈ '+rawRes.toExponential(8);
+    const r = mathEval(expr);
+    const disp = fmt(r,12);
+    setResult(disp);
+    let note = '';
+    if (isFinite(r) && r!==0) {
+      const ab = Math.abs(r);
+      if (ab >= 1e15 || (ab < 1e-9 && ab>0)) note = '≈ '+r.toExponential(6);
     }
-    setResult(disp, note);
-    addHist(expr, typeof rawRes==='bigint' ? rawRes.toString().slice(0,80)+(rawRes.toString().length>80?'…':'') : fmt(rawRes,10));
-  } catch(e) { setResult('','❌ Expression error / invalid'); addHist(expr, 'ERROR'); }
+    document.getElementById('dNote').textContent = note;
+    addHist(expr, disp);
+  } catch(e) {
+    setResult(''); document.getElementById('dNote').textContent = '❌ Check expression';
+  }
 }
 
 function fKp(k) {
@@ -1516,7 +1434,7 @@ function factorizeBig(n){
 function doFactor(){
   const raw=document.getElementById('factInput').value.trim().replace(/\s/g,'');
   if(!raw){toast('Enter a number first');return;}
-  let n; try{n=BigInt(raw);}catch(e){toast('Invalid integer');return;}
+  let n; try{n=BigInt(raw);}catch(e){toast('❌ Invalid integer');return;}
   if(n<0n)n=-n;
   if(n===0n){showFactOut('0','Zero has no prime factors','');return;}
   if(n===1n){showFactOut('1','1 is neither prime nor composite','');return;}
@@ -1535,16 +1453,16 @@ function doFactor(){
   } else {
     divisorStr=`\nNumber of divisors τ(n) = ${grouped.reduce((p,[,e])=>p*(e+1n),1n)}`;
   }
-  showFactOut('FACTORIZATION',isPrime?`${n} is PRIME`:`${n}\n= ${factStr}`,isPrime?'':divisorStr);
+  showFactOut('FACTORIZATION',isPrime?`✅ ${n} is PRIME`:`${n}\n= ${factStr}`,isPrime?'':divisorStr);
   addHist('factor('+raw+')',isPrime?'PRIME':factStr);
 }
 function doPrime(){
   const raw=document.getElementById('factInput').value.trim().replace(/\s/g,'');
   if(!raw){toast('Enter a number first');return;}
-  let n; try{n=BigInt(raw);}catch(e){toast('Invalid integer');return;}
+  let n; try{n=BigInt(raw);}catch(e){toast('❌ Invalid integer');return;}
   if(n<0n)n=-n;
   const isPrime=millerRabinBig(n);
-  const verdict=isPrime?'PRIME':'COMPOSITE';
+  const verdict=isPrime?'✅ PRIME':'❌ COMPOSITE';
   let note='';
   if(!isPrime&&n>1n){
     for(const p of[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n]){
@@ -1565,7 +1483,7 @@ function doGCD(){
     const l=a===0n||b===0n?0n:(a/g)*(b<0n?-b:b);
     showFactOut('GCD / LCM',`GCD(${a}, ${b}) = ${g}\nLCM(${a}, ${b}) = ${l<0n?-l:l}`,'');
     addHist(`GCD(${a},${b})`,String(g));
-  }catch(e){toast('Enter two valid integers');}
+  }catch(e){toast('❌ Enter two valid integers');}
 }
 function doLCM(){doGCD();}
 function showFactOut(label,val,note){
@@ -1594,24 +1512,24 @@ function doPartition() {
   const raw = document.getElementById('partInput').value.trim();
   if (!raw) { toast('Enter n first'); return; }
   const n = parseInt(raw, 10);
-  if (isNaN(n) || n < 0) { toast('Enter a non-negative integer'); return; }
+  if (isNaN(n) || n < 0) { toast('❌ Enter a non-negative integer'); return; }
   let val = '', note = '', label = 'PARTITION p(n)';
   if (n <= 100) {
     const pn = PART_EXACT[n];
     val = `p(${n}) = ${pn}`;
     if (n <= 20) {
-      note = `Exact value (computed by dynamic programming).\n\n` +
+      note = `✅ Exact value (computed by dynamic programming).\n\n` +
              `p(n) = number of ways to write ${n} as an ordered sum of positive integers.\n\n` +
              `Example: p(4) = 5 because:\n4 = 3+1 = 2+2 = 2+1+1 = 1+1+1+1`;
     } else {
-      note = `Exact value (n ≤ 100, DP table).\n\n` +
+      note = `✅ Exact value (n ≤ 100, DP table).\n\n` +
              `Hardy-Ramanujan asymptotic ≈ ${hrFormula(n).toExponential(6)}`;
     }
     label = n <= 20 ? 'EXACT PARTITION p(' + n + ')' : 'EXACT PARTITION (DP) p(' + n + ')';
   } else {
     const approx = hrFormula(n);
     val = `p(${n}) ≈ ${approx.toExponential(8)}`;
-    note = `n > 100: Using Hardy-Ramanujan (1918) asymptotic formula:\n\n` +
+    note = `⚠️ n > 100: Using Hardy-Ramanujan (1918) asymptotic formula:\n\n` +
            `p(n) ≈ 1/(4n√3) × e^(π√(2n/3))\n\n` +
            `This approximation improves as n grows.\n` +
            `For n = ${n}: ≈ ${approx.toLocaleString('en',{maximumFractionDigits:0})}`;
@@ -1648,12 +1566,12 @@ function doPartitionList() {
   tbl.innerHTML = `<tr style="background:var(--card);">
     <th style="padding:6px 10px;font-size:10px;color:var(--muted);text-align:left;border-bottom:1px solid var(--bord);">n</th>
     <th style="padding:6px 10px;font-size:10px;color:var(--muted);text-align:right;border-bottom:1px solid var(--bord);">p(n) exact</th>
-  </table>` +
+  </tr>` +
   Array.from({length:21},(_,i) =>
     `<tr style="background:${i%2?'var(--card)':'var(--bg)'}">
       <td style="padding:5px 10px;font-size:12px;color:var(--acc2);">p(${i})</td>
       <td style="padding:5px 10px;font-size:12px;color:var(--acc3);text-align:right;">${PART_EXACT[i]}</td>
-    </table>`
+    </tr>`
   ).join('');
   document.getElementById('partTableOut').style.display = 'block';
 }
@@ -1669,7 +1587,7 @@ function hideResultPanel(){document.getElementById('resultPanel').style.display=
 
 function calcAllTrig() {
   if (!expr){toast('Enter a value first');return;}
-  let x; try{x=mathEval(expr);}catch(e){toast('Invalid value');return;}
+  let x; try{x=mathEval(expr);}catch(e){toast('❌ Invalid value');return;}
   const fns=[
     ['sin(x)',Math.sin(x)],['cos(x)',Math.cos(x)],['tan(x)',Math.tan(x)],
     ['cot(x)',Math.cos(x)/Math.sin(x)],['sec(x)',1/Math.cos(x)],['csc(x)',1/Math.sin(x)],
@@ -1682,7 +1600,7 @@ function calcAllTrig() {
 }
 function calcAllHyp() {
   if (!expr){toast('Enter a value first');return;}
-  let x; try{x=mathEval(expr);}catch(e){toast('Invalid');return;}
+  let x; try{x=mathEval(expr);}catch(e){toast('❌ Invalid');return;}
   const fns=[
     ['sinh(x)',Math.sinh(x)],['cosh(x)',Math.cosh(x)],['tanh(x)',Math.tanh(x)],
     ['coth(x)',x===0?Infinity:Math.cosh(x)/Math.sinh(x)],
@@ -1693,6 +1611,7 @@ function calcAllHyp() {
   document.getElementById('hypAllOut').style.display='block';
   addHist('allHyp('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
 }
+// ═══════════════ TAYLOR ln(x) & logb(x,n) ═══════════════
 let lnVal = '';
 let logbXVal = '', logbNVal = '';
 
@@ -1714,6 +1633,8 @@ function logbKp(field, k) {
   }
 }
 
+// Core Taylor series: ln(x) = 2·Σ [1/(2k+1)]·u^(2k+1), u=(x-1)/(x+1)
+// Converges for ALL x > 0. Range-reduced for speed & precision.
 function _taylorLnCore(x) {
   const u = (x - 1) / (x + 1);
   const u2 = u * u;
@@ -1728,6 +1649,7 @@ function _taylorLnCore(x) {
 function taylorLn(x) {
   if (x <= 0) return NaN;
   if (x === 1) return 0;
+  // Range reduce: x = y * 2^shift, 0.5 <= y < 2
   let shift = 0, y = x;
   while (y >= 2)  { y /= 2; shift++; }
   while (y < 0.5) { y *= 2; shift--; }
@@ -1738,7 +1660,7 @@ function taylorLn(x) {
 function doTaylorLn() {
   if (!lnVal) { toast('Enter x first'); return; }
   const x = parseFloat(lnVal);
-  if (isNaN(x) || x <= 0) { toast('x must be > 0'); return; }
+  if (isNaN(x) || x <= 0) { toast('⚠️ x must be > 0'); return; }
   const result = taylorLn(x);
   document.getElementById('lnResult').textContent = 'ln(' + x + ') = ' + result.toPrecision(15);
   document.getElementById('lnNote').textContent =
@@ -1756,8 +1678,8 @@ function doTaylorLogb() {
   if (!logbXVal) { toast('Enter x first'); return; }
   if (!logbNVal) { toast('Enter base n first'); return; }
   const x = parseFloat(logbXVal), n = parseFloat(logbNVal);
-  if (isNaN(x) || x <= 0) { toast('x must be > 0'); return; }
-  if (isNaN(n) || n <= 0 || n === 1) { toast('Base n must be > 0 and ≠ 1'); return; }
+  if (isNaN(x) || x <= 0) { toast('⚠️ x must be > 0'); return; }
+  if (isNaN(n) || n <= 0 || n === 1) { toast('⚠️ Base n must be > 0 and ≠ 1'); return; }
   const lnX = taylorLn(x), lnN = taylorLn(n);
   const result = lnX / lnN;
   document.getElementById('logbResult').textContent = 'log' + n + '(' + x + ') = ' + result.toPrecision(15);
@@ -1779,10 +1701,10 @@ function calcAllLog() {
   for (const ch of safeExpr) { if (ch==='(') open++; else if (ch===')') open--; }
   if (open > 0) safeExpr += ')'.repeat(open);
   if (/^(ln|log10|log2|logb|exp|sqrt|cbrt|abs|floor|ceil|round|sign|fact|gamma)\($/.test(safeExpr.trim())) {
-    toast('Enter a number inside the function first'); return;
+    toast('⚠️ Enter a number inside the function first'); return;
   }
-  let x; try{x=mathEval(safeExpr);}catch(e){toast('Invalid expression');return;}
-  if (!isFinite(x)){toast('Value must be a finite number');return;}
+  let x; try{x=mathEval(safeExpr);}catch(e){toast('❌ Invalid expression');return;}
+  if (!isFinite(x)){toast('⚠️ Value must be a finite number');return;}
   const fns=[
     ['ln(x) Taylor',taylorLn(x)],['log₁₀(x)',taylorLn(x)/taylorLn(10)],['log₂(x)',taylorLn(x)/taylorLn(2)],
     ['exp(x)',Math.exp(x)],['√x',Math.sqrt(x)],['∛x',Math.cbrt(x)],
@@ -1795,10 +1717,11 @@ function calcAllLog() {
   addHist('allLog('+fmt(x)+')',fns.map(([l,v])=>l+'='+fmt(v,6)).join(' | '));
 }
 
+
 function calcBinomExpand() {
   if (!expr){toast('Enter n first');return;}
-  let n; try{n=Math.round(mathEval(expr));}catch(e){toast('Invalid n');return;}
-  if(n<0||n>20){toast('n must be 0–20');return;}
+  let n; try{n=Math.round(mathEval(expr));}catch(e){toast('❌ Invalid n');return;}
+  if(n<0||n>20){toast('⚠️ n must be 0–20');return;}
   const terms=Array.from({length:n+1},(_,k)=>{
     const c=_comb(n,k),ap=n-k,bp=k;
     let t=(c===1&&(ap||bp))?'':String(c);
@@ -1842,7 +1765,7 @@ function showCalcOut(label,val,note,steps){
 function doDiff(order){
   if(!expr){toast('Enter a function first. e.g. sin(x)');return;}
   const fnExpr=expr, pts=[-2,-1,0.5,1,2], lines=[], steps=[];
-  steps.push(`Numerical values (central difference, h=0.00001):`);
+  steps.push(`📊 Numerical values (central difference, h=0.00001):`);
   pts.forEach(pt=>{
     try{const v=numDeriv(fnExpr,pt,order);
       if(isFinite(v)){lines.push(`x=${pt} → ${fmt(v,10)}`);steps.push(`x=${pt}  →  <b style="color:var(--acc3)">${fmt(v,10)}</b>`);}}
@@ -1855,8 +1778,8 @@ function doDiff(order){
 function doIndefinite(){
   if(!expr){toast('Enter a function first');return;}
   const fnExpr=expr, sym=INTEGRALS[fnExpr];
-  if(sym){showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx = ${sym}`,'Exact symbolic result',[]);}
-  else{showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx\nNot in symbolic table.`,'Use "∫ₐᵇ Definite" for numeric result.',[]);document.getElementById('defBoundsPanel').style.display='block';}
+  if(sym){showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx = ${sym}`,'✅ Exact symbolic result',[]);}
+  else{showCalcOut('∫ INDEFINITE',`∫ ${fnExpr} dx\n⚠️ Not in symbolic table.`,'Use "∫ₐᵇ Definite" for numeric result.',[]);document.getElementById('defBoundsPanel').style.display='block';}
   addHist('∫'+fnExpr+'dx',sym||'numeric');
 }
 function promptDefinite(){
@@ -1869,7 +1792,7 @@ function doDefinite(){
   const fnExpr=expr;
   const a=parseFloat(document.getElementById('defA').value);
   const b=parseFloat(document.getElementById('defB').value);
-  if(isNaN(a)||isNaN(b)){toast('Enter both bounds a and b');return;}
+  if(isNaN(a)||isNaN(b)){toast('⚠️ Enter both bounds a and b');return;}
   if(a===b){showCalcOut('∫ₐᵇ RESULT',`∫[${a},${a}] = 0`,'Same bounds → zero',[]);return;}
   try{
     const r=numInteg(fnExpr,a,b);
@@ -1947,12 +1870,12 @@ function matOp(op){
     if(op==='det')res=`det(A) = ${fmt(mDet(A),12)}`;
     else if(op==='trace')res=`trace(A) = ${fmt(A.reduce((s,r,i)=>s+(r[i]||0),0))}`;
     else if(op==='transpose')res='Aᵀ =\n'+mStr(A[0].map((_,ci)=>A.map(r=>r[ci])));
-    else if(op==='inv'){const inv=mInv(A);res=inv?'A⁻¹ =\n'+mStr(inv):'Singular (no inverse)';}
-    else if(op==='add'){if(A.length!==B.length||A[0].length!==B[0].length){toast('Dimensions must match');return;}res='A+B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v+B[i][j])));}
-    else if(op==='sub'){if(A.length!==B.length||A[0].length!==B[0].length){toast('Dimensions must match');return;}res='A-B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v-B[i][j])));}
-    else if(op==='mul'){if(A[0].length!==B.length){toast('A cols must = B rows');return;}res='A×B =\n'+mStr(A.map((r,i)=>B[0].map((_,j)=>r.reduce((s,_,k)=>s+A[i][k]*B[k][j],0))));}
+    else if(op==='inv'){const inv=mInv(A);res=inv?'A⁻¹ =\n'+mStr(inv):'❌ Singular (no inverse)';}
+    else if(op==='add'){if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}res='A+B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v+B[i][j])));}
+    else if(op==='sub'){if(A.length!==B.length||A[0].length!==B[0].length){toast('⚠️ Dimensions must match');return;}res='A-B =\n'+mStr(A.map((r,i)=>r.map((v,j)=>v-B[i][j])));}
+    else if(op==='mul'){if(A[0].length!==B.length){toast('⚠️ A cols must = B rows');return;}res='A×B =\n'+mStr(A.map((r,i)=>B[0].map((_,j)=>r.reduce((s,_,k)=>s+A[i][k]*B[k][j],0))));}
     else if(op==='eigen'){
-      if(A.length!==2){toast('2×2 only for eigenvalues');return;}
+      if(A.length!==2){toast('⚠️ 2×2 only for eigenvalues');return;}
       const[[a,b],[c,d]]=A,tr=a+d,dt=a*d-b*c,disc=tr*tr-4*dt;
       if(disc<0){const re=tr/2,im=Math.sqrt(-disc)/2;res=`Complex:\nλ₁=${fmt(re)}+${fmt(im)}i\nλ₂=${fmt(re)}-${fmt(im)}i`;}
       else res=`λ₁ = ${fmt((tr+Math.sqrt(disc))/2,10)}\nλ₂ = ${fmt((tr-Math.sqrt(disc))/2,10)}`;
@@ -1978,7 +1901,7 @@ function matOp(op){
 function doStats(){
   const raw=document.getElementById('statsInput').value;
   const nums=raw.split(/[\s,]+/).map(Number).filter(n=>!isNaN(n)&&raw.trim()!=='');
-  if(nums.length<2){toast('Enter at least 2 numbers');return;}
+  if(nums.length<2){toast('⚠️ Enter at least 2 numbers');return;}
   nums.sort((a,b)=>a-b);
   const n=nums.length,sum=nums.reduce((a,b)=>a+b,0),mean=sum/n;
   const med=n%2===0?(nums[n/2-1]+nums[n/2])/2:nums[Math.floor(n/2)];
@@ -2032,7 +1955,7 @@ function uKp(k){
 function doConvert(){
   const cat=document.getElementById('uCat').value;
   const val=parseFloat(uVal);
-  if(isNaN(val)){toast('Enter a value');return;}
+  if(isNaN(val)){toast('⚠️ Enter a value');return;}
   const fi=parseInt(document.getElementById('uFrom').value);
   const ti=parseInt(document.getElementById('uTo').value);
   const units=UDEFS[cat].u;
@@ -2064,7 +1987,7 @@ function renderHist(){
     </div>`).join('');
 }
 function loadHist(i){setDisplay(histArr[i].expr);closeHist();}
-function clearHist(){histArr=[];localStorage.removeItem('jrc_hist');renderHist();toast('Cleared');}
+function clearHist(){histArr=[];localStorage.removeItem('jrc_hist');renderHist();toast('🗑 Cleared');}
 function openHelp(){document.getElementById('helpModal').classList.add('on');showHTab('basic');}
 function closeHelp(){document.getElementById('helpModal').classList.remove('on');}
 function showHTab(name){
@@ -2090,12 +2013,12 @@ function copyUPI(){
   const txt = document.getElementById('upiQRText').textContent;
   if (!txt) return;
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(txt).then(()=>toast('UPI link copied!')).catch(()=>toast('Copy failed'));
+    navigator.clipboard.writeText(txt).then(()=>toast('📋 UPI link copied!')).catch(()=>toast('Copy failed'));
   } else {
     const ta = document.createElement('textarea');
     ta.value = txt; document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
-    toast('UPI link copied!');
+    toast('📋 UPI link copied!');
   }
 }
 
@@ -2115,7 +2038,7 @@ function getFinalAmt(){
 }
 function goPayStep1(){
   const amt=getFinalAmt();
-  if(isNaN(amt)||amt<=0){toast('Select or enter a valid amount');return;}
+  if(isNaN(amt)||amt<=0){toast('⚠️ Select or enter a valid amount');return;}
   document.getElementById('payAmtLabel').textContent='$'+amt.toFixed(2);
   goPayStep(1);
 }
@@ -2135,25 +2058,25 @@ function goPayStep2(){
     const num=document.getElementById('cardNumber').value.replace(/\s/g,'');
     const exp=document.getElementById('cardExp').value.trim();
     const cvv=document.getElementById('cardCvv').value.trim();
-    if(!name){toast('Enter cardholder name');return;}
-    if(num.length<15){toast('Enter valid card number');return;}
-    if(!exp.match(/\d{2}\s*\/\s*\d{2}/)){toast('Enter expiry MM/YY');return;}
-    if(cvv.length<3){toast('Enter CVV');return;}
+    if(!name){toast('⚠️ Enter cardholder name');return;}
+    if(num.length<15){toast('⚠️ Enter valid card number');return;}
+    if(!exp.match(/\d{2}\s*\/\s*\d{2}/)){toast('⚠️ Enter expiry MM/YY');return;}
+    if(cvv.length<3){toast('⚠️ Enter CVV');return;}
     const last4=num.slice(-4);
-    document.getElementById('reviewMethod').textContent=`Card ending ${last4}`;
+    document.getElementById('reviewMethod').textContent=`💳 Card ending ${last4}`;
   } else if(payMethod==='bank'){
-    document.getElementById('reviewMethod').textContent='Bank Transfer';
+    document.getElementById('reviewMethod').textContent='🏦 Bank Transfer';
   } else if(payMethod==='paypal'){
-    document.getElementById('reviewMethod').textContent='PayPal';
+    document.getElementById('reviewMethod').textContent='🅿️ PayPal';
   } else {
-    document.getElementById('reviewMethod').textContent='Cryptocurrency';
+    document.getElementById('reviewMethod').textContent='₿ Cryptocurrency';
   }
   document.getElementById('reviewAmt').textContent='$'+amt.toFixed(2);
   goPayStep(2);
 }
 function doConfirmPay(){
   const amt = getFinalAmt();
-  if(isNaN(amt)||amt<=0){toast('Invalid amount');return;}
+  if(isNaN(amt)||amt<=0){toast('⚠️ Invalid amount');return;}
   const UPI_ID = 'dhanasekarmahadevi@oksbi';
   const UPI_NAME = 'J+Idea';
   const INR_RATE = 83;
@@ -2193,7 +2116,7 @@ function toggleTheme(){
   const r=document.documentElement.style;
   Object.entries(v).forEach(([k,val])=>r.setProperty('--'+k,val));
   localStorage.setItem('jrc_theme',String(next));
-  toast('Theme changed');
+  toast('🎨 Theme changed');
 }
 
 function toast(msg,dur=2200){
@@ -2219,4 +2142,3 @@ buildMatUI('A'); buildMatUI('B'); buildUnitSels(); renderConstList();
 </script>
 </body>
 </html>
-```
